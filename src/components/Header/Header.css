@@ -1,15 +1,15 @@
-.nav-bar-public{
+.header{
     display: flex;
     align-items: center;
     padding: 20px 40px;
 }
 
-.nav-bar-public-logo img {
+.header-logo img {
     width: 230px;
     height: 50px;
 }
 
-.nav-bar-public-menu{
+.header-menu{
     display: flex;
     justify-content: flex-end;
     align-items: center;

@@ -1,14 +1,14 @@
-import "./NavBarPublic.css"
+import "./Header.css"
 import { assets } from "../../assets/assets"
 
-const NavBarPublic = () => {
+const Header = () => {
   return (
     <>
-    <div className="nav-bar-public">
-        <div className="nav-bar-public-logo">
+    <div className="header">
+        <div className="header-logo">
             <img src={assets.logo} alt="logo" />
         </div>
-        <div className="nav-bar-public-menu">
+        <div className="header-menu">
             <a id="loginBtn" href="/login">Log in</a>
             <a id="registerBtn" href="/signup">Get started</a>
         </div>
@@ -18,4 +18,4 @@ const NavBarPublic = () => {
   )
 }
 
-export default NavBarPublic
+export default Header
