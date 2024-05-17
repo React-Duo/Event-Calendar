@@ -1,11 +1,11 @@
 import "./PublicView.css"
-import NavBarPublic from "../../components/NavBarPublic/NavBarPublic"
+import Header from "../../components/Header/Header"
 import ContentPublic from "../../components/ContentPublic/ContentPublic"
 
 const PublicView = () => {
   return (
     <div>
-        <NavBarPublic />
+        <Header />
         <ContentPublic />
     </div>
   )
