@@ -1,0 +1,39 @@
+.nav-bar-public{
+    display: flex;
+    align-items: center;
+    padding: 20px 40px;
+}
+
+.nav-bar-public-logo img {
+    width: 230px;
+    height: 50px;
+}
+
+.nav-bar-public-menu{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    gap: 30px;
+    font-size: 18px;
+}
+
+
+#loginBtn{
+    text-decoration: none;
+    color: black;
+}
+
+#registerBtn{
+    text-decoration: none;
+    color: rgb(254, 252, 252);
+    background-color: rgba(0, 0, 255, 0.736);
+    padding: 10px;
+    border-radius: 11px;
+    transition: 0.5s;
+}
+
+#registerBtn:hover{
+    background-color: rgb(5, 5, 203);
+}
+
