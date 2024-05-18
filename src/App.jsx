@@ -5,6 +5,7 @@ import Home from './views/Home/Home';
 import Header from './components/Header/Header';
 import SideBar from './components/SideBar/SideBar';
 import Contacts from './views/Contacts/Contacts';
+import Profile from './views/Profile/Profile';
 
 function App() {
 
@@ -17,6 +18,7 @@ function App() {
         <Route path="/" element=<PublicView /> />
         <Route path="/home" element=<Home /> />
         <Route path="/contacts" element=<Contacts /> />
+        <Route path="/profile" element=<Profile /> />
       </Routes>
     </BrowserRouter>
   )
