@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { checkIfUserExists, createUser } from '../../service/database-service.js';
+import { createUser } from '../../service/database-service.js';
 import { registerUser } from '../../service/authentication-service.js';
 import AuthContext from '../../context/AuthContext.jsx';
 import './Register.css';
@@ -27,13 +27,6 @@ const Register = () => {
             const registrationHandler = async () => {
                 try {
                     setLoading(true);
-                    const snapshot = await checkIfUserExists(form.username);
-                    if (snapshot.exists()) {
-                        setLoading(false);
-                        setError(`User already exists.`);
-                        return;
-                    }
-
                     const userCredentials = await registerUser(form.emailAddress, form.password);
                     if (typeof userCredentials === 'string' && userCredentials.includes('auth/email-already-in-use')) {
                         throw new Error(`${form.emailAddress} email address is already in use.`);
@@ -46,7 +39,6 @@ const Register = () => {
                         username: form.username, 
                         role: 'author',
                         isBlocked: false,
-                        photo: "https://firebasestorage.googleapis.com/v0/b/reactduo-forumproject.appspot.com/o/users%2Fall%2Fall?alt=media&token=341ed089-9a17-4908-840b-436d10677928"
                     });
 
                     if (!creationStatus) {
