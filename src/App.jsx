@@ -9,6 +9,8 @@ import Logout from './components/Logout/Logout';
 import Register from './components/Register/Register';
 import AuthContext from './context/AuthContext';
 import './App.css'
+import Contacts from './views/Contacts/Contacts';
+import Profile from './views/Profile/Profile';
 
 const App = () => {
 
@@ -21,13 +23,15 @@ const App = () => {
     <BrowserRouter>
       <AuthContext.Provider value={{isLoggedIn: authValue, setLoginState: setAuthValue}}>
         <Header />
-        {window.location.pathname !== "/" && <SideBar />}
+        {authValue.status && <SideBar />}
         <Routes>
             <Route path="/" element={<PublicView />} />
             <Route path="/home" element={<Home />} />
             <Route path="/login" element={<Login />}/>
             <Route path="/logout" element={<Logout />}/>
             <Route path="/register" element={<Register />}/>
+            <Route path="/contacts" element=<Contacts /> />
+            <Route path="/profile" element=<Profile /> />
       </Routes>
       </AuthContext.Provider>
     </BrowserRouter>
