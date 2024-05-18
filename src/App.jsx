@@ -2,7 +2,7 @@ import './App.css'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import PublicView from './views/PublicView/PublicView';
 
-function App() {
+const App = () => {
 
   return (
     <BrowserRouter>
