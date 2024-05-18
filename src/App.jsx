@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import PublicView from './views/PublicView/PublicView';
+import Home from './views/Home/Home';
 import Header from './components/Header/Header';
+import SideBar from './components/SideBar/SideBar';
 import Login from './components/Login/Login';
 import Logout from './components/Logout/Logout';
 import Register from './components/Register/Register';
@@ -18,17 +20,14 @@ const App = () => {
   return (
     <BrowserRouter>
       <AuthContext.Provider value={{isLoggedIn: authValue, setLoginState: setAuthValue}}>
-      <Routes>
-          <Route path="/" element={<PublicView />} />
-          <Route path="/login" element={<Login />}/>
-          <Route path="/register" element={<Register />}/>
-          <Route path="/logout" element={<Logout />}/>
-         {/*  <Route path="/posts" element={<Authenticated><Posts /></Authenticated>}/>
-          <Route path="/posts/:id" element={<Authenticated><SinglePost /></Authenticated>}/>
-          <Route path="/create-post" element={<Authenticated><CreatePost /></Authenticated>}/>
-          <Route path="/users" element={<Authenticated><Users /></Authenticated>}/>
-          <Route path="/profile" element={<Authenticated><Profile /></Authenticated>}/>
-          <Route path="*" element={<NotFound />}/> */}
+        <Header />
+        {window.location.pathname !== "/" && <SideBar />}
+        <Routes>
+            <Route path="/" element=<PublicView /> />
+            <Route path="/home" element=<Home /> />
+            <Route path="/login" element={<Login />}/>
+            <Route path="/logout" element={<Logout />}/>
+            <Route path="/register" element={<Register />}/>
       </Routes>
       </AuthContext.Provider>
     </BrowserRouter>

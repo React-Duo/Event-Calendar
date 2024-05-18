@@ -1,0 +1,30 @@
+.side-bar-container{
+    width: 180px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background-color: rgb(19,88,181);
+    padding: 20px 0px;
+    height: 100vh;
+}
+
+.side-bar-tags{
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+    font-size: 21px;
+    padding: 50px 20px;
+}
+.side-bar-tags li{
+    list-style: none;
+    color: white;
+    cursor: pointer;
+}
+.side-bar-tags i {
+    padding-right: 10px;
+}
+
+.side-bar-tags li:hover{
+    color: rgba(245, 245, 246, 0.608);
+    transition: color 0.3s ease;
+}
