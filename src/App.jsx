@@ -23,8 +23,8 @@ const App = () => {
         <Header />
         {window.location.pathname !== "/" && <SideBar />}
         <Routes>
-            <Route path="/" element=<PublicView /> />
-            <Route path="/home" element=<Home /> />
+            <Route path="/" element={<PublicView />} />
+            <Route path="/home" element={<Home />} />
             <Route path="/login" element={<Login />}/>
             <Route path="/logout" element={<Logout />}/>
             <Route path="/register" element={<Register />}/>
@@ -34,4 +34,4 @@ const App = () => {
   )
 }
 
-export default App
+export default App;
