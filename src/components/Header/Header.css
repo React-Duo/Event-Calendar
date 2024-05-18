@@ -82,7 +82,12 @@
     height: 50px;
 }
 
-.options-header img:hover + .options {
+#options-view{
+    cursor: pointer;
+
+}
+
+.fa-chevron-down:hover + .options {
   display: flex;
   flex-direction: column;
 }
@@ -102,7 +107,8 @@
 .options {
   display: none;
   position: absolute;
-  bottom: 36.7em;
+  bottom: 38em;
+  right: 1em;
   /* display: flex;
   flex-direction: column; */
   width: 200px;

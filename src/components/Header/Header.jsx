@@ -13,7 +13,7 @@ const Header = () => {
         <div className="header-logo">
           <img src={assets.logo} alt="logo" />
         </div>
-        {!loggedIn ? (
+        {loggedIn ? (
           <div className="header-menu">
             <a id="loginBtn" href="/login">
               Log in
@@ -34,13 +34,14 @@ const Header = () => {
                   onClick={() => navigate("/profile")}
                   src="https://picsum.photos/50/50"
                 ></img>
-                <div className="options">
+              </div>
+              <p>petkozlatilov1234@gmail.com</p>
+              <i  className="fa-solid fa-chevron-down fa-sm"></i>
+              <div className="options">
                   <button onClick={() => navigate("/profile")} className="value"><i className="fa-regular fa-user fa-sm"></i>Public profile</button>
                   <button onClick={() => navigate("/settings")} className="value"><i className="fa-solid fa-gear fa-sm"></i>Settings</button>
                   <button className="value"><i className="fa-solid fa-arrow-right-from-bracket fa-sm"></i>Log out</button>
                 </div>
-              </div>
-              <p>petkozlatilov1234@gmail.com</p>
             </div>
           </div>
         )}
