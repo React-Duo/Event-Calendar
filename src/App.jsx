@@ -23,15 +23,15 @@ const App = () => {
     <BrowserRouter>
       <AuthContext.Provider value={{isLoggedIn: authValue, setLoginState: setAuthValue}}>
         <Header />
-        {window.location.pathname !== "/" && <SideBar />}
+        {authValue.status && <SideBar />}
         <Routes>
             <Route path="/" element={<PublicView />} />
             <Route path="/home" element={<Home />} />
             <Route path="/login" element={<Login />}/>
             <Route path="/logout" element={<Logout />}/>
             <Route path="/register" element={<Register />}/>
-        <Route path="/contacts" element=<Contacts /> />
-        <Route path="/profile" element=<Profile /> />
+            <Route path="/contacts" element=<Contacts /> />
+            <Route path="/profile" element=<Profile /> />
       </Routes>
       </AuthContext.Provider>
     </BrowserRouter>
