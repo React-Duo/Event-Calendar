@@ -1,39 +1,81 @@
-.header{
-    display: flex;
-    align-items: center;
-    padding: 20px 40px;
+.header {
+  display: flex;
+  align-items: center;
+  padding: 20px 40px;
 }
 
 .header-logo img {
-    width: 230px;
-    height: 50px;
+  width: 230px;
+  height: 50px;
 }
 
-.header-menu{
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    width: 100%;
-    gap: 30px;
-    font-size: 18px;
+.header-menu {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  gap: 30px;
+  font-size: 18px;
 }
 
-
-#loginBtn{
-    text-decoration: none;
-    color: black;
+#loginBtn {
+  text-decoration: none;
+  color: black;
 }
 
-#registerBtn{
-    text-decoration: none;
-    color: rgb(254, 252, 252);
-    background-color: rgba(0, 0, 255, 0.736);
-    padding: 10px;
-    border-radius: 11px;
-    transition: 0.5s;
+#registerBtn {
+  text-decoration: none;
+  color: rgb(254, 252, 252);
+  background-color: rgba(0, 0, 255, 0.736);
+  padding: 10px;
+  border-radius: 11px;
+  transition: 0.5s;
 }
 
-#registerBtn:hover{
-    background-color: rgb(5, 5, 203);
+#registerBtn:hover {
+  background-color: rgb(5, 5, 203);
 }
 
+/* Bell */
+
+.notifier {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.bell {
+  font-size: 26px;
+  color: #0000009b;
+  transition: 0.3s;
+}
+
+.bell:hover {
+  color: #ef476f;
+}
+
+.badge {
+  margin-bottom: 23px;
+  padding: 0 5px;
+  font-size: 15px;
+  line-height: 22px;
+  height: 22px;
+  background: #ef476f;
+  color: #fff;
+  border-radius: 11px;
+  white-space: nowrap;
+}
+
+/* --- */
+
+.header-person {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-size: 15px;
+}
+
+.header-person img{
+    border-radius: 50%;
+    cursor: pointer;
+}
