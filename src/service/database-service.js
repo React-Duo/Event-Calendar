@@ -1,4 +1,4 @@
-import database from '../config/firebase-config.js';
+import { database } from '../config/firebase-config.js';
 import { ref, get, set, update, query, equalTo, orderByChild, goOnline } from "firebase/database";
 
 /**
