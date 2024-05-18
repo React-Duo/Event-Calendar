@@ -17,6 +17,11 @@ const Header = () => {
     navigate(`/register`);
   }
 
+  const handleLogoutClick = (event) => {
+    event.preventDefault();
+    navigate(`/logout`);
+  }
+
   return (
     <>
       <div className="header">
@@ -25,10 +30,10 @@ const Header = () => {
         </div>
         {loggedIn ? (
           <div className="header-menu">
-            <a id="loginBtn" href="/login">
+            <a id="loginBtn" href="#" onClick={handleLoginClick}>
               Log in
             </a>
-            <a id="registerBtn" href="/register">
+            <a id="registerBtn" href="#" onClick={handleRegisterClick}>
               Get started
             </a>
           </div>
@@ -50,7 +55,7 @@ const Header = () => {
               <div className="options">
                   <button onClick={() => navigate("/profile")} className="value"><i className="fa-regular fa-user fa-sm"></i>Public profile</button>
                   <button onClick={() => navigate("/settings")} className="value"><i className="fa-solid fa-gear fa-sm"></i>Settings</button>
-                  <button className="value"><i className="fa-solid fa-arrow-right-from-bracket fa-sm"></i>Log out</button>
+                  <button className="value" onClick={handleLogoutClick}><i className="fa-solid fa-arrow-right-from-bracket fa-sm"></i>Log out</button>
                 </div>
             </div>
           </div>
