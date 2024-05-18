@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { checkIfUserExists, createUser } from '../../service/request-service.js';
+import { checkIfUserExists, createUser } from '../../service/database-service.js';
 import { registerUser } from '../../service/authentication-service.js';
-import AuthContext from '../../Context/AuthContext.jsx';
+import AuthContext from '../../context/AuthContext.jsx';
 import './Register.css';
 import { MIN_CHAR_LENGTH, MAX_CHAR_LENGTH, EMAIL_REGEX, DIGIT_REGEX, LETTER_REGEX, ALPHA_NUMERIC_REGEX, SPECIAL_CHARS_REGEX } from '../../common/constants.js';
 

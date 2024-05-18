@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { signInUser } from '../../service/authentication-service.js';
-import AuthContext from '../../Context/AuthContext.jsx';
+import AuthContext from '../../context/AuthContext.jsx';
 import { EMAIL_REGEX } from '../../common/constants.js';
 import './Login.css';
 
