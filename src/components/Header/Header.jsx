@@ -13,7 +13,7 @@ const Header = () => {
         <div className="header-logo">
           <img src={assets.logo} alt="logo" />
         </div>
-        {loggedIn ? (
+        {!loggedIn ? (
           <div className="header-menu">
             <a id="loginBtn" href="/login">
               Log in
