@@ -1,4 +1,4 @@
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updatePassword } from 'firebase/auth';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, deleteUser, updatePassword } from 'firebase/auth';
 import { app } from '../config/firebase-config.js';
 
 /**
@@ -12,6 +12,15 @@ export const registerUser = async (emailAddress, password) => {
         const authObject = getAuth(app);
         const userCredentials = await createUserWithEmailAndPassword(authObject, emailAddress, password);
         return userCredentials;
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+export const handleUserDelete = async () => {
+    try {
+        const authObject = getAuth(app);
+        return await deleteUser(authObject.currentUser);
     } catch (error) {
         console.log(error.message);
     }
