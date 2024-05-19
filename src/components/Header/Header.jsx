@@ -1,11 +1,14 @@
 import "./Header.css";
 import { assets } from "../../assets/assets";
-import { useState } from "react";
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import AuthContext from "../../context/AuthContext";
 
 const Header = () => {
-  const [loggedIn, setLoggedIn] = useState(false);
+
   const navigate = useNavigate();
+  const { isLoggedIn } = useContext(AuthContext);
+
 
   const handleLoginClick = (event) => {
     event.preventDefault();
@@ -26,7 +29,7 @@ const Header = () => {
     <>
       <div className="header">
         
-        {loggedIn ? (
+        {!isLoggedIn.status ? (
           <>
           <div className="header-logo">
           <img src={assets.logo} alt="logo" />
