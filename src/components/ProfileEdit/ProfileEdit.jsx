@@ -23,7 +23,7 @@ const ProfileEdit = () => {
               style={{display: 'none'}} 
               ref={fileInput}
             />
-            <button className="change-btn">Change</button>
+            <button className="btn">Change</button>
           </div>
           <div className="input">
             <label className="input__label">First Name</label>
@@ -32,7 +32,7 @@ const ProfileEdit = () => {
               type="text"
               placeholder="Enter your name"
             />
-            <button className="change-btn">Change</button>
+            <button className="btn">Change</button>
           </div>
           <div className="input">
             <label className="input__label">Second Name</label>
@@ -41,7 +41,7 @@ const ProfileEdit = () => {
               type="text"
               placeholder="Enter your name"
             />
-            <button className="change-btn"> Change</button>
+            <button className="btn"> Change</button>
           </div>
           <div>
             <h3>Contacts</h3>
@@ -53,7 +53,7 @@ const ProfileEdit = () => {
               type="email"
               placeholder="Enter your email"
             />
-            <button className="change-btn"> Change</button>
+            <button className="btn"> Change</button>
           </div>
           <div className="input">
             <label className="input__label">Phone</label>
@@ -62,7 +62,7 @@ const ProfileEdit = () => {
               type="tel"
               placeholder="Enter your password"
             />
-            <button className="change-btn"> Change</button>
+            <button className="btn"> Change</button>
           </div>
           <div className="input">
             <label className="input__label">Location</label>
@@ -71,7 +71,7 @@ const ProfileEdit = () => {
               type="password"
               placeholder="Confirm your password"
             />
-            <button className="change-btn"> Change</button>
+            <button className="btn"> Change</button>
           </div>
           <div>
             <h3>Delete Profile</h3>

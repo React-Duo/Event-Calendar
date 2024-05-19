@@ -14,7 +14,7 @@ const Contacts = () => {
     <div className="contacts-container">
       <div className="contacts-title">
         <h3>Your contact lists:</h3>
-        <button onClick={handleShowNewList}>Add contact list</button>
+        <button className="btn" onClick={handleShowNewList}>Add new</button>
       </div>
       <AllLists triggerRefetch={triggerRefetch}/>
       <AddList showNewList={showNewList} handleShowNewList={handleShowNewList} setTriggerRefetch={setTriggerRefetch} />

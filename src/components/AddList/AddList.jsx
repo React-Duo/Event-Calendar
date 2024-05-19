@@ -51,6 +51,7 @@ const AddList = ({ showNewList, handleShowNewList, setTriggerRefetch }) => {
     }
     await addList(newList);
     setTriggerRefetch(prev => !prev);
+    exitForm();
   };
 
   const exitForm = () => {
@@ -78,17 +79,20 @@ const AddList = ({ showNewList, handleShowNewList, setTriggerRefetch }) => {
                 <input
                   value={listName}
                   onChange={(e) => setListName(e.target.value)}
-                  className="input-list__field"
+                  className="input__field"
                   type="text"
                   placeholder="Enter list name"
                 />
+                {showError && (
+                <div className="errorMessage">List name cannot be empty</div>
+              )}
               </div>
               <div className="input-list">
                 <label className="input-list__label">Members</label>
                 <input
                   value={searchInput}
                   onChange={(e) => setSearchInput(e.target.value)}
-                  className="input-list__field"
+                  className="input__field"
                   type="search"
                   placeholder="Add members by email"
                 />
@@ -127,12 +131,9 @@ const AddList = ({ showNewList, handleShowNewList, setTriggerRefetch }) => {
                   </button>
                 </div>
               ))}
-              {showError && (
-                <div className="errorMessage">List name cannot be empty</div>
-              )}
             </div>
             <div className="add-list__footer">
-              <button onClick={submitList} className="button--primary">
+              <button onClick={submitList} className="btn">
                 Create list
               </button>
             </div>
