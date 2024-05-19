@@ -1,0 +1,95 @@
+.profile-edit__body h3{
+    padding-top: 30px;
+    font-size: 25px;
+    margin-bottom: 10px;
+}
+
+.container-profile-edit{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-edit__body{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+}
+
+
+.input__field{
+    --input-focus: #2d8cf0;
+  --font-color: #323232;
+  --font-color-sub: #666;
+  --bg-color: #fff;
+  --main-color: #323232;
+  width: 100%;
+  height: 40px;
+  border-radius: 5px;
+  border: 2px solid var(--main-color);
+  background-color: var(--bg-color);
+  box-shadow: 4px 4px var(--main-color);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--font-color);
+  padding: 5px 10px;
+  outline: none;
+    
+}
+
+.input{
+    background-color: rgb(255, 255, 255);
+    border-radius: 15px;
+    width: 600px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.input label{
+    width: 100%;
+}
+
+.img-change{
+    display: flex;
+    align-items: center;
+    height: 100px;
+    width: 100px;
+}
+
+.img-change img{
+    border-radius: 50%;
+}
+
+.change-btn{
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-size: 17px;
+    padding: 0 22px;
+}
+
+.delete-btn{
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    color: #fff;
+    background-color: #ff5252;
+    border: 2px solid #000;
+    border-radius: 10px;
+    box-shadow: 5px 5px 0px #000;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.delete-btn:hover{
+    background-color: #d6c8c8ac;
+    color: #ff5252;
+    border: 2px solid #ff5252;
+    box-shadow: 5px 5px 0px #ff5252;
+}
