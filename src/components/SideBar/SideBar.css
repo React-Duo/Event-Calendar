@@ -3,9 +3,13 @@
   padding: 0;
   width: 200px;
   position: fixed;
-  background-color: rgb(19, 88, 181);
-  padding: 20px 0px;
-  height: 100vh;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  overflow: auto;
+  background-color: rgb(126, 198, 222);
+  padding: 0px 0px;
+  height: 100%;
 }
 
 .side-bar-tags {
@@ -13,12 +17,13 @@
   flex-direction: column;
   gap: 60px;
   font-size: 21px;
-  padding: 50px 20px;
+  padding: 33px 20px;
 }
 .side-bar-tags li {
   list-style: none;
-  color: white;
+  color: rgb(231, 231, 231);
   cursor: pointer;
+  text-shadow: 1px 1px 1px black;
 }
 .side-bar-tags i {
   padding-right: 10px;

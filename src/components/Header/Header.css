@@ -1,7 +1,7 @@
 .header {
   display: flex;
   align-items: center;
-  padding: 20px 40px;
+  padding: 20px 70px;
 }
 
 .header-logo img {
@@ -106,7 +106,7 @@
 .options {
   display: none;
   position: absolute;
-  top: 53px;
+  top: 52px;
   right: 10px;
   /* display: flex;
   flex-direction: column; */

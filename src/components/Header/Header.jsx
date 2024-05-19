@@ -10,10 +10,12 @@ const Header = () => {
   return (
     <>
       <div className="header">
-        <div className="header-logo">
+        
+        {loggedIn ? (
+          <>
+          <div className="header-logo">
           <img src={assets.logo} alt="logo" />
         </div>
-        {loggedIn ? (
           <div className="header-menu">
             <a id="loginBtn" href="/login">
               Log in
@@ -22,6 +24,7 @@ const Header = () => {
               Get started
             </a>
           </div>
+          </>
         ) : (
           <div className="header-menu">
             <div className="notifier new">

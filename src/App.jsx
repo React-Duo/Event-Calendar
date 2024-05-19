@@ -23,7 +23,7 @@ const App = () => {
     <BrowserRouter>
       <AuthContext.Provider value={{isLoggedIn: authValue, setLoginState: setAuthValue}}>
         <Header />
-        {authValue.status && <SideBar />}
+        {!authValue.status && <SideBar />}
         <Routes>
             <Route path="/" element={<PublicView />} />
             <Route path="/home" element={<Home />} />

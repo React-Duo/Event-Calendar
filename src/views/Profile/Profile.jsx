@@ -1,9 +1,10 @@
 import "./Profile.css"
+import ProfileEdit from "../../components/ProfileEdit/ProfileEdit"
 
 const Profile = () => {
   return (
     <div className="container-profile">
-    Profile
+      <ProfileEdit />
     </div>
   )
 }
