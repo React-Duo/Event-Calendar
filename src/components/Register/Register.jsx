@@ -35,7 +35,7 @@ const Register = () => {
                     }
 
                     const userCredentials = await registerUser(form.emailAddress, form.password);
-                    if (typeof userCredentials === 'string' && userCredentials.includes('auth/email-already-in-use')) {
+                    if (userCredentials && typeof userCredentials === 'string' && userCredentials.includes('auth/email-already-in-use')) {
                         throw new Error(`${form.emailAddress} email address is already in use.`);
                     }
 
@@ -44,9 +44,9 @@ const Register = () => {
                         lastName: form.lastName, 
                         emailAddress: form.emailAddress, 
                         username: form.username, 
+                        phone: form.phoneNumber,
                         role: 'author',
                         isBlocked: false,
-                        photo: "https://firebasestorage.googleapis.com/v0/b/reactduo-forumproject.appspot.com/o/users%2Fall%2Fall?alt=media&token=341ed089-9a17-4908-840b-436d10677928"
                     });
 
                     if (!creationStatus) {
@@ -77,6 +77,7 @@ const Register = () => {
         const firstName = event.target.firstName.value;
         const lastName = event.target.lastName.value;
         const emailAddress = event.target.email.value;
+        const phoneNumber = event.target.phone.value;
         const username = event.target.username.value;
         const password = event.target.password.value;
 
@@ -109,7 +110,7 @@ const Register = () => {
                 return;
         }
 
-        setForm({ firstName, lastName, emailAddress, username, password });
+        setForm({ firstName, lastName, emailAddress, phoneNumber, username, password });
         setIsFormSubmitted(true);
     }
 
@@ -139,6 +140,8 @@ const Register = () => {
             <span><label htmlFor="lastName">Last Name </label><input type="text" name="lastName" id='lastName' required /></span> <br />
             <h5><i>/ Last name must be between 4 and 32 characters long. /</i></h5> <br />
             <span><label htmlFor="email">Email address </label><input type="email" name="email" id='email' required /></span> <br />
+            <span><label htmlFor="phone">Phone Number </label><input type="text" name="phone" id='phone' required /></span> <br />
+            <h5><i>/ Phone Number requirements - 10 digits /</i></h5> <br />
             <span><label htmlFor="username">Username </label><input type="text" name="username" id='username' required /></span> <br />
             <h5><i>/ Username requirements - at least: 8 characters, ONE digit, ONE letter, NO special symbols /</i></h5> <br />
             <span><label htmlFor="password">Password </label><input type="password" name="password" id='password' required /></span> <br />

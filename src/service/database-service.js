@@ -1,5 +1,5 @@
 import { database } from '../config/firebase-config.js';
-import { ref, get, set, update, query, equalTo, orderByChild, goOnline } from "firebase/database";
+import { ref, get, set, update, query, equalTo, orderByChild } from "firebase/database";
 
 /**
  * Checks if a user exists in the database.
@@ -7,12 +7,11 @@ import { ref, get, set, update, query, equalTo, orderByChild, goOnline } from "f
  * @returns {Promise<Snapshot | string>} - A promise that resolves to a snapshot of the user data if the user exists, or an error message if the user does not exist.
  */
 export const checkIfUserExists = async (username) => {
-  goOnline(database);
   try {
     const snapshot = await get(ref(database, `users/${username}`));
     return snapshot;
   } catch (error) {
-      console.log(error.message);
+      console.log(error);
     } 
 }
 
