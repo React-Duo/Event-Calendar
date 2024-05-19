@@ -4,7 +4,7 @@ import { getUsers, addList } from "../../service/database-service.js";
 import { useEffect, useState, useContext } from "react";
 import AuthContext from "../../context/AuthContext";
 
-const AddList = ({ showNewList, handleShowNewList }) => {
+const AddList = ({ showNewList, handleShowNewList, setTriggerRefetch }) => {
   const [searchInput, setSearchInput] = useState("");
   const [allUsers, setAllUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
@@ -37,12 +37,11 @@ const AddList = ({ showNewList, handleShowNewList }) => {
     } else {
       setFilteredUsers([]);
     }
-    console.log(allUsers);
   }, [allUsers, searchInput, isLoggedIn.user]);
 
   const submitList = async () => {
     const newList = {
-      listName: listName,
+      name: listName,
       contacts: members,
       owner: isLoggedIn.user,
     };
@@ -51,6 +50,7 @@ const AddList = ({ showNewList, handleShowNewList }) => {
       return;
     }
     await addList(newList);
+    setTriggerRefetch(prev => !prev);
   };
 
   const exitForm = () => {
@@ -148,6 +148,7 @@ const AddList = ({ showNewList, handleShowNewList }) => {
 AddList.propTypes = {
   showNewList: PropTypes.bool.isRequired,
   handleShowNewList: PropTypes.func.isRequired,
+  setTriggerRefetch: PropTypes.func.isRequired,
 };
 
 export default AddList;
