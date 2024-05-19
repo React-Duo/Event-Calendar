@@ -44,6 +44,18 @@ export const getUsers = async () => {
     } 
 };
 
+export const getLists = async () => {
+  try {
+    const snapshot = await get(ref(database, "contactLists"));
+    if (snapshot.exists()) {
+      return snapshot.val();
+    } else {
+      throw new Error("Data not found!");
+    }
+  } catch (error) {
+    return error.message;
+  }
+}
 
 export const addList = async (listDetails) => {
   try {
