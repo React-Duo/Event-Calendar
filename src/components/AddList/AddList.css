@@ -76,21 +76,21 @@
     background-color: #006489;
   }
   
-  .input {
+  .input-list {
     display: flex;
     flex-direction: column;
   }
   
-  .input + .input {
+  .input-list + .input-list {
     margin-top: 1.75rem;
   }
   
-  .input__label {
+  .input-list__label {
     font-weight: 700;
     font-size: 0.875rem;
   }
   
-  .input__field {
+  .input-list__field {
     display: block;
     margin-top: 0.5rem;
     border: 1px solid #ddd;
@@ -99,7 +99,7 @@
     transition: 0.15s ease;
   }
   
-  .input__field:focus {
+  .input-list__field:focus {
     outline: none;
     border-color: #007dab;
     box-shadow: 0 0 0 1px #007dab, 0 0 0 4px rgba(0, 125, 171, 0.25);

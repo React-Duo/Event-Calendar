@@ -1,5 +1,6 @@
 import "./SideBar.css"
 import { useNavigate } from "react-router-dom";
+import { assets } from "../../assets/assets";
 
 const SideBar = () => {
   const navigate = useNavigate();
@@ -7,7 +8,9 @@ const SideBar = () => {
 
   return (
     <div className="side-bar-container">
+
       <ul className="side-bar-tags">
+      <img src={assets.logo}></img>
         <li onClick={() => navigate("/home")} ><i className="fa-solid fa-house fa-xl"></i>Home</li>
         <li><i className="fa-solid fa-calendar-days fa-xl"></i>Calendar</li>
         <li><i className="fa-solid fa-square-check fa-xl"></i>Add Event</li>

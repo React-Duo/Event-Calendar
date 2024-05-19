@@ -12,13 +12,13 @@ const AddList = ({showNewList, handleShowNewList}) => {
           <button onClick={handleShowNewList} className="button--icon">x</button>
         </div>
         <div className="add-list__body">
-          <div className="input">
-            <label className="input__label">List name</label>
-            <input className="input__field" type="text" placeholder="Enter list name" />
+          <div className="input-list">
+            <label className="input-list__label">List name</label>
+            <input className="input-list__field" type="text" placeholder="Enter list name" />
           </div>
-          <div className="input">
-            <label className="input__label">Members</label>
-            <input className="input__field" type="search" placeholder="Add members by email" />
+          <div className="input-list">
+            <label className="input-list__label">Members</label>
+            <input className="input-list__field" type="search" placeholder="Add members by email" />
           </div>
         </div>
         <div className="container-find-contact">

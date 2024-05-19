@@ -1,7 +1,7 @@
 .header {
   display: flex;
   align-items: center;
-  padding: 20px 40px;
+  padding: 20px 70px;
 }
 
 .header-logo img {
@@ -75,16 +75,15 @@
   font-size: 15px;
 }
 
-.options-header img{
-    border-radius: 50%;
-    cursor: pointer;
-    width: 50px;
-    height: 50px;
+.options-header img {
+  border-radius: 50%;
+  cursor: pointer;
+  width: 50px;
+  height: 50px;
 }
 
-#options-view{
-    cursor: pointer;
-
+#options-view {
+  cursor: pointer;
 }
 
 .fa-chevron-down:hover + .options {
@@ -107,16 +106,15 @@
 .options {
   display: none;
   position: absolute;
-  bottom: 38em;
-  right: 1em;
+  top: 52px;
+  right: 10px;
   /* display: flex;
   flex-direction: column; */
   width: 200px;
   background-color: #1d2d46;
   justify-content: center;
-  border-radius: 5px
+  border-radius: 5px;
 }
-
 
 .value {
   background-color: transparent;
@@ -133,12 +131,12 @@
 
 .value:not(:active):hover,
 .value:focus {
-  background-color: #21262C;
+  background-color: #21262c;
 }
 
 .value:focus,
 .value:active {
-  background-color: #1A1F24;
+  background-color: #1a1f24;
   outline: none;
 }
 
@@ -149,7 +147,7 @@
   left: -10px;
   width: 5px;
   height: 80%;
-  background-color: #2F81F7;
+  background-color: #2f81f7;
   border-radius: 5px;
   opacity: 0;
 }
@@ -160,11 +158,11 @@
 }
 
 .value svg {
-  width: 15px
+  width: 15px;
 }
 
 .options:hover > :not(.value:hover) {
   transition: 300ms;
   filter: blur(1px);
-  transform: scale(0.95,0.95);
+  transform: scale(0.95, 0.95);
 }
