@@ -7,9 +7,10 @@
   bottom: 0;
   left: 0;
   overflow: auto;
-  background-color: rgb(126, 198, 222);
+  background-color: rgb(255, 255, 255);
   padding: 0px 0px;
   height: 100%;
+  border-right: 1px solid rgba(40, 40, 40, 0.716);
 }
 
 .side-bar-tags {
@@ -21,9 +22,9 @@
 }
 .side-bar-tags li {
   list-style: none;
-  color: rgb(231, 231, 231);
+  color: rgba(112, 112, 112, 0.463);
   cursor: pointer;
-  text-shadow: 1px 1px 1px black;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.667);
 }
 .side-bar-tags i {
   padding-right: 10px;

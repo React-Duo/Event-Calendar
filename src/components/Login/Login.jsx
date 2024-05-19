@@ -40,7 +40,7 @@ const Login = () => {
     useEffect(() => {
         if (isLoginSuccessful) {
             setLoginState({status: true, user: form.emailAddress});
-            navigate('/');
+            navigate('/home');
         }
     }, [isLoginSuccessful]);
 
