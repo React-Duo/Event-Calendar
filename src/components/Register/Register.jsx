@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { checkIfUserExists, createUser } from '../../service/database-service.js';
-import { registerUser } from '../../service/authentication-service.js';
+import { handleUserDelete, registerUser } from '../../service/authentication-service.js';
 import AuthContext from '../../context/AuthContext.jsx';
 import './Register.css';
 import { MIN_CHAR_LENGTH, MAX_CHAR_LENGTH, EMAIL_REGEX, DIGIT_REGEX, LETTER_REGEX, ALPHA_NUMERIC_REGEX, SPECIAL_CHARS_REGEX } from '../../common/constants.js';
@@ -19,7 +19,7 @@ const Register = () => {
         password: ''
     });
     const [isFormSubmitted, setIsFormSubmitted] = useState(false);
-    const navigate = useNavigate();
+    const navigate = useNavigate(); 
     const { setLoginState } = useContext(AuthContext);
 
     useEffect(() => {
@@ -27,22 +27,38 @@ const Register = () => {
             const registrationHandler = async () => {
                 try {
                     setLoading(true);
-                    const snapshot = await checkIfUserExists(form.username);
-                    if (snapshot.exists()) {
+                    const userCredentials = await registerUser(form.emailAddress, form.password);
+                    if (!userCredentials) {
+                        throw new Error(`User with ${form.emailAddress} email address could not be created.`);
+                    }
+                    const snapshots = await checkIfUserExists(form.username, form.emailAddress, form.phoneNumber);
+                    const [snapshot1, snapshot2, snapshot3] = snapshots;
+
+                    if (snapshot1.exists()) {
                         setLoading(false);
-                        setError(`User already exists.`);
+                        handleUserDelete();
+                        setError(`Username already exists.`);
                         return;
                     }
 
-                    const userCredentials = await registerUser(form.emailAddress, form.password);
-                    if (userCredentials && typeof userCredentials === 'string' && userCredentials.includes('auth/email-already-in-use')) {
-                        throw new Error(`${form.emailAddress} email address is already in use.`);
+                    if (snapshot2.exists()) {
+                        setLoading(false);
+                        handleUserDelete();
+                        setError(`Email address already exists.`);
+                        return;
+                    }
+
+                    if (snapshot3.exists()) {
+                        setLoading(false);
+                        handleUserDelete();
+                        setError(`Phone number already exists.`);
+                        return;
                     }
 
                     const creationStatus = await createUser({
                         firstName: form.firstName, 
                         lastName: form.lastName, 
-                        emailAddress: form.emailAddress, 
+                        email: form.emailAddress, 
                         username: form.username, 
                         phone: form.phoneNumber,
                         role: 'author',
