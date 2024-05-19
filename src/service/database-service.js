@@ -40,7 +40,7 @@ export const getUsers = async () => {
       throw new Error("Data not found!");
     }
   } catch (error) {
-    return error.message;
+    console.log(error.message);
     } 
 };
 
@@ -53,7 +53,7 @@ export const getLists = async () => {
       throw new Error("Data not found!");
     }
   } catch (error) {
-    return error.message;
+    console.log(error.message);
   }
 }
 
@@ -61,6 +61,6 @@ export const addList = async (listDetails) => {
   try {
       return await push(ref(database, 'contactLists'), listDetails);
   } catch (error) {
-      return error.message;
+    console.log(error.message);
   }
 }
