@@ -4,7 +4,10 @@ import { checkIfUserExists, createUser } from '../../service/database-service.js
 import { handleUserDelete, registerUser } from '../../service/authentication-service.js';
 import AuthContext from '../../context/AuthContext.jsx';
 import './Register.css';
-import { MIN_CHAR_LENGTH, MAX_CHAR_LENGTH, EMAIL_REGEX, DIGIT_REGEX, LETTER_REGEX, ALPHA_NUMERIC_REGEX, SPECIAL_CHARS_REGEX } from '../../common/constants.js';
+import { NAME_MIN_CHARS, NAME_MAX_CHARS, USERNAME_MIN_LENGTH, USERNAME_MAX_LENGTH, 
+        PASSWORD_MIN_CHARS, PASSWORD_MAX_CHARS, EMAIL_REGEX, 
+        PHONE_REGEX, PHONE_DIGITS, ADDRESS_MIN_CHARS, ADDRESS_MAX_CHARS, ADDRESS_REGEX, 
+        DIGIT_REGEX, LETTER_REGEX, ALPHA_NUMERIC_REGEX, SPECIAL_CHARS_REGEX } from '../../common/constants.js';
 
 const Register = () => {
     const [loading, setLoading] = useState(false);
@@ -15,6 +18,8 @@ const Register = () => {
         firstName: '',
         lastName: '',
         emailAddress: '',
+        phoneNumber: '',
+        address: '',
         username: '',
         password: ''
     });
@@ -32,23 +37,23 @@ const Register = () => {
                         throw new Error(`User with ${form.emailAddress} email address could not be created.`);
                     }
                     const snapshots = await checkIfUserExists(form.username, form.emailAddress, form.phoneNumber);
-                    const [snapshot1, snapshot2, snapshot3] = snapshots;
+                    const [user, email, phone] = snapshots;
 
-                    if (snapshot1.exists()) {
+                    if (user.exists()) {
                         setLoading(false);
                         handleUserDelete();
                         setError(`Username already exists.`);
                         return;
                     }
 
-                    if (snapshot2.exists()) {
+                    if (email.exists()) {
                         setLoading(false);
                         handleUserDelete();
                         setError(`Email address already exists.`);
                         return;
                     }
 
-                    if (snapshot3.exists()) {
+                    if (phone.exists()) {
                         setLoading(false);
                         handleUserDelete();
                         setError(`Phone number already exists.`);
@@ -59,8 +64,9 @@ const Register = () => {
                         firstName: form.firstName, 
                         lastName: form.lastName, 
                         email: form.emailAddress, 
-                        username: form.username, 
                         phone: form.phoneNumber,
+                        address: form.address,
+                        username: form.username, 
                         role: 'author',
                         isBlocked: false,
                     });
@@ -94,18 +100,17 @@ const Register = () => {
         const lastName = event.target.lastName.value;
         const emailAddress = event.target.email.value;
         const phoneNumber = event.target.phone.value;
+        const address = event.target.address.value;
         const username = event.target.username.value;
         const password = event.target.password.value;
 
-        if (firstName.length < MIN_CHAR_LENGTH || firstName.length > MAX_CHAR_LENGTH
-            || DIGIT_REGEX.test(firstName) || SPECIAL_CHARS_REGEX.test(firstName)) {
-            setError(`First name must not contain special characters or digits and must be between ${MIN_CHAR_LENGTH} and ${MAX_CHAR_LENGTH} characters long.`);
+        if (firstName.length < NAME_MIN_CHARS || firstName.length > NAME_MAX_CHARS || !LETTER_REGEX.test(firstName)) {
+            setError(`First name must contain upper- and lowercase letters only and must be between ${NAME_MIN_CHARS}-${NAME_MAX_CHARS} characters long.`);
             return;
         }
 
-        if (lastName.length < MIN_CHAR_LENGTH || lastName.length > MAX_CHAR_LENGTH
-            || DIGIT_REGEX.test(lastName) || SPECIAL_CHARS_REGEX.test(lastName)) {
-            setError(`Last name must not contain special characters or digits and must be between ${MIN_CHAR_LENGTH} and ${MAX_CHAR_LENGTH} characters long.`); 
+        if (lastName.length < NAME_MIN_CHARS || lastName.length > NAME_MAX_CHARS || !LETTER_REGEX.test(lastName)) {
+            setError(`Last name must contain upper- and lowercase letters only and must be between ${NAME_MIN_CHARS}-${NAME_MAX_CHARS} characters long.`); 
             return;
         }
 
@@ -114,19 +119,28 @@ const Register = () => {
             return;
         }
 
-        if (username.length < 8 || !ALPHA_NUMERIC_REGEX.test(username) 
-            || !DIGIT_REGEX.test(username) || !LETTER_REGEX.test(username)) {
-                setError(`${username} is not a valid username.`);
-                return;
+        if (!PHONE_REGEX.test(phoneNumber)) {
+            setError(`Phone number must contain ${PHONE_DIGITS} digits exactly.`);
+            return;
         }
 
-        if (password.length < 8 || !SPECIAL_CHARS_REGEX.test(password) 
-            || !DIGIT_REGEX.test(password) || !LETTER_REGEX.test(password) ) {
+        if (!ADDRESS_REGEX.test(address)) {
+            setError(`Address must contain ${ADDRESS_MIN_CHARS}-${ADDRESS_MAX_CHARS} characters, uppercase/lowercase letters, digits and space/dot.`);
+            return;
+        }
+
+        if (username.length < USERNAME_MIN_LENGTH || username.length > USERNAME_MAX_LENGTH || !ALPHA_NUMERIC_REGEX.test(username)) {
+            setError(`${username} is not a valid username.`);
+            return;
+        }
+
+        if (password.length < PASSWORD_MIN_CHARS || password.length > PASSWORD_MAX_CHARS || !LETTER_REGEX.test(password)
+            || !DIGIT_REGEX.test(password) || !SPECIAL_CHARS_REGEX.test(password)) {
                 setError(`The provided password is invalid.`);
                 return;
         }
 
-        setForm({ firstName, lastName, emailAddress, phoneNumber, username, password });
+        setForm({ firstName, lastName, emailAddress, phoneNumber, address, username, password });
         setIsFormSubmitted(true);
     }
 
@@ -151,17 +165,26 @@ const Register = () => {
         <form onSubmit={register} className="register-form">
             <h2>Register</h2>
             {error && <div>{error}</div>} <br />
-            <span><label htmlFor="firstName">First Name </label><input type="text" name="firstName" id='firstName' required /></span> <br />
-            <h5><i>/ First name must be between 4 and 32 characters long. /</i></h5> <br />
-            <span><label htmlFor="lastName">Last Name </label><input type="text" name="lastName" id='lastName' required /></span> <br />
-            <h5><i>/ Last name must be between 4 and 32 characters long. /</i></h5> <br />
-            <span><label htmlFor="email">Email address </label><input type="email" name="email" id='email' required /></span> <br />
-            <span><label htmlFor="phone">Phone Number </label><input type="text" name="phone" id='phone' required /></span> <br />
-            <h5><i>/ Phone Number requirements - 10 digits /</i></h5> <br />
-            <span><label htmlFor="username">Username </label><input type="text" name="username" id='username' required /></span> <br />
-            <h5><i>/ Username requirements - at least: 8 characters, ONE digit, ONE letter, NO special symbols /</i></h5> <br />
-            <span><label htmlFor="password">Password </label><input type="password" name="password" id='password' required /></span> <br />
-            <h5><i>/ Password requirements - at least: 8 characters, ONE digit, ONE letter, ONE special symbol /</i></h5> <br />
+            <span><label htmlFor="firstName" className="required">First Name </label><input type="text" name="firstName" id='firstName' required /></span> <br />
+            <h5><i>/ First name must be between {NAME_MIN_CHARS}-{NAME_MAX_CHARS} characters long. /</i></h5> <br />
+
+            <span><label htmlFor="lastName" className="required">Last Name </label><input type="text" name="lastName" id='lastName' required /></span> <br />
+            <h5><i>/ Last name must be between {NAME_MIN_CHARS}-{NAME_MAX_CHARS} characters long. /</i></h5> <br />
+
+            <span><label htmlFor="email" className="required">Email address </label><input type="email" name="email" id='email' required /></span> <br />
+
+            <span><label htmlFor="phone" className="required">Phone Number </label><input type="text" name="phone" id='phone' required /></span> <br />
+            <h5><i>/ Phone number must contain {PHONE_DIGITS} digits exactly. /</i></h5> <br />
+
+            <span><label htmlFor="address">Address </label><input type="text" name="address" id='address' /></span> <br />
+            <h5><i>/ Address must contain {ADDRESS_MIN_CHARS}-{ADDRESS_MAX_CHARS} characters, uppercase/lowercase letters, digits and space/dot. /</i></h5> <br />
+
+            <span><label htmlFor="username" className="required">Username </label><input type="text" name="username" id='username' required /></span> <br />
+            <h5><i>/ Username must contain {USERNAME_MIN_LENGTH}-{USERNAME_MAX_LENGTH} characters, uppercase/lowercase letters and digits only. /</i></h5> <br />
+
+            <span><label htmlFor="password" className="required">Password </label><input type="password" name="password" id='password' required /></span> <br />
+            <h5><i>/ Password must contain {PASSWORD_MIN_CHARS}-{PASSWORD_MAX_CHARS} characters, ONE digit, ONE letter and ONE special character at least. /</i></h5> <br />
+
             <button type="submit">Register</button>
         </form>
         </div>

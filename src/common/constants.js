@@ -1,5 +1,14 @@
-export const MIN_CHAR_LENGTH = 4;
-export const MAX_CHAR_LENGTH = 32;
+export const NAME_MIN_CHARS = 1;
+export const NAME_MAX_CHARS = 30;
+export const USERNAME_MIN_LENGTH = 3;
+export const USERNAME_MAX_LENGTH = 30;
+export const PASSWORD_MIN_CHARS = 8;
+export const PASSWORD_MAX_CHARS = 30;
+export const PHONE_DIGITS = 10;
+export const PHONE_REGEX = /^\d{10}$/;
+export const ADDRESS_MIN_CHARS = 1;
+export const ADDRESS_MAX_CHARS = 20;
+export const ADDRESS_REGEX = /^[a-zA-Z0-9 .]{1,20}$/;
 export const EMAIL_REGEX = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 export const DIGIT_REGEX = /\d/;
 export const LETTER_REGEX = /[a-zA-Z]/;
