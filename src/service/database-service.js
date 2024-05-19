@@ -6,13 +6,16 @@ import { ref, get, set, update, query, equalTo, orderByChild } from "firebase/da
  * @param {string} username - The username of the user to check.
  * @returns {Promise<Snapshot | string>} - A promise that resolves to a snapshot of the user data if the user exists, or an error message if the user does not exist.
  */
-export const checkIfUserExists = async (username) => {
+export const checkIfUserExists = async (username, email, phone) => {
   try {
-    const snapshot = await get(ref(database, `users/${username}`));
-    return snapshot;
+    const snapshot1 = await get(query(ref(database, "users"), orderByChild("username"), equalTo(username)));        
+    const snapshot2 = await get(query(ref(database, "users"), orderByChild("email"), equalTo(email)));
+    const snapshot3 = await get(query(ref(database, "users"), orderByChild("phone"), equalTo(phone)));
+
+    return [snapshot1, snapshot2, snapshot3];
   } catch (error) {
-      console.log(error);
-    } 
+    console.log(error.message);
+  } 
 }
 
 /**
