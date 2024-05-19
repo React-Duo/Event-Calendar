@@ -19,7 +19,6 @@ const AllLists = ({triggerRefetch}) => {
         console.error(error);
       }
     };
-    console.log(lists);
     fetchLists();
   }, [isLoggedIn.user, triggerRefetch]);
 
@@ -32,7 +31,7 @@ const AllLists = ({triggerRefetch}) => {
           </div>
           <div className="notifier">
             <i className="fa-solid fa-user-group"></i>
-            <div className="badge">3</div>
+            <div className="badge">{list.contacts?list.contacts.length:0}</div>
           </div>
         </div>
       ))}
