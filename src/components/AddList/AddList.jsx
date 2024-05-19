@@ -1,13 +1,12 @@
 import "./AddList.css";
 import PropTypes from "prop-types";
-import "./AddList.css";
-import { getUsers, addList } from "../../service/database-service.js"
+import { getUsers, addList } from "../../service/database-service.js";
 import { useEffect, useState, useContext } from "react";
 import AuthContext from "../../context/AuthContext";
 
 const AddList = ({ showNewList, handleShowNewList }) => {
   const [searchInput, setSearchInput] = useState("");
-  const [AllUsers, setAllUsers] = useState([]);
+  const [allUsers, setAllUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [listName, setListName] = useState("");
   const [members, setMembers] = useState([]);
@@ -16,9 +15,13 @@ const AddList = ({ showNewList, handleShowNewList }) => {
 
   useEffect(() => {
     const fetchUsers = async () => {
-      let users = await getUsers();
-      users = Object.values(users);
-      setAllUsers(users);
+      try {
+        let users = await getUsers();
+        users = Object.values(users);
+        setAllUsers(users);
+      } catch (error) {
+        console.error(error);
+      }
     };
     fetchUsers();
   }, []);
@@ -26,20 +29,24 @@ const AddList = ({ showNewList, handleShowNewList }) => {
   useEffect(() => {
     if (searchInput !== "") {
       setFilteredUsers(
-        AllUsers.filter((user) => user.email.includes(searchInput) && user.email !== isLoggedIn.user)
+        allUsers.filter(
+          (user) =>
+            user.email.includes(searchInput) && user.email !== isLoggedIn.user
+        )
       );
     } else {
       setFilteredUsers([]);
     }
-  }, [AllUsers, searchInput]);
+    console.log(allUsers);
+  }, [allUsers, searchInput, isLoggedIn.user]);
 
   const submitList = async () => {
     const newList = {
       listName: listName,
-      members: members,
+      contacts: members,
       owner: isLoggedIn.user,
     };
-    if(listName === "") {
+    if (listName === "") {
       setShowError(true);
       return;
     }
@@ -90,7 +97,12 @@ const AddList = ({ showNewList, handleShowNewList }) => {
             <div className="container-find-contact">
               {filteredUsers.map((user, index) => (
                 <div className="single-contact" key={index}>
-                {members.includes(user.email) && <i className="fa-solid fa-check" style={{ color: '#63E6BE' }}></i>}
+                  {members.includes(user.email) && (
+                    <i
+                      className="fa-solid fa-check"
+                      style={{ color: "#63E6BE" }}
+                    ></i>
+                  )}
                   <div>
                     <img src="https://picsum.photos/40/40"></img>
                   </div>
@@ -115,7 +127,9 @@ const AddList = ({ showNewList, handleShowNewList }) => {
                   </button>
                 </div>
               ))}
-              {showError && <div className="errorMessage">List name cannot be empty</div>}
+              {showError && (
+                <div className="errorMessage">List name cannot be empty</div>
+              )}
             </div>
             <div className="add-list__footer">
               <button onClick={submitList} className="button--primary">
