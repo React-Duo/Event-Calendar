@@ -6,7 +6,7 @@ import AuthContext from '../../context/AuthContext.jsx';
 import './Register.css';
 import { NAME_MIN_CHARS, NAME_MAX_CHARS, USERNAME_MIN_LENGTH, USERNAME_MAX_LENGTH, 
         PASSWORD_MIN_CHARS, PASSWORD_MAX_CHARS, EMAIL_REGEX, 
-        PHONE_REGEX, PHONE_DIGITS, ADDRESS_MIN_CHARS, ADDRESS_MAX_CHARS, ADRESS_REGEX, 
+        PHONE_REGEX, PHONE_DIGITS, ADDRESS_MIN_CHARS, ADDRESS_MAX_CHARS, ADDRESS_REGEX, 
         DIGIT_REGEX, LETTER_REGEX, ALPHA_NUMERIC_REGEX, SPECIAL_CHARS_REGEX } from '../../common/constants.js';
 
 const Register = () => {
@@ -18,6 +18,8 @@ const Register = () => {
         firstName: '',
         lastName: '',
         emailAddress: '',
+        phoneNumber: '',
+        address: '',
         username: '',
         password: ''
     });
@@ -62,8 +64,9 @@ const Register = () => {
                         firstName: form.firstName, 
                         lastName: form.lastName, 
                         email: form.emailAddress, 
-                        username: form.username, 
                         phone: form.phoneNumber,
+                        address: form.address,
+                        username: form.username, 
                         role: 'author',
                         isBlocked: false,
                     });
@@ -117,11 +120,11 @@ const Register = () => {
         }
 
         if (!PHONE_REGEX.test(phoneNumber)) {
-            setError(`Phone number must contain ${PHONE_DIGITS} digits.`);
+            setError(`Phone number must contain ${PHONE_DIGITS} digits exactly.`);
             return;
         }
 
-        if (!ADRESS_REGEX.test(address)) {
+        if (!ADDRESS_REGEX.test(address)) {
             setError(`Address must contain ${ADDRESS_MIN_CHARS}-${ADDRESS_MAX_CHARS} characters, uppercase/lowercase letters, digits and space/dot.`);
             return;
         }
@@ -137,7 +140,7 @@ const Register = () => {
                 return;
         }
 
-        setForm({ firstName, lastName, emailAddress, phoneNumber, username, password });
+        setForm({ firstName, lastName, emailAddress, phoneNumber, address, username, password });
         setIsFormSubmitted(true);
     }
 
@@ -164,17 +167,24 @@ const Register = () => {
             {error && <div>{error}</div>} <br />
             <span><label htmlFor="firstName" className="required">First Name </label><input type="text" name="firstName" id='firstName' required /></span> <br />
             <h5><i>/ First name must be between {NAME_MIN_CHARS}-{NAME_MAX_CHARS} characters long. /</i></h5> <br />
+
             <span><label htmlFor="lastName" className="required">Last Name </label><input type="text" name="lastName" id='lastName' required /></span> <br />
             <h5><i>/ Last name must be between {NAME_MIN_CHARS}-{NAME_MAX_CHARS} characters long. /</i></h5> <br />
+
             <span><label htmlFor="email" className="required">Email address </label><input type="email" name="email" id='email' required /></span> <br />
+
             <span><label htmlFor="phone" className="required">Phone Number </label><input type="text" name="phone" id='phone' required /></span> <br />
             <h5><i>/ Phone number must contain {PHONE_DIGITS} digits exactly. /</i></h5> <br />
+
             <span><label htmlFor="address">Address </label><input type="text" name="address" id='address' /></span> <br />
             <h5><i>/ Address must contain {ADDRESS_MIN_CHARS}-{ADDRESS_MAX_CHARS} characters, uppercase/lowercase letters, digits and space/dot. /</i></h5> <br />
+
             <span><label htmlFor="username" className="required">Username </label><input type="text" name="username" id='username' required /></span> <br />
             <h5><i>/ Username must contain {USERNAME_MIN_LENGTH}-{USERNAME_MAX_LENGTH} characters, uppercase/lowercase letters and digits only. /</i></h5> <br />
+
             <span><label htmlFor="password" className="required">Password </label><input type="password" name="password" id='password' required /></span> <br />
             <h5><i>/ Password must contain {PASSWORD_MIN_CHARS}-{PASSWORD_MAX_CHARS} characters, ONE digit, ONE letter and ONE special character at least. /</i></h5> <br />
+
             <button type="submit">Register</button>
         </form>
         </div>
