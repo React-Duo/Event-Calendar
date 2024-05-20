@@ -8,42 +8,9 @@
 .contacts-title {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin: 0px 20px;
   border-bottom: 1px solid black;
   padding-bottom: 10px;
 }
 
-
-.container-find-contact{
-  display: flex;
-  flex-direction: column;
-  margin: 0.75rem 0.75rem;
-}
-
-.single-contact {
-  display: flex;
-  gap: 10px;
-  padding: 10px;
-  align-items: center;
-}
-.single-contact img{
-  border-radius: 50%;
-}
-
-.all-lists{
-  margin-top: 10px;
-  display: grid;
-  grid-template-columns: auto auto auto auto;
-  gap: 30px;
-}
-
-.single-list{
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: #ddd;
-  width: 300px;
-  padding: 20px;
-  border: 1px solid #000;
-  cursor: pointer;
-}

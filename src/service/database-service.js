@@ -40,15 +40,27 @@ export const getUsers = async () => {
       throw new Error("Data not found!");
     }
   } catch (error) {
-    return error.message;
+    console.log(error.message);
     } 
 };
 
+export const getLists = async () => {
+  try {
+    const snapshot = await get(ref(database, "contactLists"));
+    if (snapshot.exists()) {
+      return snapshot.val();
+    } else {
+      throw new Error("Data not found!");
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+}
 
 export const addList = async (listDetails) => {
   try {
       return await push(ref(database, 'contactLists'), listDetails);
   } catch (error) {
-      return error.message;
+    console.log(error.message);
   }
 }

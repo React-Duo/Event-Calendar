@@ -18,25 +18,7 @@
 }
 
 
-.input__field{
-    --input-focus: #2d8cf0;
-  --font-color: #323232;
-  --font-color-sub: #666;
-  --bg-color: #fff;
-  --main-color: #323232;
-  width: 100%;
-  height: 40px;
-  border-radius: 5px;
-  border: 2px solid var(--main-color);
-  background-color: var(--bg-color);
-  box-shadow: 4px 4px var(--main-color);
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--font-color);
-  padding: 5px 10px;
-  outline: none;
-    
-}
+
 
 .input{
     background-color: rgb(255, 255, 255);
@@ -61,15 +43,10 @@
 
 .img-change img{
     border-radius: 50%;
+    margin-right: 15px;
 }
 
-.change-btn{
-    cursor: pointer;
-    background: none;
-    border: none;
-    font-size: 17px;
-    padding: 0 22px;
-}
+
 
 .delete-btn{
     display: inline-block;

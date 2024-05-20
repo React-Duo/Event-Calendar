@@ -1,0 +1,18 @@
+.all-lists{
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    gap: 30px;
+  }
+  
+  .single-list{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #ddd;
+    width: 300px;
+    padding: 20px;
+    border: 1px solid #000;
+    cursor: pointer;
+  }
+  

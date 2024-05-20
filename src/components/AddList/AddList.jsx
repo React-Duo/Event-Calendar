@@ -4,7 +4,7 @@ import { getUsers, addList } from "../../service/database-service.js";
 import { useEffect, useState, useContext } from "react";
 import AuthContext from "../../context/AuthContext";
 
-const AddList = ({ showNewList, handleShowNewList }) => {
+const AddList = ({ showNewList, handleShowNewList, setTriggerRefetch }) => {
   const [searchInput, setSearchInput] = useState("");
   const [allUsers, setAllUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
@@ -37,12 +37,11 @@ const AddList = ({ showNewList, handleShowNewList }) => {
     } else {
       setFilteredUsers([]);
     }
-    console.log(allUsers);
   }, [allUsers, searchInput, isLoggedIn.user]);
 
   const submitList = async () => {
     const newList = {
-      listName: listName,
+      name: listName,
       contacts: members,
       owner: isLoggedIn.user,
     };
@@ -51,6 +50,8 @@ const AddList = ({ showNewList, handleShowNewList }) => {
       return;
     }
     await addList(newList);
+    setTriggerRefetch(prev => !prev);
+    exitForm();
   };
 
   const exitForm = () => {
@@ -78,17 +79,20 @@ const AddList = ({ showNewList, handleShowNewList }) => {
                 <input
                   value={listName}
                   onChange={(e) => setListName(e.target.value)}
-                  className="input-list__field"
+                  className="input__field"
                   type="text"
                   placeholder="Enter list name"
                 />
+                {showError && (
+                <div className="errorMessage">List name cannot be empty</div>
+              )}
               </div>
               <div className="input-list">
                 <label className="input-list__label">Members</label>
                 <input
                   value={searchInput}
                   onChange={(e) => setSearchInput(e.target.value)}
-                  className="input-list__field"
+                  className="input__field"
                   type="search"
                   placeholder="Add members by email"
                 />
@@ -127,12 +131,9 @@ const AddList = ({ showNewList, handleShowNewList }) => {
                   </button>
                 </div>
               ))}
-              {showError && (
-                <div className="errorMessage">List name cannot be empty</div>
-              )}
             </div>
             <div className="add-list__footer">
-              <button onClick={submitList} className="button--primary">
+              <button onClick={submitList} className="btn">
                 Create list
               </button>
             </div>
@@ -148,6 +149,7 @@ const AddList = ({ showNewList, handleShowNewList }) => {
 AddList.propTypes = {
   showNewList: PropTypes.bool.isRequired,
   handleShowNewList: PropTypes.func.isRequired,
+  setTriggerRefetch: PropTypes.func.isRequired,
 };
 
 export default AddList;
