@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
 import { getListById } from "../../service/database-service";
 import AuthContext from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 
 const ListById = () => {
@@ -11,6 +12,7 @@ const ListById = () => {
   const { isLoggedIn } = useContext(AuthContext);
   const [list, setList] = useState({});
   const [contentIn, setContentIn] = useState("members");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchList = async () => {
@@ -28,10 +30,9 @@ const ListById = () => {
     <div className="list-by-id">
       <div className="list-by-is-title">
         <h1>{list.name}</h1>
-        {list.owner === isLoggedIn.user && <button className="btn">Add member</button>}
         <div className="list-by-is-title-right">
-
-        <button className="button--icon">x</button>
+        {list.owner === isLoggedIn.user && <i className="fa-solid fa-user-plus fa-xl"></i>}
+        <button onClick={()=> navigate("/contacts")} className="button--icon">x</button>
         </div>
       </div>
       <hr />
@@ -44,13 +45,32 @@ const ListById = () => {
       <div>
         {contentIn === "members" && (
           <div className="container-all-members">
-            {list.contacts &&
-              list.contacts.map((contact, index) => (
-                <div key={index} className="member">
-                  <img src="https://picsum.photos/50/50"></img>
-                  <p>{contact}</p>
-                </div>
-              ))}
+        <table>
+            <thead>
+                <tr>
+                    <th>Photo</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {list.contacts &&
+                    list.contacts.map((contact, index) => (
+                        <tr key={index}>
+                            <td>
+                                <img src="https://picsum.photos/50/50" alt="Contact" />
+                            </td>
+                            <td>koko</td>
+                            <td>{contact}</td>
+                            <td className="table-actions">
+                                <button  className="table-btn">Add to event</button>
+                                <button className="table-btn" id="table-btn-remove">Remove from list</button>
+                            </td>
+                        </tr>
+                    ))}
+            </tbody>
+        </table>
           </div>
         )}
         {contentIn === "chat" && (
