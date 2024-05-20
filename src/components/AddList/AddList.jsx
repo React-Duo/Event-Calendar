@@ -31,7 +31,10 @@ const AddList = ({ showNewList, handleShowNewList, setTriggerRefetch }) => {
       setFilteredUsers(
         allUsers.filter(
           (user) =>
-            user.email.includes(searchInput) && user.email !== isLoggedIn.user
+            user.email.includes(searchInput) ||
+            user.phone.includes(searchInput) ||
+            user.firstName.includes(searchInput) ||
+            user.lastName.includes(searchInput)
         )
       );
     } else {
@@ -50,7 +53,7 @@ const AddList = ({ showNewList, handleShowNewList, setTriggerRefetch }) => {
       return;
     }
     await addList(newList);
-    setTriggerRefetch(prev => !prev);
+    setTriggerRefetch((prev) => !prev);
     exitForm();
   };
 
@@ -84,8 +87,8 @@ const AddList = ({ showNewList, handleShowNewList, setTriggerRefetch }) => {
                   placeholder="Enter list name"
                 />
                 {showError && (
-                <div className="errorMessage">List name cannot be empty</div>
-              )}
+                  <div className="errorMessage">List name cannot be empty</div>
+                )}
               </div>
               <div className="input-list">
                 <label className="input-list__label">Members</label>
@@ -111,24 +114,32 @@ const AddList = ({ showNewList, handleShowNewList, setTriggerRefetch }) => {
                     <img src="https://picsum.photos/40/40"></img>
                   </div>
                   <div>
+                    <h4>{`${user.firstName} ${user.lastName}`}</h4>
                     <p>{user.email}</p>
+                    <p>{user.phone}</p>
                   </div>
-                  <button
-                    onClick={() =>
-                      setMembers((members) => [...members, user.email])
-                    }
-                  >
-                    Add
-                  </button>
-                  <button
-                    onClick={() =>
-                      setMembers((members) =>
-                        members.filter((member) => member !== user.email)
-                      )
-                    }
-                  >
-                    Remove
-                  </button>
+                  {user.email === isLoggedIn.user ? (
+                    <>
+                      <p id="you">You</p>
+                    </>
+                  ) : (
+                    <>
+                      <i
+                        onClick={() =>
+                          setMembers((members) => [...members, user.email])
+                        }
+                        className="fa-solid fa-user-plus"
+                      ></i>
+                      <i
+                        onClick={() =>
+                          setMembers((members) =>
+                            members.filter((member) => member !== user.email)
+                          )
+                        }
+                        className="fa-solid fa-xmark"
+                      ></i>
+                    </>
+                  )}
                 </div>
               ))}
             </div>
