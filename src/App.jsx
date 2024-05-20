@@ -11,6 +11,7 @@ import AuthContext from './context/AuthContext';
 import './App.css'
 import Contacts from './views/Contacts/Contacts';
 import Profile from './views/Profile/Profile';
+import SingleList from './views/SingleList/SingleList';
 
 const App = () => {
 
@@ -32,6 +33,7 @@ const App = () => {
             <Route path="/register" element={<Register />}/>
             <Route path="/contacts" element=<Contacts /> />
             <Route path="/profile" element=<Profile /> />
+            <Route path="/contacts/:id" element=<SingleList /> />
       </Routes>
       </AuthContext.Provider>
     </BrowserRouter>
