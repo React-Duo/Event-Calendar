@@ -3,7 +3,7 @@ import ProfileEdit from "../../components/ProfileEdit/ProfileEdit"
 
 const Profile = () => {
   return (
-    <div className="container-profile">
+    <div className="container-content">
       <ProfileEdit />
     </div>
   )

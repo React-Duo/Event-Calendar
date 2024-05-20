@@ -11,7 +11,7 @@ const Contacts = () => {
   };
 
   return (
-    <div className="contacts-container">
+    <div className="container-content">
       <div className="contacts-title">
         <h3>Your contact lists:</h3>
         <button className="btn" onClick={handleShowNewList}>Add new</button>
