@@ -32,7 +32,6 @@ const AddList = ({ showNewList, handleShowNewList, setTriggerRefetch }) => {
         allUsers.filter(
           (user) =>
             user.email.includes(searchInput) ||
-            user.phone.includes(searchInput) ||
             user.firstName.includes(searchInput) ||
             user.lastName.includes(searchInput)
         )
@@ -97,7 +96,7 @@ const AddList = ({ showNewList, handleShowNewList, setTriggerRefetch }) => {
                   onChange={(e) => setSearchInput(e.target.value)}
                   className="input__field"
                   type="search"
-                  placeholder="Add members by email"
+                  placeholder="Add members by name or email"
                 />
               </div>
             </div>
@@ -116,7 +115,6 @@ const AddList = ({ showNewList, handleShowNewList, setTriggerRefetch }) => {
                   <div>
                     <h4>{`${user.firstName} ${user.lastName}`}</h4>
                     <p>{user.email}</p>
-                    <p>{user.phone}</p>
                   </div>
                   {user.email === isLoggedIn.user ? (
                     <>
