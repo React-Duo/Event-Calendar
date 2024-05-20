@@ -104,12 +104,14 @@ const Register = () => {
         const username = event.target.username.value;
         const password = event.target.password.value;
 
-        if (firstName.length < NAME_MIN_CHARS || firstName.length > NAME_MAX_CHARS || !LETTER_REGEX.test(firstName)) {
+        if (firstName.length < NAME_MIN_CHARS || firstName.length > NAME_MAX_CHARS 
+            || !LETTER_REGEX.test(firstName) || DIGIT_REGEX.test(firstName) || SPECIAL_CHARS_REGEX.test(firstName)) {
             setError(`First name must contain upper- and lowercase letters only and must be between ${NAME_MIN_CHARS}-${NAME_MAX_CHARS} characters long.`);
             return;
         }
 
-        if (lastName.length < NAME_MIN_CHARS || lastName.length > NAME_MAX_CHARS || !LETTER_REGEX.test(lastName)) {
+        if (lastName.length < NAME_MIN_CHARS || lastName.length > NAME_MAX_CHARS 
+            || !LETTER_REGEX.test(lastName) || DIGIT_REGEX.test(lastName) || SPECIAL_CHARS_REGEX.test(lastName)) {
             setError(`Last name must contain upper- and lowercase letters only and must be between ${NAME_MIN_CHARS}-${NAME_MAX_CHARS} characters long.`); 
             return;
         }
