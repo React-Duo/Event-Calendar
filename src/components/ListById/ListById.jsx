@@ -1,10 +1,11 @@
 import "./ListById.css";
 import { useParams } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
-import { getListById, updateList, deleteList } from "../../service/database-service";
+import { getListById, updateList, deleteList, getUserDetails } from "../../service/database-service";
 import AuthContext from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import SearchUsers from "../SearchUsers/SearchUsers";
+
 
 
 const ListById = () => {
@@ -17,6 +18,7 @@ const ListById = () => {
   const [members, setMembers] = useState([]);
   const [showSearch, setShowSearch] = useState(false);
   const [showError, setShowError] = useState(false);
+  const [contactsDetails, setContactsDetails] = useState({});
 
   const handleShowSearch = () => {
     setShowSearch(!showSearch);
@@ -26,7 +28,10 @@ const ListById = () => {
     const fetchList = async () => {
       try {
         const list = await getListById(listId);
+        const listWithDetails = { ...list };
+        listWithDetails.contacts = list.contacts ? await Promise.all(list.contacts.map(async (contact) => await getUserDetails(contact))) : [];
         setList(list);
+        setContactsDetails(listWithDetails.contacts);
       } catch (error) {
         console.error(error);
       }
@@ -38,8 +43,11 @@ const ListById = () => {
     try {
       const updatedList = { ...list };
       updatedList.contacts = updatedList.contacts.filter(contact => contact !== user);
+      let updatedContacts = [ ...contactsDetails ];
+      updatedContacts = updatedContacts.filter(contact => contact[0].email !== user);
       await updateList(listId,updatedList);
       setList(updatedList);
+      setContactsDetails(updatedContacts);
     } catch (error) {
       console.error(error);
     }
@@ -47,16 +55,20 @@ const ListById = () => {
 
   const handleAddToList = async (members) => {
     try {
-      if(members.length === 0) {
+      if (members.length === 0) {
         setShowError(true);
         return;
       }
       const updatedList = { ...list };
-      const existingContacts = updatedList.contacts;
+      const existingContacts = updatedList.contacts || [];
+      let updatedContacts = [...contactsDetails];
       const newContacts = members.filter(member => !existingContacts.includes(member));
+      const newContactsDetails = await Promise.all(newContacts.map(async (contact) => await getUserDetails(contact)));
       updatedList.contacts = [...existingContacts, ...newContacts];
+      updatedContacts = [...updatedContacts, ...newContactsDetails];
       await updateList(listId, updatedList);
       setList(updatedList);
+      setContactsDetails(updatedContacts);
     } catch (error) {
       console.error(error);
     }
@@ -68,7 +80,7 @@ const ListById = () => {
         <h1>{list.name}</h1>
         {list.owner === isLoggedIn.user?(<button onClick={async()=> {await deleteList(listId); navigate("/contacts")}} className="table-btn" id="table-btn-remove">delete list</button>):(<button onClick={()=>handleRemoveFromList(isLoggedIn.user)} className="table-btn" id="table-btn-remove">Leave</button>)}
         <div className="list-by-is-title-right">
-          {list.owner === isLoggedIn.user && <i onClick={()=>{handleShowSearch(); setShowError(false)}} className="fa-solid fa-user-plus fa-xl"></i>}
+          {list.owner === isLoggedIn.user && <i onClick={()=>{handleShowSearch(); setShowError(false); setMembers([])}} className="fa-solid fa-user-plus fa-xl"></i>}
           <button onClick={() => navigate("/contacts")} className="button--icon">x</button>
         </div>
       </div>
@@ -99,17 +111,17 @@ const ListById = () => {
               </thead>
               <tbody>
                 {list.contacts &&
-                  list.contacts.map((contact, index) => (
+                  contactsDetails.map((contact, index) => (
                     <tr key={index}>
                       <td>
                         <img src="https://picsum.photos/50/50" alt="Contact" />
                       </td>
-                      <td>koko</td>
-                      <td>{contact}</td>
+                      <td>{contact[0].username}</td>
+                      <td>{contact[0].email}</td>
                       <td className="table-actions">
                         <button className="table-btn">Add to event</button>
                         {list.owner === isLoggedIn.user && (
-                          <button className="table-btn" id="table-btn-remove" onClick={()=>handleRemoveFromList(contact)}>
+                          <button className="table-btn" id="table-btn-remove" onClick={()=>handleRemoveFromList(contact[0].email)}>
                             Remove from list
                           </button>
                         )}
