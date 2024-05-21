@@ -56,7 +56,7 @@ const Header = () => {
                   src="https://picsum.photos/50/50"
                 ></img>
               </div>
-              <p>petkozlatilov1234@gmail.com</p>
+              <p>{isLoggedIn.user}</p>
               <i  className="fa-solid fa-chevron-down fa-sm"></i>
               <div className="options">
                   <button onClick={() => navigate("/profile")} className="value"><i className="fa-regular fa-user fa-sm"></i>Public profile</button>

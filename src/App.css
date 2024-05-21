@@ -1,3 +1,10 @@
+.container-content{
+  margin-left: 200px;
+  padding: 10px 16px;
+  background-color: rgba(222, 221, 219, 0.674);
+  height: 100vh;
+}
+
 
 .btn {
     display: flex;

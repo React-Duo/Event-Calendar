@@ -37,7 +37,7 @@ export const getUsers = async () => {
     if (snapshot.exists()) {
       return snapshot.val();
     } else {
-      throw new Error("Users collection not found!");
+      throw new Error("Users not found!");
     }
   } catch (error) {
     console.log(error.message);
@@ -50,7 +50,7 @@ export const getLists = async () => {
     if (snapshot.exists()) {
       return snapshot.val();
     } else {
-      throw new Error("Contact list not found!");
+      throw new Error("Contact lists not found!");
     }
   } catch (error) {
     console.log(error.message);
@@ -60,6 +60,19 @@ export const getLists = async () => {
 export const addList = async (listDetails) => {
   try {
       return await push(ref(database, 'contactLists'), listDetails);
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
+export const getListById = async (id) => {
+  try {
+    const snapshot = await get(ref(database, `contactLists/${id}`));
+    if (snapshot.exists()) {
+      return snapshot.val();
+    } else {
+      throw new Error("List not found!");
+    }
   } catch (error) {
     console.log(error.message);
   }
