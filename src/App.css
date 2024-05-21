@@ -53,7 +53,7 @@
 
 .input__field:focus{
     background-color: white;
-    transform: scale(1.05);
+    transform: scale(1.01);
     box-shadow: 13px 13px 100px #969696,
                -13px -13px 100px #ffffff;
 }
