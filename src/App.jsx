@@ -30,8 +30,8 @@ const App = () => {
             <Route path="/login" element={<Login />}/>
             <Route path="/logout" element={<Logout />}/>
             <Route path="/register" element={<Register />}/>
-            <Route path="/contacts" element=<Contacts /> />
-            <Route path="/profile" element=<Profile /> />
+            <Route path="/contacts" element={<Contacts />} />
+            <Route path="/profile" element={<Profile />} />
       </Routes>
       </AuthContext.Provider>
     </BrowserRouter>
