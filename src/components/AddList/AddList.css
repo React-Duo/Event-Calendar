@@ -87,43 +87,5 @@
   text-align: center;
   padding-top: 10px;
 }
-.container-find-contact {
-  display: flex;
-  flex-direction: column;
-  margin: 0.75rem 0.75rem;
-}
 
-.single-contact {
-  display: flex;
-  gap: 10px;
-  padding: 10px;
-  align-items: center;
-}
-.single-contact img {
-  border-radius: 50%;
-}
 
-.container-find-contact .fa-solid{
-  cursor: pointer;
-  padding: 0px 5px;
-}
-
-.container-find-contact .fa-solid:hover {
-  font-size: 19px;
-}
-
-#you{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  outline: none;
-  background-image: linear-gradient(to top, #D8D9DB 0%, #ffffff 80%, #fdfdfd 100%);
-  border-radius: 30px;
-  border: 1px solid #8F9092;
-  font-family: "Source Sans Pro", sans-serif;
-  font-size: 14px;
-  font-weight: 600;
-  color: #606060;
-  text-shadow: 0 1px #fff;
-  padding: 7px;
-}
