@@ -37,7 +37,7 @@ export const getUsers = async () => {
     if (snapshot.exists()) {
       return snapshot.val();
     } else {
-      throw new Error("Data not found!");
+      throw new Error("Users collection not found!");
     }
   } catch (error) {
     console.log(error.message);
@@ -50,7 +50,7 @@ export const getLists = async () => {
     if (snapshot.exists()) {
       return snapshot.val();
     } else {
-      throw new Error("Data not found!");
+      throw new Error("Contact list not found!");
     }
   } catch (error) {
     console.log(error.message);
