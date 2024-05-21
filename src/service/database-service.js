@@ -93,3 +93,17 @@ export const deleteList = async (id) => {
     console.log(error.message);
   }
 }
+
+export  const getUserDetails = async (email) => {
+  try {
+    const snapshot = await get(query(ref(database, "users"), orderByChild("email"), equalTo(email)));
+    if (snapshot.exists()) {
+      const userDetails = Object.values(snapshot.val());
+      return userDetails;
+    } else {
+      throw new Error("User not found!");
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+};
