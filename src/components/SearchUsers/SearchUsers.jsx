@@ -8,10 +8,11 @@ import PropTypes from 'prop-types';
 
 
 const SearchUsers = ({setMembers, members}) => {
+
     const [searchInput, setSearchInput] = useState("");
-const [allUsers, setAllUsers] = useState([]);
-const [filteredUsers, setFilteredUsers] = useState([]);
-const { isLoggedIn } = useContext(AuthContext);
+    const [allUsers, setAllUsers] = useState([]);
+    const [filteredUsers, setFilteredUsers] = useState([]);
+    const { isLoggedIn } = useContext(AuthContext);
 
 
     useEffect(() => {
@@ -77,7 +78,12 @@ return (
                         <>
                             <i
                                 onClick={() =>
-                                    setMembers((members) => [...members, user.email])
+                                    setMembers((members) => {
+                                        if (!members.includes(user.email)) {
+                                            return [...members, user.email];
+                                        }
+                                        return members;
+                                    })
                                 }
                                 className="fa-solid fa-user-plus"
                             ></i>
