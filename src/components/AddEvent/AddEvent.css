@@ -1,0 +1,119 @@
+.tabs {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.tab {
+    margin: 5px;
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #333;
+}
+
+.tab-active {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+.event-form {
+    display: block;
+    width: 50%;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    margin: 10px auto;
+    padding: 10px;
+}
+
+h1 {
+    display: flex;
+    justify-content: center;
+}
+
+ 
+.email-suggestion-container {
+    position: relative;
+    width: 300px; /* Adjust the width as needed */
+}
+
+.suggestions {
+    position: absolute;
+    top: 100%; /* Positions the suggestions directly below the input field */
+    left: 0;
+    right: 0;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    max-height: 150px;
+    overflow-y: auto;
+    z-index: 1000;
+    transition: max-height 0.3s ease-out;
+}
+
+.suggestion-item {
+    padding: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.suggestion-item:hover {
+    background-color: #f0f0f0;
+}
+
+.suggestions-enter {
+    max-height: 0;
+}
+
+.suggestions-enter-active {
+    max-height: 150px; /* Match the max-height defined above */
+}
+
+.invited-users {
+    background-color: white;
+    border: 2px solid #ccc;
+    margin: 10px auto;
+    padding: 10px;
+}
+
+.required {
+    background-color: #ffe6e6; 
+    padding: 2px;
+    margin: 5px;
+    border-radius: 5px;
+    font-size: 0.9em;
+}
+  
+  /* Add a focus state to highlight the input when it's selected */
+  .required + input:focus {
+    border-color: #cc0000; /* Darker red border when focused */
+    outline: none; /* Remove default outline */
+    box-shadow: 0 0 5px rgba(255, 0, 0, 0.5); /* Add a red shadow for better visibility */
+  }
+
+  .spinner {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-left-color: #333;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+  
