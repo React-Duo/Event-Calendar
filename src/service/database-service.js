@@ -77,3 +77,19 @@ export const getListById = async (id) => {
     console.log(error.message);
   }
 }
+
+export const updateList = async (id, listDetails) => {
+  try {
+    return await update(ref(database, `contactLists/${id}`), listDetails);
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
+export const deleteList = async (id) => {
+  try {
+    return await set(ref(database, `contactLists/${id}`), null);
+  } catch (error) {
+    console.log(error.message);
+  }
+}
