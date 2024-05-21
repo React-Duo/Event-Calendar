@@ -31,6 +31,27 @@ export const createUser = async (userDetails) => {
   }
 }
 
+export const getUserContactLists = async (email) => {
+  try {
+    const snapshot = await get(query(ref(database, "contactLists"), orderByChild("owner"), equalTo(email)));
+    if (snapshot.exists()) {
+      return snapshot.val();
+    } else {
+      throw new Error("Contact list not found!");
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
+export const addEvent = async (eventDetails) => { 
+  try { 
+    return await push(ref(database, 'events'), eventDetails);
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
 export const getUsers = async () => {
   try {
     const snapshot = await get(ref(database, "users"));
