@@ -43,6 +43,7 @@ table {
   background-color: rgba(85, 85, 85, 0.133);
   padding: 15px;
   border-radius: 15px;
+  margin-top: 15px;
 }
 
 tr {
@@ -81,4 +82,8 @@ td {
 #table-btn-remove {
   background: linear-gradient(to bottom, #b41313, #5d5e7c);
   margin-left: 5px;
+}
+
+.list-by-is-title .fa-solid:hover {
+  font-size: 28px;
 }
