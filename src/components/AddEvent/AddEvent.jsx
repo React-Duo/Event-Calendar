@@ -117,34 +117,34 @@ const AddEvent = () => {
             </div>
 
             <form onSubmit={formSubmit} onClick={() => setSuggestions([])} className="event-form">
-                <label htmlFor="title" className="required"> Title </label>
-                <input type="text" id="title" name="title" required/>
+                <label htmlFor="title" className="required formbold-form-label"> Title </label>
+                <input type="text" id="title" name="title" className="formbold-form-input" required />
                 <br />
                 <br />
 
-                <label htmlFor="description"></label>
-                <textarea id="description" name="description" placeholder="Description"></textarea>
+                <label htmlFor="description" className="formbold-form-label"> Description </label>
+                <textarea id="description" name="description" className="formbold-form-input" placeholder="Description"></textarea>
                 <br />
                 <br />
 
-                <label htmlFor="startDate" className="required"> Start Date </label>
-                <input type="date" id="startDate" name="startDate" required/>
+                <label htmlFor="startDate" className="required formbold-form-label"> Start Date </label>
+                <input type="date" id="startDate" name="startDate" className="formbold-form-input" required/>
 
-                <label htmlFor="startTime" className="required"> Time </label>
-                <input type="time" id="startTime" name="startTime" required/>
+                <label htmlFor="startTime" className="required formbold-form-label"> Time </label>
+                <input type="time" id="startTime" name="startTime" className="formbold-form-input" required/>
                 <br />
                 <br />
 
-                <label htmlFor="endDate" className="required"> End Date </label>
-                <input type="date" id="endDate" name="endDate" required/>
+                <label htmlFor="endDate" className="required formbold-form-label"> End Date </label>
+                <input type="date" id="endDate" name="endDate" className="formbold-form-input" required/>
 
-                <label htmlFor="endTime" className="required"> Time </label>
-                <input type="time" id="endTime" name="endTime" required/>
+                <label htmlFor="endTime" className="required formbold-form-label"> Time </label>
+                <input type="time" id="endTime" name="endTime" className="formbold-form-input" required/>
                 <br />
                 <br />
 
-                <label htmlFor="visibility" className="required"> Visibility </label>
-                <select name="visibility" id="visibility" required>
+                <label htmlFor="visibility" className="required formbold-form-label"> Visibility </label>
+                <select name="visibility" id="visibility" className="formbold-form-input" required>
                     <option value="public">Public</option>
                     <option value="private">Private</option>
                 </select>
@@ -152,13 +152,14 @@ const AddEvent = () => {
                 <br />
 
                 <div className="email-suggestion-container">
-                    <label htmlFor="invitedUsers"> Invited Users </label>
+                    <label htmlFor="invitedUsers" className="formbold-form-label"> Invited Users </label>
                     <input type="text" 
                         id="invitedUsers" 
                         name="invitedUsers" 
                         value={inputValue}
                         placeholder="Type an email address" 
                         onChange={handleInviteChange} 
+                        className="formbold-form-input"
                     />
                     {suggestions.length ? 
                         <div className="suggestions">
@@ -184,25 +185,40 @@ const AddEvent = () => {
                     : null
                 }
                 <br />
-                <label htmlFor="canInvite" className="required"> Allow invited users to invite others </label>
+
+                <label htmlFor="canInvite" className="required formbold-checkbox-label">
+                    Allow invited users to invite others 
                 <input type="checkbox" id="canInvite" name="canInvite" required/>
-                <br />
+                <span className="checkmark"></span>
+                </label>
                 <br />
 
-                <label htmlFor="locationType" className="required"> Location Type </label>
-                <select name="locationType" id="locationType" required>
+                <label htmlFor="locationType" className="required formbold-form-label"> Location Type </label>
+                <select name="locationType" id="locationType" className="formbold-form-input" required>
                     <option value="online">Online</option>
                     <option value="offline">Offline</option>
                 </select>
                 <br />
                 <br />
 
-                <label htmlFor="location" className="required"> Location </label>
-                <input type="text" name="location" id="location" required/>
+                <label htmlFor="location" className="required formbold-form-label"> Location </label>
+                <input type="text" name="location" id="location" className="formbold-form-input" required/>
                 <br />
                 <br />
 
-                <button type="submit">Add event</button>
+                <label htmlFor="upload" className="formbold-form-label">
+                Upload Image
+                </label>
+                <input
+                    type="file"
+                    name="upload"
+                    id="upload"
+                    className="formbold-form-input formbold-form-file"
+                />
+                <br />
+                <br />
+
+                <button type="submit" className="formbold-btn">Add event</button>
             </form>
         </>
        
