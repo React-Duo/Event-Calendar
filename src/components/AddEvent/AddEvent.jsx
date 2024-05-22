@@ -2,13 +2,12 @@ import { useContext, useEffect, useState } from 'react';
 import AuthContext from '../../context/AuthContext';
 import { addEvent, getUserContactLists } from '../../service/database-service';
 import './AddEvent.css';
-import { set } from 'firebase/database';
 
 const AddEvent = () => {
     const { isLoggedIn } = useContext(AuthContext);
     const [contacts, setContacts] = useState([]);
     const [suggestions, setSuggestions] = useState([]);
-    const [invitedUsers, setInvitedUsers] = useState([]);
+    const [invitedUsers, setInvitedUsers] = useState([isLoggedIn.user]);
     const [inputValue, setInputValue] = useState('');
     const [form, setForm] = useState({
         author: '', title: '', description: '', 
@@ -153,14 +152,13 @@ const AddEvent = () => {
                 <br />
 
                 <div className="email-suggestion-container">
-                    <label htmlFor="invitedUsers" className="required"> Invited Users </label>
+                    <label htmlFor="invitedUsers"> Invited Users </label>
                     <input type="text" 
                         id="invitedUsers" 
                         name="invitedUsers" 
                         value={inputValue}
                         placeholder="Type an email address" 
                         onChange={handleInviteChange} 
-                        required
                     />
                     {suggestions.length ? 
                         <div className="suggestions">
