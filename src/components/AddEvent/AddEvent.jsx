@@ -188,7 +188,7 @@ const AddEvent = () => {
                                 <div key={index} 
                                     className="suggestion-item" 
                                     onClick={() => handleSuggestionClick(suggestion)}>
-                                    <img src={suggestion.photo} alt="" /> {suggestion.email}
+                                    <img src={suggestion.photo} alt="" /> <span>{suggestion.email}</span>
                                 </div>
                             ))}
                         </div>
