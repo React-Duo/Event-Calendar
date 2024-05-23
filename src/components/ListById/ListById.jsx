@@ -157,16 +157,14 @@ const ListById = () => {
                       setUserToAdd("")
                     }} className="button--icon">x </button>
                   </div>
-                  {authorEvents.map((event, index) => (
+                  {authorEvents ? authorEvents.map((event, index) => (
                     <div key={index} className="single-author-event">
-                    {/* {event.invitedUsers.includes(userToAdd) && ()} */}
-                       
                       <p>{event[1].title}</p>
                       <div className="userEvents-options">
                         <i onClick={()=> handleAddUserToEvent(event[0], userToAdd)} className="fa-solid fa-user-plus"></i>
                       </div>
                     </div>
-                  ))}
+                  )) : "No events"}
                 </div>}
               </tbody>
             </table>
