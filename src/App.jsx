@@ -13,6 +13,7 @@ import Contacts from './views/Contacts/Contacts';
 import Profile from './views/Profile/Profile';
 import SingleList from './views/SingleList/SingleList';
 import AddEvent from './components/AddEvent/AddEvent';
+import CalendarView from './views/CalendarView/CalendarView';
 
 const App = () => {
 
@@ -36,6 +37,7 @@ const App = () => {
             <Route path="/contacts" element=<Contacts /> />
             <Route path="/profile" element=<Profile /> />
             <Route path="/contacts/:id" element=<SingleList /> />
+            <Route path="/calendar" element=<CalendarView /> />
       </Routes>
       </AuthContext.Provider>
     </BrowserRouter>
