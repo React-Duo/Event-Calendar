@@ -141,3 +141,36 @@ export const getAllEvents = async () => {
     console.log(error.message);
   }
 }
+
+export const getEventByEmail = async (email) => {
+  try {
+    const snapshot = await get(query(ref(database, "events"), orderByChild("author"), equalTo(email)));
+    if (snapshot.exists()) {
+      return Object.entries(snapshot.val());
+    } else {
+      throw new Error("Event not found!");
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+};  
+
+export const addUserToEvent = async (eventId, email) => {
+    try {
+      const eventRef = ref(database, `events/${eventId}`);
+      const eventSnapshot = await get(eventRef);
+      if (eventSnapshot.exists()) {
+        const event = eventSnapshot.val();
+        const invitedUsers = event.invitedUsers || [];
+        if (!invitedUsers.includes(email)) {
+          invitedUsers.push(email);
+        }
+        await update(eventRef, { invitedUsers });
+      } else {
+        throw new Error("Event not found!");
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+};
+
