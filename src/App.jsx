@@ -14,6 +14,7 @@ import Profile from './views/Profile/Profile';
 import SingleList from './views/SingleList/SingleList';
 import AddEvent from './components/AddEvent/AddEvent';
 import CalendarView from './views/CalendarView/CalendarView';
+import Footer from './components/Footer/Footer';
 
 const App = () => {
 
@@ -39,6 +40,7 @@ const App = () => {
             <Route path="/contacts/:id" element=<SingleList /> />
             <Route path="/calendar" element=<CalendarView /> />
       </Routes>
+      <Footer />
       </AuthContext.Provider>
     </BrowserRouter>
   )

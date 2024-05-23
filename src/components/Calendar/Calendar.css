@@ -24,10 +24,12 @@
 }
 
 .calendar-header button{
-    border: 1px solid rgba(74, 74, 74, 0.614);
     padding: 7px;
-    background-color: rgb(203, 203, 203);
     border-radius: 5px;
+}
+.calendar-header button:hover{
+    background-color: rgba(32, 84, 180, 0.778);
+    transition: background-color 0.3s ease;
 }
 
 
@@ -55,15 +57,20 @@
     
 }
 .calendar-event-title{
-    background-color: rgba(208, 117, 47, 0.315);
-    padding: 0.25rem;
     margin-right: 0.75rem;
     font-size: 0.875rem;
-    border-radius: 0.25rem;
     margin-bottom: 0.25rem;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    
+}
+
+.single-event-title{
+    background-color: rgba(185, 125, 52, 0.542);
+    margin-top: 5px;
+    border-radius: 11px;
+    padding: 0.25rem;
 }
 
 /* month */

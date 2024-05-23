@@ -7,7 +7,6 @@ import Month from "./Month";
 import GlobalContext from "./calendarContext/GlobalContext";
 
 
-
 const Calendar = () => {
     const [currentMonth, setCurrentMonth] = useState(getMonth())
     const { monthIndex } = useContext(GlobalContext)

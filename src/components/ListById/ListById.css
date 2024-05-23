@@ -62,6 +62,7 @@ td {
   animation: button-particles 1s ease-in-out infinite;
   transform: translateY(-2px);
 }
+
 .table-btn {
   position: relative;
   display: inline-block;
@@ -86,4 +87,42 @@ td {
 
 .list-by-is-title .fa-solid:hover {
   font-size: 28px;
+}
+
+.userEvents {
+  width: 500px;
+  position: absolute;
+  display: flex;
+  gap: 15px;
+  flex-direction: column;
+  padding: 15px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  background-color: #ffffff;
+  border-radius: 15px;
+}
+
+.single-author-event {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  background-color: #528cd311;
+  padding: 15px;
+}
+
+.userEvents-options {
+  margin-left: auto;
+  display: flex;
+  gap: 15px;
+}
+
+.userEvents-options .fa-solid{
+  cursor: pointer;
+  padding: 0px 5px;
+}
+
+.userEvents-options .fa-solid:hover {
+  color:rgba(0, 0, 0, 0.551);
 }
