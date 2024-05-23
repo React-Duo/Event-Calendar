@@ -7,7 +7,7 @@ import './Register.css';
 import { NAME_MIN_CHARS, NAME_MAX_CHARS, USERNAME_MIN_LENGTH, USERNAME_MAX_LENGTH, 
         PASSWORD_MIN_CHARS, PASSWORD_MAX_CHARS, EMAIL_REGEX, 
         PHONE_REGEX, PHONE_DIGITS, ADDRESS_MIN_CHARS, ADDRESS_MAX_CHARS, ADDRESS_REGEX, 
-        DIGIT_REGEX, LETTER_REGEX, ALPHA_NUMERIC_REGEX, SPECIAL_CHARS_REGEX } from '../../common/constants.js';
+        DIGIT_REGEX, LETTER_REGEX, ALPHA_NUMERIC_REGEX, SPECIAL_CHARS_REGEX, defaultImage } from '../../common/constants.js';
 
 const Register = () => {
     const [loading, setLoading] = useState(false);
@@ -144,7 +144,7 @@ const Register = () => {
                 return;
         }
 
-        setForm({ firstName, lastName, emailAddress, phoneNumber, address, username, password, photo: ''});
+        setForm({ firstName, lastName, emailAddress, phoneNumber, address, username, password, photo: defaultImage});
         setIsFormSubmitted(true);
     }
 
