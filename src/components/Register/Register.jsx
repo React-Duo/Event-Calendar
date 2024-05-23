@@ -21,7 +21,8 @@ const Register = () => {
         phoneNumber: '',
         address: '',
         username: '',
-        password: ''
+        password: '',
+        photo: '',
     });
     const [isFormSubmitted, setIsFormSubmitted] = useState(false);
     const navigate = useNavigate(); 
@@ -67,6 +68,7 @@ const Register = () => {
                         phone: form.phoneNumber,
                         address: form.address,
                         username: form.username, 
+                        photo: form.photo,
                         role: 'author',
                         isBlocked: false,
                     });
@@ -142,7 +144,7 @@ const Register = () => {
                 return;
         }
 
-        setForm({ firstName, lastName, emailAddress, phoneNumber, address, username, password });
+        setForm({ firstName, lastName, emailAddress, phoneNumber, address, username, password, photo: ''});
         setIsFormSubmitted(true);
     }
 
