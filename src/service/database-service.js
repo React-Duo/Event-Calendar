@@ -1,5 +1,5 @@
 import { database } from '../config/firebase-config.js';
-import { ref, get, set, update, query, equalTo, orderByChild, push } from "firebase/database";
+import { ref, get, set, update, query, equalTo, orderByChild, push, startAt, endAt } from "firebase/database";
 
 /**
  * Checks if a user exists in the database.
@@ -128,3 +128,16 @@ export  const getUserDetails = async (email) => {
     console.log(error.message);
   }
 };
+
+export const getAllEvents = async () => {
+  try {
+    const snapshot = await get(ref(database, "events"));
+    if (snapshot.exists()) {
+      return Object.values(snapshot.val());
+    } else {
+      throw new Error("Events not found!");
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+}
