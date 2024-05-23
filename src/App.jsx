@@ -40,7 +40,7 @@ const App = () => {
             <Route path="/contacts/:id" element=<SingleList /> />
             <Route path="/calendar" element=<CalendarView /> />
       </Routes>
-      <Footer />
+        {authValue.status &&  <Footer />}
       </AuthContext.Provider>
     </BrowserRouter>
   )
