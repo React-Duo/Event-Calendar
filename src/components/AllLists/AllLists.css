@@ -1,8 +1,8 @@
 .all-lists{
     margin-top: 10px;
     display: grid;
-    grid-template-columns: auto auto auto auto;
-    gap: 30px;
+    grid-template-columns: auto;
+    gap: 15px;
   }
   
   .single-list{
@@ -10,7 +10,7 @@
     align-items: center;
     justify-content: space-between;
     background-color: #dddddd;
-    width: 370px;
+    width: 100%;
     padding: 20px;
     border: 1px solid #000;
     cursor: pointer;

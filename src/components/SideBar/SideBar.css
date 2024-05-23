@@ -1,7 +1,7 @@
 .side-bar-container {
   margin: 0;
   padding: 0;
-  width: 200px;
+  width: 170px;
   position: fixed;
   top: 0;
   bottom: 0;
@@ -17,20 +17,21 @@
   display: flex;
   flex-direction: column;
   gap: 60px;
-  font-size: 21px;
-  padding: 33px 20px;
+  font-size: 20px;
+  padding: 40px 20px;
 }
 .side-bar-tags li {
   list-style: none;
-  color: rgba(112, 112, 112, 0.463);
+  color: rgb(120, 138, 158);
   cursor: pointer;
-  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.667);
+  /* text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.667); */
+  margin-top: 15px;
 }
 .side-bar-tags i {
   padding-right: 10px;
 }
 
 .side-bar-tags li:hover {
-  color: rgba(245, 245, 246, 0.608);
+  color: rgba(40,90,255);
   transition: color 0.3s ease;
 }

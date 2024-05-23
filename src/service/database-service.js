@@ -1,5 +1,5 @@
 import { database } from '../config/firebase-config.js';
-import { ref, get, set, update, query, equalTo, orderByChild, push, startAt, endAt } from "firebase/database";
+import { ref, get, set, update, query, equalTo, orderByChild, push } from "firebase/database";
 
 /**
  * Checks if a user exists in the database.

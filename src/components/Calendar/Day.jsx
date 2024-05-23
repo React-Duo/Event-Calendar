@@ -31,10 +31,10 @@ const Day = ({events, day, rowIdx }) => {
             {dayEvents !== undefined && dayEvents.length > 0 && (
                 <div className="calendar-event-title">
                     {dayEvents.length === 1 ? (
-                        <div>{dayEvents[0].title}</div>
+                        <div className="single-event-title">{dayEvents[0].title}</div>
                     ) : (
                         dayEvents.map((event, index) => (
-                            <div key={index}>{event.title}</div>
+                            <div className="single-event-title" key={index}>{event.title}</div>
                         ))
                     )}
                 </div>

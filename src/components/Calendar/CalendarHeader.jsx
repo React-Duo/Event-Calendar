@@ -17,8 +17,6 @@ const CalendarHeader = () => {
   }
   return (
     <header className="calendar-header">
-      <h1>Calendar</h1>
-     
       <button onClick={handlePrevMonth}>
         <span >
           <i className="fa-solid fa-chevron-left"></i>
