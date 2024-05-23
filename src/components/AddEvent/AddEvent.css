@@ -38,11 +38,12 @@ h1 {
  /* This CSS code is verified and needed and will stay */
 .email-suggestion-container {
     position: relative;
-    width: 300px; /* Adjust the width as needed */
+    width: 300px; 
 }
 
 .suggestions {
-  border: 2px solid #eab7b7;
+  display: flex;
+  flex-direction: column;
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   max-height: 150px;
@@ -51,13 +52,28 @@ h1 {
 }
 
 .suggestion-item {
-    padding: 8px;
-    cursor: pointer;
+  display: grid;
+  grid-template-columns: auto auto; 
+  width: 100%;
+  border: 1px solid #ccc;
+  padding: 8px;
+  cursor: pointer;
 }
 
 .suggestion-item:hover {
-    background-color: #eab7b7;
+  background-color: #eab7b7;
 }
+
+.suggestion-item img {
+  grid-column: 1 / 2;
+  width: 30%; 
+  border-radius: 15%;
+}
+
+.suggestion-item span {
+  grid-column: 2 / 2; 
+  align-self: center;
+} 
 /* This CSS code is verified and needed and will stay */
 
 .spinner {
@@ -103,6 +119,41 @@ h1 {
 #locationType { width: 15%; }
 #location { width: 40%; }
 
+.invited-users {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  align-items: center;
+  margin: 10px auto;
+  padding: 5px;
+}
+
+.invited-user {
+  display: grid;
+  grid-template-columns: auto auto;
+  border: 1px solid #ccc;
+  width: 90%;
+  margin: 5px;
+  padding: 5px;
+}
+
+.invited-user img {
+  grid-column: 1 / 2; 
+  width: 100px; 
+  border-radius: 50%;
+  padding: 5px;
+}
+
+.invited-user span {
+  grid-column: 2 / 2;
+  align-self: center; 
+  margin-left: 10px;
+  padding: 5px;
+}
+
+
+
+
 label {
   font-family: Arial, sans-serif; 
   font-size: 14px;                
@@ -120,42 +171,6 @@ label.required {
   margin: 5px;
   font-weight: bold;
 }
-
-
-.invited-users {
-  display: grid;
-  grid-template-columns: auto auto; /* Create two columns */
-  gap: 10px; /* Adjust spacing between rows as needed */
-  background-color: white;
-  border: 2px solid #ccc;
-  border-radius: 5%;
-  margin: 10px auto;
-  padding: 10px;
-}
-
-.invited-user {
-  display: contents; /* Allow child elements to participate in the parent grid */
-  background-color: white;
-  border: 2px solid #bc1a1a;
-  width: 75%; 
-  margin: 10px auto;
-  padding: 10px;
-}
-
-.invited-user img {
-  grid-column: 1; /* Place images in the first column */
-  width: 15%; /* Ensure images are not too large */
-  border-radius: 50%;
-  margin: 0;
-
-}
-
-.invited-user span {
-  grid-column: 2; /* Place emails in the second column */
-  margin: 0;
-  
-}
-
 
 
 input[type="checkbox"] {
