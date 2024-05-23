@@ -1,6 +1,7 @@
 import GlobalContext from "./GlobalContext"
 import { useState } from "react"
 import dayjs from "dayjs"
+import PropTypes from 'prop-types';
 
 const ContextWrapper = (props) => {
     const [monthIndex, setMonthIndex] = useState(dayjs().month())
@@ -10,5 +11,9 @@ const ContextWrapper = (props) => {
             </GlobalContext.Provider>
     )
 }
+
+ContextWrapper.propTypes = {
+    children: PropTypes.node
+};
 
 export default ContextWrapper
