@@ -17,7 +17,7 @@ const Contacts = () => {
         <button className="btn" onClick={handleShowNewList}>Add new</button>
       </div>
       <AllLists triggerRefetch={triggerRefetch}/>
-      <AddList showNewList={showNewList} handleShowNewList={handleShowNewList} setTriggerRefetch={setTriggerRefetch} />
+      {showNewList && <AddList handleShowNewList={handleShowNewList} setTriggerRefetch={setTriggerRefetch} />}
     </div>
   );
 };

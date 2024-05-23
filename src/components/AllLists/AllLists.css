@@ -22,8 +22,13 @@
     flex-direction: column;
   }
 
+  .list-details h2{
+    margin-bottom: 11px;
+  }
+
   .list-details p{
-    font-size: 15px;
+    font-size: 17px;
+
   }
 
   .list-details h3{
