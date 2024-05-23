@@ -5,11 +5,12 @@ import { useState, useContext } from "react";
 import AuthContext from "../../context/AuthContext";
 import SearchUsers from "../SearchUsers/SearchUsers";
 
-const AddList = ({ showNewList, handleShowNewList, setTriggerRefetch }) => {
+const AddList = ({  handleShowNewList, setTriggerRefetch }) => {
   const [listName, setListName] = useState("");
   const [showError, setShowError] = useState(false);
   const { isLoggedIn } = useContext(AuthContext);
   const [members, setMembers] = useState([]);
+  const [listColor, setListColor] = useState("#dddddd");
 
 
   const submitList = async () => {
@@ -17,6 +18,7 @@ const AddList = ({ showNewList, handleShowNewList, setTriggerRefetch }) => {
       name: listName,
       contacts: members,
       owner: isLoggedIn.user,
+      color: listColor,
     };
     if (listName === "") {
       setShowError(true);
@@ -32,12 +34,12 @@ const AddList = ({ showNewList, handleShowNewList, setTriggerRefetch }) => {
     setListName("");
     setMembers([]);
     setShowError(false);
+    setListColor("#dddddd");
   };
 
   return (
     <div>
       <div className="container-list-form">
-        {showNewList ? (
           <div className="add-list">
             <div className="add-list__header">
               <span className="add-list__title">New list</span>
@@ -59,7 +61,17 @@ const AddList = ({ showNewList, handleShowNewList, setTriggerRefetch }) => {
                   <div className="errorMessage">List name cannot be empty</div>
                 )}
               </div>
-              
+              <div className="color-picker">
+                <label className="input-list__label">Appearance</label>
+                  <ul>
+                    <li onClick={()=>setListColor("#dddddd")} className={`${listColor === "#dddddd" ? "active" : ""}`}  style={{ backgroundColor: "#dddddd" }}></li>
+                    <li onClick={()=>setListColor("#00000072")} className={`${listColor === "#00000072" ? "active" : ""}`}  style={{ backgroundColor: "#00000072" }}></li>
+                    <li onClick={()=>setListColor("#1359b5ab")} className={`${listColor === "#1359b5ab" ? "active" : ""}`} style={{ backgroundColor: "#1359b5ab" }}></li>
+                    <li onClick={()=>setListColor("#47db36ab")} className={`${listColor === "#47db36ab" ? "active" : ""}`} style={{ backgroundColor: "#47db36ab" }}></li>
+                    <li onClick={()=>setListColor("#6e327dab")} className={`${listColor === "#6e327dab" ? "active" : ""}`} style={{ backgroundColor: "#6e327dab" }}></li>
+                    <li onClick={()=>setListColor("#ff000090")} className={`${listColor === "#ff000090" ? "active" : ""}`} style={{ backgroundColor: "#ff000090" }}></li>
+                  </ul>
+              </div>
               <SearchUsers members={members} setMembers={setMembers}/>
             </div>
             <div className="add-list__footer">
@@ -68,16 +80,13 @@ const AddList = ({ showNewList, handleShowNewList, setTriggerRefetch }) => {
               </button>
             </div>
           </div>
-        ) : (
-          ""
-        )}
+     
       </div>
     </div>
   );
 };
 
 AddList.propTypes = {
-  showNewList: PropTypes.bool.isRequired,
   handleShowNewList: PropTypes.func.isRequired,
   setTriggerRefetch: PropTypes.func.isRequired,
 };

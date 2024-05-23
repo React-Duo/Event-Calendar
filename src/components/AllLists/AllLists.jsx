@@ -36,15 +36,15 @@ const AllLists = ({ triggerRefetch }) => {
   return (
     <div className="all-lists">
       {lists.map((list, index) => (
-        //TODO add color like that style={{ backgroundColor: "#a20f0f70", }}
         <div
           onClick={() => navigate(`/contacts/${list[0]}`)}
           key={index}
           className="single-list"
+          style={{ backgroundColor: `${list[1].color}` }}
         >
           <div className="list-details">
-            <h3>{list[1].name}</h3>
-            <p>Author:</p>
+            <h2>{list[1].name}</h2>
+            <h4>Author:</h4>
             <p>{list[1].owner}</p>
           </div>
           <div className="notifier">

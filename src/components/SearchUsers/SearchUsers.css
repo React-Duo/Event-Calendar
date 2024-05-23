@@ -20,7 +20,7 @@
   }
   
   .container-find-contact .fa-solid:hover {
-    font-size: 19px;
+    transform: scale(1.3);
   }
 
   #you{
