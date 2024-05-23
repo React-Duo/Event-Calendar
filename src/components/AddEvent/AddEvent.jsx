@@ -1,13 +1,13 @@
 import { useContext, useEffect, useState } from 'react';
 import AuthContext from '../../context/AuthContext';
-import { addEvent, getUserContactLists } from '../../service/database-service';
+import { addEvent, getUserContactLists, getUserDetails } from '../../service/database-service';
 import './AddEvent.css';
 
 const AddEvent = () => {
     const { isLoggedIn } = useContext(AuthContext);
-    const [contacts, setContacts] = useState([]);
+    const [contactsWithPhoto, setContactsWithPhoto] = useState([]);
     const [suggestions, setSuggestions] = useState([]);
-    const [invitedUsers, setInvitedUsers] = useState([isLoggedIn.user]);
+    const [invitedUsers, setInvitedUsers] = useState([]);
     const [inputValue, setInputValue] = useState('');
     const [form, setForm] = useState({
         author: '', title: '', description: '', 
@@ -23,13 +23,27 @@ const AddEvent = () => {
         const getContacts = async () => {
             try {
                 setLoading(true);
-                const data = await getUserContactLists(isLoggedIn.user);
-                const allContacts = Object.values(data)
+                const contactLists = await getUserContactLists(isLoggedIn.user);
+                const allContacts = Object.values(contactLists)
                                 .map(contactList => contactList.contacts)
                                 .flat()
                                 .filter(contact => contact !== undefined);
+
+                const usersWithPhotos = allContacts.map(async contact => {
+                    const usersWithThisEmail = await getUserDetails(contact);
+                    if (usersWithThisEmail[0].photo) {
+                        return { email: contact, photo: usersWithThisEmail[0].photo };
+                    } else {
+                        return { email: contact, photo: '' };
+                    }
+                });
+
+                const contactsWithPhotos = await Promise.all(usersWithPhotos);
+                setContactsWithPhoto(contactsWithPhotos);
+
+                const currentUserDetails = await getUserDetails(isLoggedIn.user);
+                setInvitedUsers([...invitedUsers, {email: isLoggedIn.user, photo: currentUserDetails[0].photo}]);
                 setLoading(false);
-                setContacts(allContacts);
             } catch (error) {
                 setLoading(false);
                 setError(error.message);
@@ -85,7 +99,7 @@ const AddEvent = () => {
     const handleInviteChange = (event) => {
         setInputValue(event.target.value);
         const emailInput = event.target.value;
-        const filteredContacts = contacts.filter(contact => contact.includes(emailInput));
+        const filteredContacts = contactsWithPhoto.filter(contact => contact.email.includes(emailInput));        
         if (filteredContacts.length === 0 || emailInput === '') {
             setSuggestions([]);
         } else {
@@ -93,9 +107,10 @@ const AddEvent = () => {
         }
     }
 
-    const handleSuggestionClick = (email) => {
-        if (!invitedUsers.includes(email)) {
-            setInvitedUsers([...invitedUsers, email]);
+    const handleSuggestionClick = (suggestion) => {
+        const isUserAlreadyInvited = invitedUsers.find(user => user.email === suggestion.email);
+        if (!isUserAlreadyInvited) {
+            setInvitedUsers([...invitedUsers, suggestion]);
         }
         setInputValue('');
         setSuggestions([]);
@@ -117,57 +132,63 @@ const AddEvent = () => {
             </div>
 
             <form onSubmit={formSubmit} onClick={() => setSuggestions([])} className="event-form">
-                <label htmlFor="title" className="required formbold-form-label"> Title </label>
-                <input type="text" id="title" name="title" className="formbold-form-input" required />
+                <label htmlFor="title" className="required"> Title </label>
+                <input type="text" id="title" name="title" className="common" required />
                 <br />
                 <br />
 
-                <label htmlFor="description" className="formbold-form-label"> Description </label>
-                <textarea id="description" name="description" className="formbold-form-input" placeholder="Description"></textarea>
+                <textarea id="description" name="description" className="common" placeholder="Description"></textarea>
                 <br />
                 <br />
 
-                <label htmlFor="startDate" className="required formbold-form-label"> Start Date </label>
-                <input type="date" id="startDate" name="startDate" className="formbold-form-input" required/>
+                <label htmlFor="startDate" className="required"> Start Date </label>
+                <input type="date" id="startDate" name="startDate" className="common" required/>
 
-                <label htmlFor="startTime" className="required formbold-form-label"> Time </label>
-                <input type="time" id="startTime" name="startTime" className="formbold-form-input" required/>
+                <label htmlFor="startTime" className="required"> Hour </label>
+                <input type="time" id="startTime" name="startTime" className="common" required/>
                 <br />
                 <br />
 
-                <label htmlFor="endDate" className="required formbold-form-label"> End Date </label>
-                <input type="date" id="endDate" name="endDate" className="formbold-form-input" required/>
+                <label htmlFor="endDate" className="required"> End Date </label>
+                <input type="date" id="endDate" name="endDate" className="common" required/>
 
-                <label htmlFor="endTime" className="required formbold-form-label"> Time </label>
-                <input type="time" id="endTime" name="endTime" className="formbold-form-input" required/>
+                <label htmlFor="endTime" className="required"> Hour </label>
+                <input type="time" id="endTime" name="endTime" className="common" required/>
                 <br />
                 <br />
 
-                <label htmlFor="visibility" className="required formbold-form-label"> Visibility </label>
-                <select name="visibility" id="visibility" className="formbold-form-input" required>
-                    <option value="public">Public</option>
-                    <option value="private">Private</option>
-                </select>
+                <span>  
+                        <label htmlFor="visibility" className="required"> Visibility </label>
+                        <select name="visibility" id="visibility" className="common" required>
+                            <option value="public">Public</option>
+                            <option value="private">Private</option>
+                        </select>
+
+                        <label htmlFor="canInvite" className="required">
+                            Allow invited users to invite others 
+                        <input type="checkbox" id="canInvite" name="canInvite" className="common" required />
+                        </label>
+                </span>
                 <br />
                 <br />
 
                 <div className="email-suggestion-container">
-                    <label htmlFor="invitedUsers" className="formbold-form-label"> Invited Users </label>
+                    <label htmlFor="invitedUsers"> Invited Users </label>
                     <input type="text" 
                         id="invitedUsers" 
                         name="invitedUsers" 
                         value={inputValue}
                         placeholder="Type an email address" 
                         onChange={handleInviteChange} 
-                        className="formbold-form-input"
+                        className="common"
                     />
                     {suggestions.length ? 
                         <div className="suggestions">
-                            {suggestions.map((email, index) => (
+                            {suggestions.map((suggestion, index) => (
                                 <div key={index} 
                                     className="suggestion-item" 
-                                    onClick={() => handleSuggestionClick(email)}>
-                                    {email}
+                                    onClick={() => handleSuggestionClick(suggestion)}>
+                                    <img src={suggestion.photo} alt="" /> {suggestion.email}
                                 </div>
                             ))}
                         </div>
@@ -176,9 +197,9 @@ const AddEvent = () => {
                 </div>
                 {invitedUsers.length ?  
                     <div className="invited-users">
-                        {invitedUsers.map((email, index) => (
+                        {invitedUsers.map((user, index) => (
                             <div key={index} className="invited-user">
-                                {email}
+                                <img src={user.photo} alt="" /> <span>{user.email}</span>
                             </div>
                         ))}
                     </div>
@@ -186,35 +207,19 @@ const AddEvent = () => {
                 }
                 <br />
 
-                <label htmlFor="canInvite" className="required formbold-checkbox-label">
-                    Allow invited users to invite others 
-                <input type="checkbox" id="canInvite" name="canInvite" required/>
-                <span className="checkmark"></span>
-                </label>
-                <br />
-
-                <label htmlFor="locationType" className="required formbold-form-label"> Location Type </label>
-                <select name="locationType" id="locationType" className="formbold-form-input" required>
+                <label htmlFor="locationType" className="required"> Location Type </label>
+                <select name="locationType" id="locationType" className="common" required >
                     <option value="online">Online</option>
                     <option value="offline">Offline</option>
                 </select>
+                
+                <label htmlFor="location" className="required"> Location </label>
+                <input type="text" name="location" id="location" className="common" required />
                 <br />
                 <br />
 
-                <label htmlFor="location" className="required formbold-form-label"> Location </label>
-                <input type="text" name="location" id="location" className="formbold-form-input" required/>
-                <br />
-                <br />
-
-                <label htmlFor="upload" className="formbold-form-label">
-                Upload Image
-                </label>
-                <input
-                    type="file"
-                    name="upload"
-                    id="upload"
-                    className="formbold-form-input formbold-form-file"
-                />
+                <label htmlFor="upload"> Upload Image </label>
+                <input type="file" name="upload" id="upload" className="formbold-form-file" />
                 <br />
                 <br />
 
