@@ -9,6 +9,7 @@ import {
   DIGIT_REGEX, LETTER_REGEX, SPECIAL_CHARS_REGEX
 } from '../../common/constants.js';
 import { changePassword } from "../../service/authentication-service";
+import { uploadFile, getFile } from "../../service/storage.js";
 
 const ProfileEdit = () => {
   const [error, setError] = useState(null);
@@ -16,6 +17,22 @@ const ProfileEdit = () => {
   const { isLoggedIn } = useContext(AuthContext);
   const fileInput = useRef(null);
   const [password, setPassword] = useState("");
+  const [logo, setLogo] = useState({});
+
+
+  const logoUpdate = (e) => {
+    const file = e.target.files[0];
+    setLogo(file);
+  };
+
+  const updatePhotoInData = async () => {
+    const url = await getFile(isLoggedIn.user);
+    await editCredential(userDetails.username, "photo", url);
+    setUserDetails((prevDetails) => ({
+      ...prevDetails,
+      photo: url,
+    }));
+  };
 
   const handleImageClick = () => {
     fileInput.current.click();
@@ -98,7 +115,6 @@ const ProfileEdit = () => {
   };
 
   const editPassword = async (password) => {
-    console.log(password)
     if (password.length < PASSWORD_MIN_CHARS || password.length > PASSWORD_MAX_CHARS || !LETTER_REGEX.test(password)
       || !DIGIT_REGEX.test(password) || !SPECIAL_CHARS_REGEX.test(password)) {
       setError(
@@ -121,13 +137,22 @@ const ProfileEdit = () => {
             <p>Update your profile information here.</p>
           </div>
           <div className="img-change">
-            <img onClick={handleImageClick} src="https://picsum.photos/100/100"></img>
+            <img onClick={handleImageClick} src={userDetails.photo}></img>
             <input
+             onChange={(e) => logoUpdate(e)}
               type="file"
               style={{ display: 'none' }}
               ref={fileInput}
+              id="file"
             />
-            <button className="btn">Change</button>
+            <button  onClick={async (e) => {
+                e.preventDefault();
+                if (logo.name) {
+                  await uploadFile(isLoggedIn.user, logo)
+
+                  await updatePhotoInData();
+                }
+              }} className="btn">Change</button>
           </div>
           {error && <div className="profile-errorMessage">{error}</div>} <br />
             {success && <div className="profile-confirmMessage">{success}</div>} <br />
