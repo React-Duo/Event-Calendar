@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import AuthContext from '../../context/AuthContext';
 import { addEvent, getUserContactLists, getUserDetails } from '../../service/database-service';
 import './AddEvent.css';
-import { set } from 'firebase/database';
+import Select1_99 from './Select1_99';
 
 const AddEvent = () => {
     const { isLoggedIn } = useContext(AuthContext);
@@ -175,11 +175,8 @@ const AddEvent = () => {
 
                 {dailySchedule && 
                     <span>
-                        <label htmlFor="dailyFrequency"> Frequency </label>
-                        <select name="dailyFrequency" id="dailyFrequency" className="common">
-                            <option value="everyday">Everyday</option>
-                            <option value="everyOtherDay">Every other day</option>
-                        </select>
+                        <label htmlFor="dailyFrequency"> Every </label>
+                        <Select1_99 freq={"dailyFrequency"}/>
                         <br />
                         <br />
                     </span>
@@ -187,11 +184,8 @@ const AddEvent = () => {
 
                 {weeklySchedule &&  
                     <span>
-                        <label htmlFor="weeklyFrequency"> Frequency </label>
-                        <select name="weeklyFrequency" id="weeklyFrequency" className="common">
-                            <option value="everyWeek">Every week</option>
-                            <option value="everyOtherWeek">Every other week</option>
-                        </select>
+                        <label htmlFor="weeklyFrequency"> Every </label>
+                        <Select1_99 freq={"weeklyFrequency"}/>
                         <br />
                         <br />
                     </span>
@@ -199,11 +193,8 @@ const AddEvent = () => {
 
                 {monthlySchedule &&
                     <span>
-                        <label htmlFor="monthlyFrequency"> Frequency </label>
-                        <select name="monthlyFrequency" id="monthlyFrequency" className="common">
-                            <option value="everyMonth">Every month</option>
-                            <option value="everyOtherMonth">Every other month</option>
-                        </select>
+                        <label htmlFor="monthlyFrequency"> Every </label>
+                        <Select1_99 freq={"monthlyFrequency"}/>
                         <br />
                         <br />
                     </span>
