@@ -8,16 +8,22 @@ import {
   PHONE_REGEX, PHONE_DIGITS, ADDRESS_MIN_CHARS, ADDRESS_MAX_CHARS, ADDRESS_REGEX,
   DIGIT_REGEX, LETTER_REGEX, SPECIAL_CHARS_REGEX
 } from '../../common/constants.js';
-import { changePassword } from "../../service/authentication-service";
+import { changePassword, handleUserDelete, signOutUser } from "../../service/authentication-service";
 import { uploadFile, getFile } from "../../service/storage.js";
+import { useNavigate } from "react-router-dom";
+
 
 const ProfileEdit = () => {
+  const { setLoginState } = useContext(AuthContext);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
   const { isLoggedIn } = useContext(AuthContext);
   const fileInput = useRef(null);
   const [password, setPassword] = useState("");
   const [logo, setLogo] = useState({});
+  const [deleteMessage, setDeleteMessage] = useState(null);
+  const navigate = useNavigate();
+
 
 
   const logoUpdate = (e) => {
@@ -128,6 +134,18 @@ const ProfileEdit = () => {
     setError(null);
   }
 
+  const logoutHandler = async () => {
+    try {
+      await handleUserDelete();
+      setDeleteMessage(null);
+      await signOutUser()
+      setLoginState({ status: false, user: "" });
+      navigate('/');
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   return (
     <div>
       <div className="container-profile-edit">
@@ -215,7 +233,11 @@ const ProfileEdit = () => {
             <h3>Delete Profile</h3>
             <p>Delete your account and all of your source data.This is irreversible.</p>
           </div>
-          <div><button className="delete-btn">Delete</button></div>
+          <div><button onClick={()=> setDeleteMessage("Are you sure you want to delete you profile?")} className="delete-btn">Delete</button></div>
+        {deleteMessage && <div className="delete-message">{deleteMessage}
+        <button onClick={logoutHandler} className="delete-btn">Yes</button>
+        <button onClick={() => setDeleteMessage(null)} className="delete-btn">No</button>
+        </div>}
         </div>
       </div>
     </div>

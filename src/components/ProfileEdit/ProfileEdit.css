@@ -46,7 +46,7 @@
 .delete-btn{
     display: inline-block;
     padding: 10px 20px;
-    font-size: 24px;
+    font-size: 15px;
     font-weight: bold;
     text-align: center;
     text-decoration: none;
@@ -57,6 +57,7 @@
     box-shadow: 5px 5px 0px #000;
     transition: all 0.3s ease;
     cursor: pointer;
+    margin: 0px 10px;
 }
 
 .delete-btn:hover{
@@ -78,4 +79,12 @@
     color: green;
     padding: 10px;
     font-weight: bold;
+}
+.delete-message {
+    color: red;
+    font-weight: bold;
+    margin-top: 10px;
+    background-color: rgb(255,255,255);
+    padding: 10px;
+    border-radius: 15px;
 }
