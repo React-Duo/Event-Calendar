@@ -64,7 +64,7 @@ return (
                         ></i>
                     )}
                     <div>
-                        <img src="https://picsum.photos/40/40"></img>
+                        <img src={user.photo}></img>
                     </div>
                     <div>
                         <h4>{`${user.firstName} ${user.lastName}`}</h4>
