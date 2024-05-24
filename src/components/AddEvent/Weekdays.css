@@ -1,4 +1,10 @@
 /* New CSS code - week days */
+.weekDays-selector {
+    display: flex;
+    justify-content: center;
+    margin: 10px;
+}
+
 .weekDays-selector input {
     display: none!important;
   }
