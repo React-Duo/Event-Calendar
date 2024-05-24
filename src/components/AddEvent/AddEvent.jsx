@@ -137,6 +137,18 @@ const AddEvent = () => {
         }
     }
 
+    const handleFreqChange = (e) => {
+        console.log(e.target.value);
+        
+
+    }
+
+    const handleWeekdayChange = (e) => {
+        console.log(e.target.value);
+
+    }
+
+
     if (loading) {
         return (
             <div className='spinner'></div>
@@ -176,7 +188,7 @@ const AddEvent = () => {
                 {dailySchedule && 
                     <span>
                         <label htmlFor="dailyFrequency"> Every </label>
-                        <Select1_99 freq={"dailyFrequency"}/>
+                        <Select1_99 freq={"dailyFrequency"} handle={handleFreqChange}/>
                         day(s)
                     </span>
                 }
@@ -184,16 +196,16 @@ const AddEvent = () => {
                 {weeklySchedule &&  
                     <span>
                         <label htmlFor="weeklyFrequency"> Every </label>
-                        <Select1_99 freq={"weeklyFrequency"}/>
+                        <Select1_99 freq={"weeklyFrequency"} handle={handleFreqChange}/>
                         week(s)
-                        <Weekdays />
+                        <Weekdays handle={handleWeekdayChange}/>
                     </span>
                 }
 
                 {monthlySchedule &&
                     <span>
                         <label htmlFor="monthlyFrequency"> Every </label>
-                        <Select1_99 freq={"monthlyFrequency"}/>
+                        <Select1_99 freq={"monthlyFrequency"} handle={handleFreqChange}/>
                         month(s)
                     </span>
                 }
