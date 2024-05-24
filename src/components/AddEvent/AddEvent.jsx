@@ -3,6 +3,7 @@ import AuthContext from '../../context/AuthContext';
 import { addEvent, getUserContactLists, getUserDetails } from '../../service/database-service';
 import Select1_99 from './Select1_99';
 import './AddEvent.css';
+import Weekdays from './Weekdays';
 
 const AddEvent = () => {
     const { isLoggedIn } = useContext(AuthContext);
@@ -85,9 +86,10 @@ const AddEvent = () => {
         const locationType = event.target.locationType.value;
         const location = event.target.location.value;
         const frequency = event.target.repeat.value;
-        
+        const invited = invitedUsers.map(user => user.email);
+
         setForm({author, title, description, startDate, startTime, endDate, endTime, 
-                visibility, invitedUsers, canInvite, locationType, location, frequency});
+                visibility, invited, canInvite, locationType, location, frequency});
         
         setIsFormSubmitted(true);
     }
@@ -170,15 +172,12 @@ const AddEvent = () => {
                     <option value="weekly">Weekly</option>
                     <option value="monthly">Monthly</option>
                 </select>
-                <br />
-                <br />
-
+                
                 {dailySchedule && 
                     <span>
                         <label htmlFor="dailyFrequency"> Every </label>
                         <Select1_99 freq={"dailyFrequency"}/>
-                        <br />
-                        <br />
+                        day(s)
                     </span>
                 }
 
@@ -186,8 +185,8 @@ const AddEvent = () => {
                     <span>
                         <label htmlFor="weeklyFrequency"> Every </label>
                         <Select1_99 freq={"weeklyFrequency"}/>
-                        <br />
-                        <br />
+                        week(s)
+                        <Weekdays />
                     </span>
                 }
 
@@ -195,10 +194,11 @@ const AddEvent = () => {
                     <span>
                         <label htmlFor="monthlyFrequency"> Every </label>
                         <Select1_99 freq={"monthlyFrequency"}/>
-                        <br />
-                        <br />
+                        month(s)
                     </span>
                 }
+                <br />
+                <br />
 
                 <label htmlFor="endDate" className="required"> End Date </label>
                 <input type="date" id="endDate" name="endDate" className="common" required/>
@@ -209,16 +209,16 @@ const AddEvent = () => {
                 <br />
 
                 <span>  
-                        <label htmlFor="visibility" className="required"> Visibility </label>
-                        <select name="visibility" id="visibility" className="common" required>
-                            <option value="public">Public</option>
-                            <option value="private">Private</option>
-                        </select>
+                    <label htmlFor="visibility" className="required"> Visibility </label>
+                    <select name="visibility" id="visibility" className="common" required>
+                        <option value="public">Public</option>
+                        <option value="private">Private</option>
+                    </select>
 
-                        <label htmlFor="canInvite" className="required">
-                            Allow invited users to invite others 
-                        <input type="checkbox" id="canInvite" name="canInvite" className="common" required />
-                        </label>
+                    <label htmlFor="canInvite" className="required">
+                        Allow invited users to invite others 
+                    <input type="checkbox" id="canInvite" name="canInvite" className="common" required />
+                    </label>
                 </span>
                 <br />
                 <br />
