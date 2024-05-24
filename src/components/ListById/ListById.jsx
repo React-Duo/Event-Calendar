@@ -132,7 +132,7 @@ const ListById = () => {
                   contactsDetails.map((contact, index) => (
                     <tr key={index}>
                       <td>
-                        <img src="https://picsum.photos/50/50" alt="Contact" />
+                        <img src={contact[0].photo} alt="Contact" />
                       </td>
                       <td>{contact[0].username}</td>
                       <td>{contact[0].email}</td>

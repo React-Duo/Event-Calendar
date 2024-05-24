@@ -12,6 +12,8 @@
   }
   .single-contact img {
     border-radius: 50%;
+    height: 50px;
+    width: 50px;
   }
   
   .container-find-contact .fa-solid{
