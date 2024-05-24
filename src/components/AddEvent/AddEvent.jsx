@@ -184,31 +184,32 @@ const AddEvent = () => {
                     <option value="weekly">Weekly</option>
                     <option value="monthly">Monthly</option>
                 </select>
-                
+                                    
                 {dailySchedule && 
-                    <span>
+                    <>
                         <label htmlFor="dailyFrequency"> Every </label>
                         <Select1_99 freq={"dailyFrequency"} handle={handleFreqChange}/>
                         day(s)
-                    </span>
+                    </>
                 }
 
                 {weeklySchedule &&  
-                    <span>
+                    <>
                         <label htmlFor="weeklyFrequency"> Every </label>
                         <Select1_99 freq={"weeklyFrequency"} handle={handleFreqChange}/>
                         week(s)
                         <Weekdays handle={handleWeekdayChange}/>
-                    </span>
+                    </>
                 }
 
                 {monthlySchedule &&
-                    <span>
+                    <>
                         <label htmlFor="monthlyFrequency"> Every </label>
                         <Select1_99 freq={"monthlyFrequency"} handle={handleFreqChange}/>
                         month(s)
-                    </span>
+                    </>
                 }
+
                 <br />
                 <br />
 

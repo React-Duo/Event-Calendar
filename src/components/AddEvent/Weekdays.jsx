@@ -4,7 +4,8 @@ const Weekdays = (props) => {
 
     return (
         <>
-            <div className="weekDays-selector">
+            <label htmlFor="weekDays-selector"> On </label>
+            <span className="weekDays-selector">
                 <input type="checkbox" id="weekday-mon" value="Monday" className="weekday" onChange={props.handle}/>
                 <label htmlFor="weekday-mon">M</label>
                 <input type="checkbox" id="weekday-tue" value="Tuesday" className="weekday" onChange={props.handle}/>
@@ -19,8 +20,7 @@ const Weekdays = (props) => {
                 <label htmlFor="weekday-sat">S</label>
                 <input type="checkbox" id="weekday-sun" value="Sunday" className="weekday" onChange={props.handle}/>
                 <label htmlFor="weekday-sun">S</label>
-            </div>
-            <label htmlFor="weekDays-selector"> Select day </label>
+            </span>
         </>
     )
 }
