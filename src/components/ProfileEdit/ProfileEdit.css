@@ -14,11 +14,8 @@
     display: flex;
     justify-content: center;
     flex-direction: column;
-    gap: 20px;
+    gap: 15px;
 }
-
-
-
 
 .input{
     background-color: rgb(255, 255, 255);
@@ -46,8 +43,6 @@
     margin-right: 15px;
 }
 
-
-
 .delete-btn{
     display: inline-block;
     padding: 10px 20px;
@@ -69,4 +64,18 @@
     color: #ff5252;
     border: 2px solid #ff5252;
     box-shadow: 5px 5px 0px #ff5252;
+}
+
+.profile-errorMessage{
+    width: 600px;
+    color: red;
+    padding: 10px;
+    font-weight: bold;
+}
+
+.profile-confirmMessage{
+    width: 600px;
+    color: green;
+    padding: 10px;
+    font-weight: bold;
 }
