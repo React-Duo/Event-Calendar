@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from 'react';
 import AuthContext from '../../context/AuthContext';
 import { addEvent, getUserContactLists, getUserDetails } from '../../service/database-service';
-import './AddEvent.css';
 import Select1_99 from './Select1_99';
+import './AddEvent.css';
 
 const AddEvent = () => {
     const { isLoggedIn } = useContext(AuthContext);
@@ -53,7 +53,7 @@ const AddEvent = () => {
                 setError(error.message);
             }
         }
-        getContacts();
+        if (!contactsWithPhoto.length) getContacts();
     }, []);
 
     useEffect(() => {
