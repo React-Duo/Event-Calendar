@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import AuthContext from '../../context/AuthContext';
 import { addEvent, getUserContactLists, getUserDetails } from '../../service/database-service';
 import './AddEvent.css';
+import { set } from 'firebase/database';
 
 const AddEvent = () => {
     const { isLoggedIn } = useContext(AuthContext);
@@ -13,11 +14,14 @@ const AddEvent = () => {
         author: '', title: '', description: '', 
         startDate: '', startTime: '', endDate: '', endTime: '', 
         visibility: '', invitedUsers: [], canInvite: false, 
-        locationType: '', location: '', type: 'single'
+        locationType: '', location: '', frequency: ''
     });
     const [isFormSubmitted, setIsFormSubmitted] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [dailySchedule, setDailySchedule] = useState(false);
+    const [weeklySchedule, setWeeklySchedule] = useState(false);
+    const [monthlySchedule, setMonthlySchedule] = useState(false);
 
     useEffect(() => {
         const getContacts = async () => {
@@ -67,14 +71,6 @@ const AddEvent = () => {
         if (isFormSubmitted) handleAddEvent();
     }, [form]);
 
-    const handleSingleEventTabClick = () => {
-        console.log('Single Event Tab Clicked');
-    }
-
-    const handleSeriesEventTabClick = () => {
-        console.log('Series Event Tab Clicked');
-    }
-
     const formSubmit = (event) => {
         event.preventDefault();
         const author = isLoggedIn.user;
@@ -88,10 +84,10 @@ const AddEvent = () => {
         const canInvite = event.target.canInvite.checked;
         const locationType = event.target.locationType.value;
         const location = event.target.location.value;
-        const type = "single";
-
+        const frequency = event.target.repeat.value;
+        
         setForm({author, title, description, startDate, startTime, endDate, endTime, 
-                visibility, invitedUsers, canInvite, locationType, location, type});
+                visibility, invitedUsers, canInvite, locationType, location, frequency});
         
         setIsFormSubmitted(true);
     }
@@ -116,6 +112,29 @@ const AddEvent = () => {
         setSuggestions([]);
     }
 
+    const handleRepeatChange = (event) => {
+        if (event.target.value === "single") {
+            setDailySchedule(false);
+            setWeeklySchedule(false);
+            setMonthlySchedule(false);
+        }
+        if (event.target.value === "daily") {
+            setDailySchedule(true);
+            setWeeklySchedule(false);
+            setMonthlySchedule(false);
+        }
+        if (event.target.value === "weekly") {
+            setWeeklySchedule(true);
+            setDailySchedule(false);
+            setMonthlySchedule(false);
+        }
+        if (event.target.value === "monthly") {
+            setMonthlySchedule(true);
+            setDailySchedule(false);
+            setWeeklySchedule(false);  
+        }
+    }
+
     if (loading) {
         return (
             <div className='spinner'></div>
@@ -126,11 +145,6 @@ const AddEvent = () => {
         <>  
             <h1>Add Event</h1>
             {error && <p className="error">{error}</p>}
-            <div role="tablist" className="tabs tabs-lifted">
-                <a role="tab" className="tab tab-active" onClick={handleSingleEventTabClick}>Single</a>
-                <a role="tab" className="tab" onClick={handleSeriesEventTabClick}>Series</a>
-            </div>
-
             <form onSubmit={formSubmit} onClick={() => setSuggestions([])} className="event-form">
                 <label htmlFor="title" className="required"> Title </label>
                 <input type="text" id="title" name="title" className="common" required />
@@ -148,6 +162,52 @@ const AddEvent = () => {
                 <input type="time" id="startTime" name="startTime" className="common" required/>
                 <br />
                 <br />
+
+                <label htmlFor="repeat"> Repeat </label>
+                <select name="repeat" id="repeat" onChange={handleRepeatChange} className="common">
+                    <option value="single">One-time</option>
+                    <option value="daily">Daily</option>
+                    <option value="weekly">Weekly</option>
+                    <option value="monthly">Monthly</option>
+                </select>
+                <br />
+                <br />
+
+                {dailySchedule && 
+                    <span>
+                        <label htmlFor="dailyFrequency"> Frequency </label>
+                        <select name="dailyFrequency" id="dailyFrequency" className="common">
+                            <option value="everyday">Everyday</option>
+                            <option value="everyOtherDay">Every other day</option>
+                        </select>
+                        <br />
+                        <br />
+                    </span>
+                }
+
+                {weeklySchedule &&  
+                    <span>
+                        <label htmlFor="weeklyFrequency"> Frequency </label>
+                        <select name="weeklyFrequency" id="weeklyFrequency" className="common">
+                            <option value="everyWeek">Every week</option>
+                            <option value="everyOtherWeek">Every other week</option>
+                        </select>
+                        <br />
+                        <br />
+                    </span>
+                }
+
+                {monthlySchedule &&
+                    <span>
+                        <label htmlFor="monthlyFrequency"> Frequency </label>
+                        <select name="monthlyFrequency" id="monthlyFrequency" className="common">
+                            <option value="everyMonth">Every month</option>
+                            <option value="everyOtherMonth">Every other month</option>
+                        </select>
+                        <br />
+                        <br />
+                    </span>
+                }
 
                 <label htmlFor="endDate" className="required"> End Date </label>
                 <input type="date" id="endDate" name="endDate" className="common" required/>
