@@ -91,7 +91,7 @@ const Register = () => {
         if (isRegSuccessful) {
             if (enterWebsite) {
                 setLoginState({status: true, user: form.emailAddress});
-                navigate('/');
+                navigate('/home');
             }
         }
     }, [enterWebsite, isRegSuccessful]);
