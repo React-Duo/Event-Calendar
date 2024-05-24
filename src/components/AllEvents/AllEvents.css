@@ -1,0 +1,111 @@
+.all-events-container{
+    background-color: rgb(255, 255, 255);
+    padding: 20px;
+    border-radius: 15px;
+}
+
+.events-filter{
+    display: flex;
+    gap: 15px;
+    padding: 17px;
+    border-radius: 15px;
+    width: fit-content;
+    font-weight: bold;
+}
+
+.fa-location-dot{
+    margin-right: 5px;
+}
+
+.events-filter p {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    outline: none;
+    cursor: pointer;
+    height: 40px;
+    background-image: linear-gradient(to top, #D8D9DB 0%, #fff 80%, #FDFDFD 100%);
+    border-radius: 5px;
+    border: 1px solid #8F9092;
+    transition: all 0.2s ease;
+    font-family: "Source Sans Pro", sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: #606060;
+    text-shadow: 0 1px #fff;
+    padding: 15px;
+}
+.events-filter p:hover{
+    background-color: rgba(171, 170, 170, 0.785);
+    transition: background-color 0.3s ease;
+}
+
+.all-events{
+    display: grid;
+    grid-template-columns: 400px 400px 400px;
+    gap: 10px;
+}
+
+.single-event {
+    display: flex;
+    flex-direction: column;
+    border-radius: 15px;
+    background-color: rgba(255, 255, 255, 0.687);
+    margin: 10px;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.single-event img{
+    width: 380px;
+    height: 200px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+.single-event-details{
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    padding: 10px 10px 10px 10px;
+}
+
+.hours-event span{
+    font-weight: bold;
+    color: rgba(40,90,255);
+}
+.hours-event  p {
+    padding-bottom: 3px;
+}
+
+.people-going img{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+.people-going{
+    display: flex;
+    flex-direction: column;
+    height: 50px;
+}
+
+.one-person{
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.one-person p{
+    opacity: 0.7;
+}
+
+.single-event-options{
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    justify-content: center;
+    margin-top: 15px;
+}
