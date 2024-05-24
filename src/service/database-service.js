@@ -174,3 +174,19 @@ export const addUserToEvent = async (eventId, email) => {
     }
 };
 
+
+
+/**
+ * Edits a user's credential in the database.
+ * @param {string} user - The user's username.
+ * @param {string} credential - The name of the credential to be edited.
+ * @param {string} newCredential - The new value for the credential.
+ * @returns {Promise<string>} - A promise that resolves to the updated credential value or an error message.
+ */
+export const editCredential  = async (user, credential, newCredential) => {
+  try {
+    return await update(ref(database, `users/${user}`), { [credential]: newCredential });
+  } catch (error) {
+    return error.message;
+  }
+}
