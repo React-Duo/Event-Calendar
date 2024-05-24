@@ -35,3 +35,8 @@
   color: rgba(40,90,255);
   transition: color 0.3s ease;
 }
+
+.activePath{
+  color: rgba(40,90,255) !important;
+
+}
