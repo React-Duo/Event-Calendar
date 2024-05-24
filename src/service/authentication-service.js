@@ -54,3 +54,18 @@ export const signOutUser = async () => {
         console.log(error.message);
     }
 }
+
+/**
+ * Changes the password for the current user.
+ * @param {string} newPassword - The new password to set.
+ * @returns {Promise<void>} - A promise that resolves when the password is successfully updated.
+ */
+export const changePassword = async (newPassword) => {
+    try {
+        const auth = getAuth();
+        const user = auth.currentUser;
+        updatePassword(user, newPassword)
+    } catch (error) {
+        console.log(error.message);
+    }
+};
