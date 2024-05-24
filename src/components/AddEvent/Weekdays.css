@@ -1,13 +1,11 @@
 /* New CSS code - week days */
 .weekDays-selector {
-    display: flex;
-    justify-content: center;
-    margin: 10px;
+    margin: 5px;
 }
 
 .weekDays-selector input {
     display: none!important;
-  }
+}
   
 .weekDays-selector input[type=checkbox] + label {
     display: inline-block;
@@ -15,13 +13,13 @@
     background: #dddddd;
     height: 40px;
     width: 30px;
-    margin-right: 3px;
+    margin-right: 5px;
     line-height: 40px;
     text-align: center;
     cursor: pointer;
-  }
+}
   
 .weekDays-selector input[type=checkbox]:checked + label {
-    background: #2AD705;
+    background: #006ac6;
     color: #ffffff;
-  }
+}
