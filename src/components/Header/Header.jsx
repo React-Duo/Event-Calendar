@@ -1,14 +1,29 @@
 import "./Header.css";
 import { assets } from "../../assets/assets";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../context/AuthContext";
+import { getUserDetails } from "../../service/database-service";
 
 const Header = () => {
-
+  const [photo, setPhoto] = useState("");
   const navigate = useNavigate();
   const { isLoggedIn } = useContext(AuthContext);
 
+  //Todo: Change the photo dinamically when the user changes it form profile
+  useEffect(() => {
+    if (isLoggedIn.status) {
+      const fetchUserDetails = async () => {
+        try {
+          const userDetails = await getUserDetails(isLoggedIn.user);
+          setPhoto(userDetails[0].photo);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      fetchUserDetails();
+    }
+  }, [isLoggedIn.status, isLoggedIn.user]);
 
   const handleLoginClick = (event) => {
     event.preventDefault();
@@ -53,7 +68,7 @@ const Header = () => {
               <div className="options-header">
                 <img
                   onClick={() => navigate("/profile")}
-                  src="https://picsum.photos/50/50"
+                  src={photo}
                 ></img>
               </div>
               <p>{isLoggedIn.user}</p>
