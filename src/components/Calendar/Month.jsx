@@ -13,7 +13,7 @@ const Month = ({ month }) => {
     useEffect(() => {
         const fetchEvents = async () => {
             const events = await getAllEvents();
-            const filteredEvents = events.filter(event => event.invitedUsers.includes(isLoggedIn.user));
+            const filteredEvents = events.filter(event => event.invited.includes(isLoggedIn.user));
             setAllEvents(filteredEvents);
         };
         fetchEvents();  
