@@ -133,7 +133,7 @@ export const getAllEvents = async () => {
   try {
     const snapshot = await get(ref(database, "events"));
     if (snapshot.exists()) {
-      return Object.values(snapshot.val());
+      return Object.entries(snapshot.val());
     } else {
       throw new Error("Events not found!");
     }
@@ -161,11 +161,11 @@ export const addUserToEvent = async (eventId, email) => {
       const eventSnapshot = await get(eventRef);
       if (eventSnapshot.exists()) {
         const event = eventSnapshot.val();
-        const invitedUsers = event.invitedUsers || [];
-        if (!invitedUsers.includes(email)) {
-          invitedUsers.push(email);
+        const invited = event.invited || [];
+        if (!invited.includes(email)) {
+          invited.push(email);
         }
-        await update(eventRef, { invitedUsers });
+        await update(eventRef, { invited });
       } else {
         throw new Error("Event not found!");
       }
