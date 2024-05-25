@@ -3,6 +3,7 @@ import AuthContext from '../../context/AuthContext';
 import { addEvent, getUserContactLists, getUserDetails } from '../../service/database-service';
 import './AddEvent.css';
 import Weekdays from './Weekdays';
+import { getMonthDays } from '../../service/utils';
 
 const AddEvent = () => {
     const { isLoggedIn } = useContext(AuthContext);
@@ -102,15 +103,15 @@ const AddEvent = () => {
         const eventObject = { author, title, description, startDate, startTime, endDate, endTime, 
                                 visibility, canInvite, locationType, location, invited, repeat };
 
-        if (eventObject.repeat !== "single") {
-            if (eventObject.repeat.schedule === "daily") {
-                const startDay = new Date(eventObject.startDate).getDate();
-                const startMonth = new Date(eventObject.startDate).getMonth() + 1;
-                const startYear = new Date(eventObject.startDate).getFullYear();
+        if (repeat !== "single") {
+            if (repeat.schedule === "daily") {
+                const startDay = new Date(startDate).getDate();
+                const startMonth = new Date(startDate).getMonth() + 1;
+                const startYear = new Date(startDate).getFullYear();
 
-                const endDay = new Date(eventObject.endDate).getDate();
-                const endMonth = new Date(eventObject.endDate).getMonth() + 1;
-                const endYear = new Date(eventObject.endDate).getFullYear();
+                const endDay = new Date(endDate).getDate();
+                const endMonth = new Date(endDate).getMonth() + 1;
+                const endYear = new Date(endDate).getFullYear();
 
                 if (startMonth === endMonth) {
                     for (let i = startDay; i <= endDay; i++) {
@@ -119,18 +120,34 @@ const AddEvent = () => {
                         const newEvent = {...eventObject, startDate: newStartDate, endDate: newEndDate};
                         console.log(newEvent);
                     }
-
+                } else if (startMonth < endMonth) {
+                    const numberOfDays = getMonthDays(startDate);
+                    for (let i = startDay; i <= numberOfDays; i++) {
+                        const newStartDate = `${startYear}-${startMonth}-${i}`;
+                        const newEndDate = newStartDate;
+                        const newEvent = {...eventObject, startDate: newStartDate, endDate: newEndDate};
+                        console.log(newEvent);
+                    }
+                    for (let i = 1; i <= endDay; i++) {
+                        const newStartDate = `${endYear}-${endMonth}-${i}`;
+                        const newEndDate = newStartDate;
+                        const newEvent = {...eventObject, startDate: newStartDate, endDate: newEndDate};
+                        console.log(newEvent);
+                    }
+                } else {
+                    setError("Start month is greater than end month!");
+                    console.log("Invalid date range");
+                    return;
                 }
-
-
-
-                
-
             }
+
+
+
+
+
 
         }
         
-
         setForm(eventObject);
         setIsFormSubmitted(true);
     }
@@ -177,7 +194,6 @@ const AddEvent = () => {
     return (
         <>  
             <h1>Add Event</h1>
-            {error && <p className="error">{error}</p>}
             <form onSubmit={formSubmit} onClick={() => setSuggestions([])} className="event-form">
                 <label htmlFor="title" className="required"> Title </label>
                 <input type="text" id="title" name="title" className="common" required />
@@ -286,6 +302,7 @@ const AddEvent = () => {
                 <br />
                 <br />
 
+                {error && <p className="error">{error}</p>}
                 <button type="submit" className="formbold-btn">Add event</button>
             </form>
         </>
