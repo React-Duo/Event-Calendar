@@ -4,6 +4,7 @@ import { addEvent, getUserContactLists, getUserDetails } from '../../service/dat
 import Frequency from './Frequency';
 import './AddEvent.css';
 import Weekdays from './Weekdays';
+import { set } from 'firebase/database';
 
 const AddEvent = () => {
     const { isLoggedIn } = useContext(AuthContext);
@@ -58,6 +59,7 @@ const AddEvent = () => {
     }, []);
 
     useEffect(() => {
+        console.log(form);
         const handleAddEvent = async () => {
             try {
                 setLoading(true);
@@ -68,7 +70,7 @@ const AddEvent = () => {
                 setError(error.message);
             }
         }
-        if (isFormSubmitted) handleAddEvent();
+        //if (isFormSubmitted) handleAddEvent();
     }, [form]);
 
     const formSubmit = (event) => {
@@ -84,35 +86,26 @@ const AddEvent = () => {
         const canInvite = event.target.canInvite.checked;
         const locationType = event.target.locationType.value;
         const location = event.target.location.value;
-        const repeat = event.target.repeat.value;
         const invited = invitedUsers.map(user => user.email);
-
-        let eventObject = {
-            author, title, description, startDate, startTime, endDate, endTime, 
-            visibility, canInvite, locationType, location, repeat, invited
-        }
+        let repeat = event.target.repeat.value;
 
         if (repeat !== "single") {
-            const freq = event.target.frequency.value;
-            eventObject = {...eventObject, freq};
-            if (repeat === "weekly") {
-                const weekday1 = event.target.monday.checked ? "Monday" : '';
-                const weekday2 = event.target.tuesday.checked ? "Tuesday" : '';
-                const weekday3 = event.target.wednesday.checked ? "Wednesday" : '';
-                const weekday4 = event.target.thursday.checked ? "Thursday" : '';
-                const weekday5 = event.target.friday.checked ? "Friday" : '';
-                const weekday6 = event.target.saturday.checked ? "Saturday" : '';
-                const weekday7 = event.target.sunday.checked ? "Sunday" : '';
-    
-                const chosenWeekdays = 
-                    [weekday1, weekday2, weekday3, weekday4, weekday5, weekday6, weekday7]
-                    .filter(weekday => weekday);
-
-                eventObject = {...eventObject, chosenWeekdays};   
+            repeat = {schedule: repeat, frequency: event.target.frequency.value};
+            if (event.target.repeat.value === "weekly") {
+                const weekdays = [];
+                if (event.target.monday.checked) weekdays.push("Monday");
+                if (event.target.tuesday.checked) weekdays.push("Tuesday");
+                if (event.target.wednesday.checked) weekdays.push("Wednesday");
+                if (event.target.thursday.checked) weekdays.push("Thursday");
+                if (event.target.friday.checked) weekdays.push("Friday");
+                if (event.target.saturday.checked) weekdays.push("Saturday");
+                if (event.target.sunday.checked) weekdays.push("Sunday");
+                repeat = {...repeat, weekdays};
             }
         }
 
-        setForm(eventObject);
+        setForm({ author, title, description, startDate, startTime, endDate, endTime, 
+              visibility, canInvite, locationType, location, invited, repeat });
         setIsFormSubmitted(true);
     }
 
