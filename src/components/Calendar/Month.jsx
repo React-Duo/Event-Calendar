@@ -13,8 +13,13 @@ const Month = ({ month }) => {
     useEffect(() => {
         const fetchEvents = async () => {
             const events = await getAllEvents();
-            const filteredEvents = events.filter(event => event.invited.includes(isLoggedIn.user));
-            setAllEvents(filteredEvents);
+            if(events){
+                const filteredEvents = events.filter(event =>event.author===isLoggedIn.user || event.invited && event.invited.includes(isLoggedIn.user));
+                setAllEvents(filteredEvents);
+            } else {
+                setAllEvents([]);
+            }
+         
         };
         fetchEvents();  
     }, [isLoggedIn.user]);

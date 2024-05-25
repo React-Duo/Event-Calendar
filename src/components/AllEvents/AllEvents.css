@@ -16,6 +16,17 @@
 .fa-location-dot{
     margin-right: 5px;
 }
+.all-events-container h2{
+    text-align: center;
+}
+
+.all-events-container h3{
+    font-size: 20px;
+    font-weight: bold;
+    color: #606060;
+    margin-top: 5px;
+    text-align: center;
+}
 
 .events-filter p {
     display: flex;
