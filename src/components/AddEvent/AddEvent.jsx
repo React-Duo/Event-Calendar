@@ -55,7 +55,6 @@ const AddEvent = () => {
     }, []);
 
     useEffect(() => {
-        console.log(form);
         const handleAddEvent = async () => {
             try {
                 setLoading(true);
@@ -100,8 +99,39 @@ const AddEvent = () => {
             }
         }
 
-        setForm({ author, title, description, startDate, startTime, endDate, endTime, 
-              visibility, canInvite, locationType, location, invited, repeat });
+        const eventObject = { author, title, description, startDate, startTime, endDate, endTime, 
+                                visibility, canInvite, locationType, location, invited, repeat };
+
+        if (eventObject.repeat !== "single") {
+            if (eventObject.repeat.schedule === "daily") {
+                const startDay = new Date(eventObject.startDate).getDate();
+                const startMonth = new Date(eventObject.startDate).getMonth() + 1;
+                const startYear = new Date(eventObject.startDate).getFullYear();
+
+                const endDay = new Date(eventObject.endDate).getDate();
+                const endMonth = new Date(eventObject.endDate).getMonth() + 1;
+                const endYear = new Date(eventObject.endDate).getFullYear();
+
+                if (startMonth === endMonth) {
+                    for (let i = startDay; i <= endDay; i++) {
+                        const newStartDate = `${startYear}-${startMonth}-${i}`;
+                        const newEndDate = `${endYear}-${endMonth}-${i}`;
+                        const newEvent = {...eventObject, startDate: newStartDate, endDate: newEndDate};
+                        console.log(newEvent);
+                    }
+
+                }
+
+
+
+                
+
+            }
+
+        }
+        
+
+        setForm(eventObject);
         setIsFormSubmitted(true);
     }
 
@@ -179,9 +209,6 @@ const AddEvent = () => {
                         <Weekdays handle={handleWeekdayChange}/>
                     </>
                 }
-
-                
-
                 <br />
                 <br />
 
