@@ -1,10 +1,8 @@
 import { useContext, useEffect, useState } from 'react';
 import AuthContext from '../../context/AuthContext';
 import { addEvent, getUserContactLists, getUserDetails } from '../../service/database-service';
-import Frequency from './Frequency';
 import './AddEvent.css';
 import Weekdays from './Weekdays';
-import { set } from 'firebase/database';
 
 const AddEvent = () => {
     const { isLoggedIn } = useContext(AuthContext);
@@ -21,9 +19,7 @@ const AddEvent = () => {
     const [isFormSubmitted, setIsFormSubmitted] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const [dailySchedule, setDailySchedule] = useState(false);
     const [weeklySchedule, setWeeklySchedule] = useState(false);
-    const [monthlySchedule, setMonthlySchedule] = useState(false);
 
     useEffect(() => {
         const getContacts = async () => {
@@ -90,7 +86,7 @@ const AddEvent = () => {
         let repeat = event.target.repeat.value;
 
         if (repeat !== "single") {
-            repeat = {schedule: repeat, frequency: event.target.frequency.value};
+            repeat = {schedule: repeat};
             if (event.target.repeat.value === "weekly") {
                 const weekdays = [];
                 if (event.target.monday.checked) weekdays.push("Monday");
@@ -130,31 +126,11 @@ const AddEvent = () => {
     }
 
     const handleRepeatChange = (event) => {
-        if (event.target.value === "single") {
-            setDailySchedule(false);
-            setWeeklySchedule(false);
-            setMonthlySchedule(false);
-        }
-        if (event.target.value === "daily") {
-            setDailySchedule(true);
-            setWeeklySchedule(false);
-            setMonthlySchedule(false);
-        }
         if (event.target.value === "weekly") {
             setWeeklySchedule(true);
-            setDailySchedule(false);
-            setMonthlySchedule(false);
+        } else {
+            setWeeklySchedule(false);
         }
-        if (event.target.value === "monthly") {
-            setMonthlySchedule(true);
-            setDailySchedule(false);
-            setWeeklySchedule(false);  
-        }
-    }
-
-    const handleFreqChange = (e) => {
-        
-
     }
 
     const handleWeekdayChange = (e) => {
@@ -198,33 +174,13 @@ const AddEvent = () => {
                     <option value="monthly">Monthly</option>
                 </select>
                                     
-                {dailySchedule && 
-                    <>
-                        <label htmlFor="frequency" className="required"> Every </label>
-                        <Frequency handle={handleFreqChange}/>
-                        day(s)
-                    </>
-                }
-
                 {weeklySchedule &&  
                     <>
-                        <label htmlFor="frequency" className="required"> Every </label>
-                        <Frequency handle={handleFreqChange}/>
-                        week(s)
                         <Weekdays handle={handleWeekdayChange}/>
                     </>
                 }
 
-                {monthlySchedule &&
-                    <>
-                        <label htmlFor="frequency" className="required"> Every </label>
-                        <Frequency handle={handleFreqChange}/>
-                        month(s)
-
-                        
-
-                    </>
-                }
+                
 
                 <br />
                 <br />
