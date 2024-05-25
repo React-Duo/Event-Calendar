@@ -220,6 +220,9 @@ const AddEvent = () => {
                         <label htmlFor="frequency" className="required"> Every </label>
                         <Frequency handle={handleFreqChange}/>
                         month(s)
+
+                        
+
                     </>
                 }
 
@@ -241,9 +244,9 @@ const AddEvent = () => {
                         <option value="private">Private</option>
                     </select>
 
-                    <label htmlFor="canInvite" className="required">
+                    <label htmlFor="canInvite">
                         Allow invited users to invite others 
-                    <input type="checkbox" id="canInvite" name="canInvite" className="common" required />
+                    <input type="checkbox" id="canInvite" name="canInvite" className="common" />
                     </label>
                 </span>
                 <br />
