@@ -5,12 +5,12 @@ import AuthContext from "../../context/AuthContext";
 import {
   NAME_MIN_CHARS, NAME_MAX_CHARS,
   PASSWORD_MIN_CHARS, PASSWORD_MAX_CHARS,
-  PHONE_REGEX, PHONE_DIGITS, ADDRESS_MIN_CHARS, ADDRESS_MAX_CHARS, ADDRESS_REGEX,
-  DIGIT_REGEX, LETTER_REGEX, SPECIAL_CHARS_REGEX
+  PHONE_REGEX, PHONE_DIGITS, DIGIT_REGEX, LETTER_REGEX, SPECIAL_CHARS_REGEX
 } from '../../common/constants.js';
 import { changePassword, handleUserDelete, signOutUser } from "../../service/authentication-service";
 import { uploadFile, getFile } from "../../service/storage.js";
 import { useNavigate } from "react-router-dom";
+
 
 
 const ProfileEdit = () => {
@@ -23,7 +23,26 @@ const ProfileEdit = () => {
   const [logo, setLogo] = useState({});
   const [deleteMessage, setDeleteMessage] = useState(null);
   const navigate = useNavigate();
+  const [addressForm, setAddress] = useState({
+    address: "",
+    city: "",
+    country: ""
+  })
 
+
+  const validateAddress = async (addressForm) => {
+    const { address, city, country } = addressForm;
+    if (address && city && country) {
+      const fullAddress = `${address}, ${city}, ${country}`;
+      await editCredential(userDetails.username, "address", fullAddress);
+      setSuccess("Success! Address updated.");
+      setError(null);
+    } else {
+      setError("Please fill all fields");
+      setSuccess(null);
+    }
+
+  };
 
 
   const logoUpdate = (e) => {
@@ -50,7 +69,6 @@ const ProfileEdit = () => {
     lastName: "",
     photo: "",
     phone: "",
-    address: "",
   });
 
   useEffect(() => {
@@ -66,7 +84,6 @@ const ProfileEdit = () => {
           lastName: userDetails[0].lastName,
           photo: userDetails[0].photo,
           phone: userDetails[0].phone,
-          address: userDetails[0].address,
         })
       } catch (error) {
         console.error(error);
@@ -102,12 +119,6 @@ const ProfileEdit = () => {
           return;
         }
         break;
-      case "address":
-        if (!ADDRESS_REGEX.test(value)) {
-          setError(`Address must contain ${ADDRESS_MIN_CHARS}-${ADDRESS_MAX_CHARS} characters, uppercase/lowercase letters, digits and space/dot.`);
-          return;
-        }
-
     }
 
     setUserDetails((prevDetails) => ({
@@ -157,23 +168,22 @@ const ProfileEdit = () => {
           <div className="img-change">
             <img onClick={handleImageClick} src={userDetails.photo}></img>
             <input
-             onChange={(e) => logoUpdate(e)}
+              onChange={(e) => logoUpdate(e)}
               type="file"
               style={{ display: 'none' }}
               ref={fileInput}
               id="file"
             />
-            <button  onClick={async (e) => {
-                e.preventDefault();
-                if (logo.name) {
-                  await uploadFile(isLoggedIn.user, logo)
+            <button onClick={async (e) => {
+              e.preventDefault();
+              if (logo.name) {
+                await uploadFile(isLoggedIn.user, logo)
 
-                  await updatePhotoInData();
-                }
-              }} className="btn">Change</button>
+                await updatePhotoInData();
+              }
+            }} className="btn">Change</button>
           </div>
-          {error && <div className="profile-errorMessage">{error}</div>} <br />
-            {success && <div className="profile-confirmMessage">{success}</div>} <br />
+
           <div className="input">
             <label className="input__label">First Name</label>
             <input
@@ -204,7 +214,7 @@ const ProfileEdit = () => {
             />
             <button onClick={() => editPassword(password)} className="btn"> Change</button>
           </div>
-            
+
           <div>
             <h3>Contacts</h3>
           </div>
@@ -219,25 +229,49 @@ const ProfileEdit = () => {
             />
             <button onClick={() => handleInputChange('phone', userDetails.phone)} className="btn"> Change</button>
           </div>
-          <div className="input">
-            <label className="input__label">Location</label>
-            <input
-              onClick={(e) => (userDetails.address = e.target.value)}
-              className="input__field"
-              type="text"
-              placeholder={userDetails.address}
-            />
-            <button onClick={() => handleInputChange('address', userDetails.address)} className="btn"> Change</button>
+          <div className="address-change">
+            <form>
+              <label className="input__label">Address</label>
+              <input
+                required
+                onChange={(e) => setAddress({ ...addressForm, address: e.target.value })}
+                className="address-inputs"
+                type="text"
+                placeholder="Address"
+              />
+              <div>
+                <label className="input__label">City</label>
+                <input required className="address-inputs"
+                  placeholder="City"
+                  type="text"
+                  onChange={(e) => setAddress({ ...addressForm, city: e.target.value })}
+                />
+                <label className="input__label">Country</label>
+                <input
+                  required
+                  placeholder="Country"
+                  className="address-inputs"
+                  type="text"
+                  onChange={(e) => setAddress({ ...addressForm, country: e.target.value })}
+                />
+              </div>
+              <button type="submit" onClick={(e) => {
+                e.preventDefault();
+                validateAddress(addressForm);
+              }} className="btn"> Change</button>
+            </form>
           </div>
+          {error && <div className="profile-errorMessage">{error}</div>} <br />
+          {success && <div className="profile-confirmMessage">{success}</div>} <br />
           <div>
             <h3>Delete Profile</h3>
             <p>Delete your account and all of your source data.This is irreversible.</p>
           </div>
-          <div><button onClick={()=> setDeleteMessage("Are you sure you want to delete you profile?")} className="delete-btn">Delete</button></div>
-        {deleteMessage && <div className="delete-message">{deleteMessage}
-        <button onClick={logoutHandler} className="delete-btn">Yes</button>
-        <button onClick={() => setDeleteMessage(null)} className="delete-btn">No</button>
-        </div>}
+          <div><button onClick={() => setDeleteMessage("Are you sure you want to delete you profile?")} className="delete-btn">Delete</button></div>
+          {deleteMessage && <div className="delete-message">{deleteMessage}
+            <button onClick={logoutHandler} className="delete-btn">Yes</button>
+            <button onClick={() => setDeleteMessage(null)} className="delete-btn">No</button>
+          </div>}
         </div>
       </div>
     </div>

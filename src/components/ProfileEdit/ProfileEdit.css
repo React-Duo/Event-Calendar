@@ -88,3 +88,32 @@
     padding: 10px;
     border-radius: 15px;
 }
+
+.address-change{
+    background-color: rgb(255, 255, 255);
+    border-radius: 15px;
+    width: 600px;
+    padding: 10px;
+}
+.address-change form{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+}
+.address-inputs{
+    border: none;
+    outline: none;
+    border-radius: 15px;
+    padding: 1em;
+    background-color: rgb(251,251,251);
+    box-shadow: inset 2px 5px 10px rgba(0,0,0,0.3);
+    transition: 300ms ease-in-out;
+    margin-left: 15px;
+    margin-right: 5px;
+}
+
+.input__label{
+    font-size: 19px;
+    margin-left: 11px;
+}
