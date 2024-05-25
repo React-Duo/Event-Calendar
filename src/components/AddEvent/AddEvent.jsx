@@ -1,9 +1,10 @@
 import { useContext, useEffect, useState } from 'react';
 import AuthContext from '../../context/AuthContext';
 import { addEvent, getUserContactLists, getUserDetails } from '../../service/database-service';
-import Select1_99 from './Select1_99';
+import Frequency from './Frequency';
 import './AddEvent.css';
 import Weekdays from './Weekdays';
+import { set } from 'firebase/database';
 
 const AddEvent = () => {
     const { isLoggedIn } = useContext(AuthContext);
@@ -15,7 +16,7 @@ const AddEvent = () => {
         author: '', title: '', description: '', 
         startDate: '', startTime: '', endDate: '', endTime: '', 
         visibility: '', invitedUsers: [], canInvite: false, 
-        locationType: '', location: '', frequency: ''
+        locationType: '', location: '', repeat: ''
     });
     const [isFormSubmitted, setIsFormSubmitted] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -58,8 +59,8 @@ const AddEvent = () => {
     }, []);
 
     useEffect(() => {
+        console.log(form);
         const handleAddEvent = async () => {
-            console.log(form);
             try {
                 setLoading(true);
                 await addEvent(form);
@@ -69,7 +70,7 @@ const AddEvent = () => {
                 setError(error.message);
             }
         }
-        if (isFormSubmitted) handleAddEvent();
+        //if (isFormSubmitted) handleAddEvent();
     }, [form]);
 
     const formSubmit = (event) => {
@@ -85,12 +86,26 @@ const AddEvent = () => {
         const canInvite = event.target.canInvite.checked;
         const locationType = event.target.locationType.value;
         const location = event.target.location.value;
-        const frequency = event.target.repeat.value;
         const invited = invitedUsers.map(user => user.email);
+        let repeat = event.target.repeat.value;
 
-        setForm({author, title, description, startDate, startTime, endDate, endTime, 
-                visibility, invited, canInvite, locationType, location, frequency});
-        
+        if (repeat !== "single") {
+            repeat = {schedule: repeat, frequency: event.target.frequency.value};
+            if (event.target.repeat.value === "weekly") {
+                const weekdays = [];
+                if (event.target.monday.checked) weekdays.push("Monday");
+                if (event.target.tuesday.checked) weekdays.push("Tuesday");
+                if (event.target.wednesday.checked) weekdays.push("Wednesday");
+                if (event.target.thursday.checked) weekdays.push("Thursday");
+                if (event.target.friday.checked) weekdays.push("Friday");
+                if (event.target.saturday.checked) weekdays.push("Saturday");
+                if (event.target.sunday.checked) weekdays.push("Sunday");
+                repeat = {...repeat, weekdays};
+            }
+        }
+
+        setForm({ author, title, description, startDate, startTime, endDate, endTime, 
+              visibility, canInvite, locationType, location, invited, repeat });
         setIsFormSubmitted(true);
     }
 
@@ -138,13 +153,11 @@ const AddEvent = () => {
     }
 
     const handleFreqChange = (e) => {
-        console.log(e.target.value);
         
 
     }
 
     const handleWeekdayChange = (e) => {
-        console.log(e.target.value);
 
     }
 
@@ -177,8 +190,8 @@ const AddEvent = () => {
                 <br />
                 <br />
 
-                <label htmlFor="repeat"> Repeat </label>
-                <select name="repeat" id="repeat" onChange={handleRepeatChange} className="common">
+                <label htmlFor="repeat" className="required"> Repeat </label>
+                <select name="repeat" id="repeat" onChange={handleRepeatChange} className="common" required>
                     <option value="single">One-time</option>
                     <option value="daily">Daily</option>
                     <option value="weekly">Weekly</option>
@@ -187,16 +200,16 @@ const AddEvent = () => {
                                     
                 {dailySchedule && 
                     <>
-                        <label htmlFor="dailyFrequency"> Every </label>
-                        <Select1_99 freq={"dailyFrequency"} handle={handleFreqChange}/>
+                        <label htmlFor="frequency" className="required"> Every </label>
+                        <Frequency handle={handleFreqChange}/>
                         day(s)
                     </>
                 }
 
                 {weeklySchedule &&  
                     <>
-                        <label htmlFor="weeklyFrequency"> Every </label>
-                        <Select1_99 freq={"weeklyFrequency"} handle={handleFreqChange}/>
+                        <label htmlFor="frequency" className="required"> Every </label>
+                        <Frequency handle={handleFreqChange}/>
                         week(s)
                         <Weekdays handle={handleWeekdayChange}/>
                     </>
@@ -204,8 +217,8 @@ const AddEvent = () => {
 
                 {monthlySchedule &&
                     <>
-                        <label htmlFor="monthlyFrequency"> Every </label>
-                        <Select1_99 freq={"monthlyFrequency"} handle={handleFreqChange}/>
+                        <label htmlFor="frequency" className="required"> Every </label>
+                        <Frequency handle={handleFreqChange}/>
                         month(s)
                     </>
                 }
