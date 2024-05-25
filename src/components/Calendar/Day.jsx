@@ -10,7 +10,7 @@ const Day = ({events, day, rowIdx }) => {
 
     useEffect(() => {
         const dayEvents = events.filter(event => {
-                return dayjs(day.format("MM-DD-YYYY")).isBetween(event.startDate, event.endDate, "day", '[]')
+                return dayjs(day.format("MM-DD-YYYY")).isBetween(event[1].startDate, event[1].endDate, "day", '[]')
         })
         setDayEvents(dayEvents)
     }, [day, events]);
@@ -31,10 +31,10 @@ const Day = ({events, day, rowIdx }) => {
             {dayEvents !== undefined && dayEvents.length > 0 && (
                 <div className="calendar-event-title">
                     {dayEvents.length === 1 ? (
-                        <div className="single-event-title">{dayEvents[0].title}</div>
+                        <div className="single-event-title">{dayEvents[0][1].title}</div>
                     ) : (
                         dayEvents.map((event, index) => (
-                            <div className="single-event-title" key={index}>{event.title}</div>
+                            <div className="single-event-title" key={index}>{event[1].title}</div>
                         ))
                     )}
                 </div>
