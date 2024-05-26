@@ -67,7 +67,10 @@ const Day = ({ events, day, rowIdx }) => {
 
 Day.propTypes = {
     events: PropTypes.array,
-    day: PropTypes.object,
+    day: PropTypes.oneOfType([
+        PropTypes.object,
+        PropTypes.array
+    ]),
     rowIdx: PropTypes.number
 }
 
