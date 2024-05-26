@@ -1,10 +1,9 @@
 import { useContext, useEffect, useState } from 'react';
 import AuthContext from '../../context/AuthContext';
 import { addEvent, getUserContactLists, getUserDetails } from '../../service/database-service';
-import Frequency from './Frequency';
 import './AddEvent.css';
 import Weekdays from './Weekdays';
-import { set } from 'firebase/database';
+import { getMonthDays, getWeekDay } from '../../service/utils';
 
 const AddEvent = () => {
     const { isLoggedIn } = useContext(AuthContext);
@@ -21,9 +20,7 @@ const AddEvent = () => {
     const [isFormSubmitted, setIsFormSubmitted] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const [dailySchedule, setDailySchedule] = useState(false);
     const [weeklySchedule, setWeeklySchedule] = useState(false);
-    const [monthlySchedule, setMonthlySchedule] = useState(false);
 
     useEffect(() => {
         const getContacts = async () => {
@@ -59,7 +56,6 @@ const AddEvent = () => {
     }, []);
 
     useEffect(() => {
-        console.log(form);
         const handleAddEvent = async () => {
             try {
                 setLoading(true);
@@ -90,7 +86,7 @@ const AddEvent = () => {
         let repeat = event.target.repeat.value;
 
         if (repeat !== "single") {
-            repeat = {schedule: repeat, frequency: event.target.frequency.value};
+            repeat = {schedule: repeat};
             if (event.target.repeat.value === "weekly") {
                 const weekdays = [];
                 if (event.target.monday.checked) weekdays.push("Monday");
@@ -104,8 +100,93 @@ const AddEvent = () => {
             }
         }
 
-        setForm({ author, title, description, startDate, startTime, endDate, endTime, 
-              visibility, canInvite, locationType, location, invited, repeat });
+        const eventObject = { author, title, description, startDate, startTime, endDate, endTime, 
+                                visibility, canInvite, locationType, location, invited, repeat };
+
+        if (repeat !== "single") {
+                const startDay = new Date(startDate).getDate();
+                const startMonth = new Date(startDate).getMonth() + 1;
+                const startYear = new Date(startDate).getFullYear();
+                const endDay = new Date(endDate).getDate();
+                const endMonth = new Date(endDate).getMonth() + 1;
+                const endYear = new Date(endDate).getFullYear();
+                const events = [];
+
+                if (startMonth === endMonth) {
+                    for (let i = startDay; i <= endDay; i++) {
+                        const newStartDate = `${startYear}-${startMonth}-${i}`;
+                        const newEndDate = newStartDate;
+                        if (repeat.schedule === "daily") {
+                            const newEvent = {...eventObject, startDate: newStartDate, endDate: newEndDate};
+                            events.push(newEvent);
+                        } else if (repeat.schedule === "weekly") {
+                            const weekday = getWeekDay(new Date(newStartDate).getDay());
+                            if (repeat.weekdays.includes(weekday)) {
+                                const newEvent = {...eventObject, startDate: newStartDate, endDate: newEndDate};
+                                events.push(newEvent);
+                            } 
+                        }
+                    }
+                } else if (startMonth < endMonth) {
+                    for (let i = startMonth; i <= endMonth; i++) {
+                        if (i === startMonth) {
+                            const numberOfDays = getMonthDays(`${startYear}-${i}`);
+                            for (let i = startDay; i <= numberOfDays; i++) {
+                                const newStartDate = `${startYear}-${startMonth}-${i}`;
+                                const newEndDate = newStartDate;
+                                if (repeat.schedule === "daily") {
+                                    const newEvent = {...eventObject, startDate: newStartDate, endDate: newEndDate};
+                                    events.push(newEvent);
+                                } else if (repeat.schedule === "weekly") {
+                                    const weekday = getWeekDay(new Date(newStartDate).getDay());
+                                    if (repeat.weekdays.includes(weekday)) {
+                                        const newEvent = {...eventObject, startDate: newStartDate, endDate: newEndDate};
+                                        events.push(newEvent);
+                                    } 
+                                }
+                            }
+                        }  else if (i === endMonth) {
+                            for (let i = 1; i <= endDay; i++) {
+                                const newStartDate = `${endYear}-${endMonth}-${i}`;
+                                const newEndDate = newStartDate;
+                                if (repeat.schedule === "daily") {
+                                    const newEvent = {...eventObject, startDate: newStartDate, endDate: newEndDate};
+                                    events.push(newEvent);
+                                } else if (repeat.schedule === "weekly") {
+                                    const weekday = getWeekDay(new Date(newStartDate).getDay());
+                                    if (repeat.weekdays.includes(weekday)) {
+                                        const newEvent = {...eventObject, startDate: newStartDate, endDate: newEndDate};
+                                        events.push(newEvent);
+                                    } 
+                                }
+                            }
+                        } else {
+                            const numberOfDays = getMonthDays(`${startYear}-${i}`);
+                            for (let x = 1; x <= numberOfDays; x++) {
+                                const newStartDate = `${startYear}-${i}-${x}`;
+                                const newEndDate = newStartDate;
+                                if (repeat.schedule === "daily") {
+                                    const newEvent = {...eventObject, startDate: newStartDate, endDate: newEndDate};
+                                    events.push(newEvent);
+                                } else if (repeat.schedule === "weekly") {
+                                    const weekday = getWeekDay(new Date(newStartDate).getDay());
+                                    if (repeat.weekdays.includes(weekday)) {
+                                        const newEvent = {...eventObject, startDate: newStartDate, endDate: newEndDate};
+                                        events.push(newEvent);
+                                    } 
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    setError("Start month is greater than end month!");
+                    console.log("Invalid date range");
+                    return;
+                }
+        }
+        
+
+        setForm(eventObject);
         setIsFormSubmitted(true);
     }
 
@@ -130,31 +211,11 @@ const AddEvent = () => {
     }
 
     const handleRepeatChange = (event) => {
-        if (event.target.value === "single") {
-            setDailySchedule(false);
-            setWeeklySchedule(false);
-            setMonthlySchedule(false);
-        }
-        if (event.target.value === "daily") {
-            setDailySchedule(true);
-            setWeeklySchedule(false);
-            setMonthlySchedule(false);
-        }
         if (event.target.value === "weekly") {
             setWeeklySchedule(true);
-            setDailySchedule(false);
-            setMonthlySchedule(false);
+        } else {
+            setWeeklySchedule(false);
         }
-        if (event.target.value === "monthly") {
-            setMonthlySchedule(true);
-            setDailySchedule(false);
-            setWeeklySchedule(false);  
-        }
-    }
-
-    const handleFreqChange = (e) => {
-        
-
     }
 
     const handleWeekdayChange = (e) => {
@@ -171,7 +232,6 @@ const AddEvent = () => {
     return (
         <>  
             <h1>Add Event</h1>
-            {error && <p className="error">{error}</p>}
             <form onSubmit={formSubmit} onClick={() => setSuggestions([])} className="event-form">
                 <label htmlFor="title" className="required"> Title </label>
                 <input type="text" id="title" name="title" className="common" required />
@@ -198,31 +258,11 @@ const AddEvent = () => {
                     <option value="monthly">Monthly</option>
                 </select>
                                     
-                {dailySchedule && 
-                    <>
-                        <label htmlFor="frequency" className="required"> Every </label>
-                        <Frequency handle={handleFreqChange}/>
-                        day(s)
-                    </>
-                }
-
                 {weeklySchedule &&  
                     <>
-                        <label htmlFor="frequency" className="required"> Every </label>
-                        <Frequency handle={handleFreqChange}/>
-                        week(s)
                         <Weekdays handle={handleWeekdayChange}/>
                     </>
                 }
-
-                {monthlySchedule &&
-                    <>
-                        <label htmlFor="frequency" className="required"> Every </label>
-                        <Frequency handle={handleFreqChange}/>
-                        month(s)
-                    </>
-                }
-
                 <br />
                 <br />
 
@@ -241,9 +281,9 @@ const AddEvent = () => {
                         <option value="private">Private</option>
                     </select>
 
-                    <label htmlFor="canInvite" className="required">
+                    <label htmlFor="canInvite">
                         Allow invited users to invite others 
-                    <input type="checkbox" id="canInvite" name="canInvite" className="common" required />
+                    <input type="checkbox" id="canInvite" name="canInvite" className="common" />
                     </label>
                 </span>
                 <br />
@@ -300,6 +340,7 @@ const AddEvent = () => {
                 <br />
                 <br />
 
+                {error && <p className="error">{error}</p>}
                 <button type="submit" className="formbold-btn">Add event</button>
             </form>
         </>

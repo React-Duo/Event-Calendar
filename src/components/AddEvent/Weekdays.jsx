@@ -4,22 +4,22 @@ const Weekdays = (props) => {
 
     return (
         <>
-            <label htmlFor="weekDays-selector"> On </label>
+            <label htmlFor="weekDays-selector"> Days: </label>
             <span className="weekDays-selector">
                 <input type="checkbox" id="monday" onChange={props.handle}/>
-                <label htmlFor="monday">M</label>
+                <label htmlFor="monday">Mon</label>
                 <input type="checkbox" id="tuesday" onChange={props.handle}/>
-                <label htmlFor="tuesday">T</label>
+                <label htmlFor="tuesday">Tue</label>
                 <input type="checkbox" id="wednesday" onChange={props.handle}/>
-                <label htmlFor="wednesday">W</label>
+                <label htmlFor="wednesday">Wed</label>
                 <input type="checkbox" id="thursday" onChange={props.handle}/>
-                <label htmlFor="thursday">T</label>
+                <label htmlFor="thursday">Thu</label>
                 <input type="checkbox" id="friday" onChange={props.handle}/>
-                <label htmlFor="friday">F</label>
+                <label htmlFor="friday">Fri</label>
                 <input type="checkbox" id="saturday" onChange={props.handle}/>
-                <label htmlFor="saturday">S</label>
+                <label htmlFor="saturday">Sat</label>
                 <input type="checkbox" id="sunday" onChange={props.handle}/>
-                <label htmlFor="sunday">S</label>
+                <label htmlFor="sunday">Sun</label>
             </span>
         </>
     )
