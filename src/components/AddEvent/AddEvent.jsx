@@ -112,6 +112,8 @@ const AddEvent = () => {
                 const endYear = new Date(endDate).getFullYear();
                 const events = [];
 
+                
+
                 if (startMonth === endMonth) {
                     for (let i = startDay; i <= endDay; i++) {
                         const newStartDate = `${startYear}-${startMonth}-${i}`;
@@ -183,6 +185,8 @@ const AddEvent = () => {
                     console.log("Invalid date range");
                     return;
                 }
+
+                console.log(events);
         }
         
 
