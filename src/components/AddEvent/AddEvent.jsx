@@ -121,18 +121,31 @@ const AddEvent = () => {
                         console.log(newEvent);
                     }
                 } else if (startMonth < endMonth) {
-                    const numberOfDays = getMonthDays(startDate);
-                    for (let i = startDay; i <= numberOfDays; i++) {
-                        const newStartDate = `${startYear}-${startMonth}-${i}`;
-                        const newEndDate = newStartDate;
-                        const newEvent = {...eventObject, startDate: newStartDate, endDate: newEndDate};
-                        console.log(newEvent);
-                    }
-                    for (let i = 1; i <= endDay; i++) {
-                        const newStartDate = `${endYear}-${endMonth}-${i}`;
-                        const newEndDate = newStartDate;
-                        const newEvent = {...eventObject, startDate: newStartDate, endDate: newEndDate};
-                        console.log(newEvent);
+                    for (let i = startMonth; i <= endMonth; i++) {
+                        if (i === startMonth) {
+                            const numberOfDays = getMonthDays(`${startYear}-${i}`);
+                            for (let i = startDay; i <= numberOfDays; i++) {
+                                const newStartDate = `${startYear}-${startMonth}-${i}`;
+                                const newEndDate = newStartDate;
+                                const newEvent = {...eventObject, startDate: newStartDate, endDate: newEndDate};
+                                console.log(newEvent);
+                            }
+                        }  else if (i === endMonth) {
+                            for (let i = 1; i <= endDay; i++) {
+                                const newStartDate = `${endYear}-${endMonth}-${i}`;
+                                const newEndDate = newStartDate;
+                                const newEvent = {...eventObject, startDate: newStartDate, endDate: newEndDate};
+                                console.log(newEvent);
+                            }
+                        } else {
+                            const numberOfDays = getMonthDays(`${startYear}-${i}`);
+                            for (let x = 1; x <= numberOfDays; x++) {
+                                const newStartDate = `${startYear}-${i}-${x}`;
+                                const newEndDate = newStartDate;
+                                const newEvent = {...eventObject, startDate: newStartDate, endDate: newEndDate};
+                                console.log(newEvent);
+                            }
+                        }
                     }
                 } else {
                     setError("Start month is greater than end month!");
