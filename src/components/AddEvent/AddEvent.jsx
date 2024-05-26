@@ -71,20 +71,17 @@ const AddEvent = () => {
 
     const formSubmit = (event) => {
         event.preventDefault();
-        const author = isLoggedIn.user;
-        const title = event.target.title.value;
-        const description = event.target.description.value;
-        const startDate = event.target.startDate.value;
-        const startTime = event.target.startTime.value;
-        const endDate = event.target.endDate.value;
-        const endTime = event.target.endTime.value;
-        const visibility = event.target.visibility.value;
-        const canInvite = event.target.canInvite.checked;
-        const locationType = event.target.locationType.value;
-        const location = event.target.location.value;
-        const invited = invitedUsers.map(user => user.email);
         let repeat = event.target.repeat.value;
-
+        const invited = invitedUsers.map(user => user.email);
+        const [author, title, description, startDate, startTime, endDate, endTime, 
+                visibility, canInvite, locationType, location] = 
+            [ 
+                isLoggedIn.user, event.target.title.value, event.target.description.value, 
+                event.target.startDate.value, event.target.startTime.value, event.target.endDate.value, 
+                event.target.endTime.value, event.target.visibility.value, event.target.canInvite.checked, 
+                event.target.locationType.value, event.target.location.value 
+            ];
+        
         if (repeat !== "single") {
             repeat = {schedule: repeat};
             if (event.target.repeat.value === "weekly") {
@@ -103,93 +100,165 @@ const AddEvent = () => {
         const eventObject = { author, title, description, startDate, startTime, endDate, endTime, 
                                 visibility, canInvite, locationType, location, invited, repeat };
 
-        if (repeat !== "single") {
-                const startDay = new Date(startDate).getDate();
-                const startMonth = new Date(startDate).getMonth() + 1;
-                const startYear = new Date(startDate).getFullYear();
-                const endDay = new Date(endDate).getDate();
-                const endMonth = new Date(endDate).getMonth() + 1;
-                const endYear = new Date(endDate).getFullYear();
-                const events = [];
+        const [startDay, startMonth, startYear] = 
+            [ new Date(startDate).getDate(), new Date(startDate).getMonth() + 1, new Date(startDate).getFullYear() ];
+        const [endDay, endMonth, endYear] = 
+            [ new Date(endDate).getDate(), new Date(endDate).getMonth() + 1, new Date(endDate).getFullYear() ];
+        const events = [];          
 
-                
-
-                if (startMonth === endMonth) {
-                    for (let i = startDay; i <= endDay; i++) {
-                        const newStartDate = `${startYear}-${startMonth}-${i}`;
-                        const newEndDate = newStartDate;
-                        if (repeat.schedule === "daily") {
-                            const newEvent = {...eventObject, startDate: newStartDate, endDate: newEndDate};
-                            events.push(newEvent);
-                        } else if (repeat.schedule === "weekly") {
-                            const weekday = getWeekDay(new Date(newStartDate).getDay());
-                            if (repeat.weekdays.includes(weekday)) {
-                                const newEvent = {...eventObject, startDate: newStartDate, endDate: newEndDate};
-                                events.push(newEvent);
-                            } 
-                        }
-                    }
-                } else if (startMonth < endMonth) {
-                    for (let i = startMonth; i <= endMonth; i++) {
-                        if (i === startMonth) {
-                            const numberOfDays = getMonthDays(`${startYear}-${i}`);
-                            for (let i = startDay; i <= numberOfDays; i++) {
-                                const newStartDate = `${startYear}-${startMonth}-${i}`;
-                                const newEndDate = newStartDate;
-                                if (repeat.schedule === "daily") {
-                                    const newEvent = {...eventObject, startDate: newStartDate, endDate: newEndDate};
-                                    events.push(newEvent);
-                                } else if (repeat.schedule === "weekly") {
-                                    const weekday = getWeekDay(new Date(newStartDate).getDay());
-                                    if (repeat.weekdays.includes(weekday)) {
-                                        const newEvent = {...eventObject, startDate: newStartDate, endDate: newEndDate};
-                                        events.push(newEvent);
-                                    } 
-                                }
-                            }
-                        }  else if (i === endMonth) {
-                            for (let i = 1; i <= endDay; i++) {
-                                const newStartDate = `${endYear}-${endMonth}-${i}`;
-                                const newEndDate = newStartDate;
-                                if (repeat.schedule === "daily") {
-                                    const newEvent = {...eventObject, startDate: newStartDate, endDate: newEndDate};
-                                    events.push(newEvent);
-                                } else if (repeat.schedule === "weekly") {
-                                    const weekday = getWeekDay(new Date(newStartDate).getDay());
-                                    if (repeat.weekdays.includes(weekday)) {
-                                        const newEvent = {...eventObject, startDate: newStartDate, endDate: newEndDate};
-                                        events.push(newEvent);
-                                    } 
-                                }
-                            }
-                        } else {
-                            const numberOfDays = getMonthDays(`${startYear}-${i}`);
-                            for (let x = 1; x <= numberOfDays; x++) {
-                                const newStartDate = `${startYear}-${i}-${x}`;
-                                const newEndDate = newStartDate;
-                                if (repeat.schedule === "daily") {
-                                    const newEvent = {...eventObject, startDate: newStartDate, endDate: newEndDate};
-                                    events.push(newEvent);
-                                } else if (repeat.schedule === "weekly") {
-                                    const weekday = getWeekDay(new Date(newStartDate).getDay());
-                                    if (repeat.weekdays.includes(weekday)) {
-                                        const newEvent = {...eventObject, startDate: newStartDate, endDate: newEndDate};
-                                        events.push(newEvent);
-                                    } 
-                                }
-                            }
-                        }
-                    }
-                } else {
-                    setError("Start month is greater than end month!");
+        if (startYear > endYear) {
+            setError("Start year is greater than end year!");
+            console.log("Invalid date range");
+            return;
+        } 
+        
+        if (startYear === endYear) {
+            if (startMonth > endMonth) {
+                setError("Start month is greater than end month!");
+                console.log("Invalid date range");
+                return;
+            }
+            if (startMonth === endMonth) {
+                if (startDay > endDay) {
+                    setError("Start day is greater than end day!");
                     console.log("Invalid date range");
                     return;
                 }
 
-                console.log(events);
-        }
-        
+                if (repeat !== "single") {
+                    for (let currentDate = startDay; currentDate <= endDay; currentDate++) {
+                        const date = `${startYear}-${startMonth}-${currentDate}`;
+                        if (repeat.schedule === "daily") events.push({...eventObject, startDate: date, endDate: date});
+                        if (repeat.schedule === "weekly") {
+                            const weekday = getWeekDay(new Date(date).getDay());
+                            if (repeat.weekdays.includes(weekday)) events.push({...eventObject, startDate: date, endDate: date});
+                        }
+                    }
+                }
 
+                if (repeat === "single") events.push({...eventObject});
+            }
+            if (startMonth < endMonth) {
+                if (repeat === "single") events.push({...eventObject});
+
+                if (repeat !== "single") {
+                    for (let currentMonth = startMonth; currentMonth <= endMonth; currentMonth++) {
+                        if (currentMonth === startMonth) {
+                            const monthDays = getMonthDays(`${startYear}-${startMonth}`);
+                            for (let currentDate = startDay; currentDate <= monthDays; currentDate++) {
+                                const date = `${startYear}-${startMonth}-${currentDate}`;
+                                if (repeat.schedule === "daily") events.push({...eventObject, startDate: date, endDate: date});
+                                if (repeat.schedule === "weekly") {
+                                    const weekday = getWeekDay(new Date(date).getDay());
+                                    if (repeat.weekdays.includes(weekday)) events.push({...eventObject, startDate: date, endDate: date});
+                                }
+                            }
+                        }
+                        
+                        if (currentMonth === endMonth) {
+                            for (let currentDate = 1; currentDate <= endDay; currentDate++) {
+                                const date = `${startYear}-${endMonth}-${currentDate}`;
+                                if (repeat.schedule === "daily") events.push({...eventObject, startDate: date, endDate: date});
+                                if (repeat.schedule === "weekly") {
+                                    const weekday = getWeekDay(new Date(date).getDay());
+                                    if (repeat.weekdays.includes(weekday)) events.push({...eventObject, startDate: date, endDate: date});
+                                }
+                            }
+                        } 
+                        
+                        if (currentMonth !== startMonth && currentMonth !== endMonth) {
+                            const monthDays = getMonthDays(`${startYear}-${currentMonth}`);
+                            for (let currentDate = 1; currentDate <= monthDays; currentDate++) {
+                                const date = `${startYear}-${currentMonth}-${currentDate}`;
+                                if (repeat.schedule === "daily") events.push({...eventObject, startDate: date, endDate: date});
+                                if (repeat.schedule === "weekly") {
+                                    const weekday = getWeekDay(new Date(date).getDay());
+                                    if (repeat.weekdays.includes(weekday)) events.push({...eventObject, startDate: date, endDate: date});
+                                }
+                            }
+                        }
+                    }
+                }
+            } 
+        } 
+        
+        if (startYear < endYear) {
+            if (repeat === "single") events.push({...eventObject});
+            
+            if (repeat !== "single") {
+                for (let currentYear = startYear; currentYear <= endYear; currentYear++) {
+                    if (currentYear === startYear) {
+                        for (let currentMonth = startMonth; currentMonth <= 12; currentMonth++) {
+                            if (currentMonth === startMonth) {
+                                const monthDays = getMonthDays(`${startYear}-${startMonth}`);
+                                for (let currentDate = startDay; currentDate <= monthDays; currentDate++) {
+                                    const date = `${startYear}-${startMonth}-${currentDate}`;
+                                    if (repeat.schedule === "daily") events.push({...eventObject, startDate: date, endDate: date});
+                                    if (repeat.schedule === "weekly") {
+                                        const weekday = getWeekDay(new Date(date).getDay());
+                                        if (repeat.weekdays.includes(weekday)) events.push({...eventObject, startDate: date, endDate: date});
+                                    }
+                                }
+                            } 
+                            if (currentMonth !== startMonth) {
+                                const monthDays = getMonthDays(`${startYear}-${currentMonth}`);
+                                for (let currentDate = 1; currentDate <= monthDays; currentDate++) {
+                                    const date = `${startYear}-${currentMonth}-${currentDate}`;
+                                    if (repeat.schedule === "daily") events.push({...eventObject, startDate: date, endDate: date});
+                                    if (repeat.schedule === "weekly") {
+                                        const weekday = getWeekDay(new Date(date).getDay());
+                                        if (repeat.weekdays.includes(weekday)) events.push({...eventObject, startDate: date, endDate: date});
+                                    }
+                                }
+                            }
+                        }
+                    } 
+                    
+                    if (currentYear === endYear) {
+                        for (let currentMonth = 1; currentMonth <= endMonth; currentMonth++) {
+                            if (currentMonth !== endMonth) { 
+                                const monthDays = getMonthDays(`${endYear}-${currentMonth}`);
+                                for (let currentDate = 1; currentDate <= monthDays; currentDate++) {
+                                    const date = `${endYear}-${currentMonth}-${currentDate}`;
+                                    if (repeat.schedule === "daily") events.push({...eventObject, startDate: date, endDate: date});
+                                    if (repeat.schedule === "weekly") {
+                                        const weekday = getWeekDay(new Date(date).getDay());
+                                        if (repeat.weekdays.includes(weekday)) events.push({...eventObject, startDate: date, endDate: date});
+                                    }
+                                }
+                            }
+
+                            if (currentMonth === endMonth) {
+                                for (let currentDate = 1; currentDate <= endDay; currentDate++) {
+                                    const date = `${endYear}-${endMonth}-${currentDate}`;
+                                    if (repeat.schedule === "daily") events.push({...eventObject, startDate: date, endDate: date});
+                                    if (repeat.schedule === "weekly") {
+                                        const weekday = getWeekDay(new Date(date).getDay());
+                                        if (repeat.weekdays.includes(weekday)) events.push({...eventObject, startDate: date, endDate: date});
+                                    }
+                                }
+                            } 
+                        }
+                    } 
+                    
+                    if (currentYear !== startYear && currentYear !== endYear) {
+                        for (let currentMonth = 1; currentMonth <= 12; currentMonth++) {
+                            const monthDays = getMonthDays(`${currentYear}-${currentMonth}`);
+                            for (let currentDate = 1; currentDate <= monthDays; currentDate++) {
+                                const date = `${currentYear}-${currentMonth}-${currentDate}`;
+                                if (repeat.schedule === "daily") events.push({...eventObject, startDate: date, endDate: date});
+                                if (repeat.schedule === "weekly") {
+                                    const weekday = getWeekDay(new Date(date).getDay());
+                                    if (repeat.weekdays.includes(weekday)) events.push({...eventObject, startDate: date, endDate: date});
+                                }
+                            }
+                        } 
+                    }
+                }
+            }
+        }
+
+        console.log(events);
         setForm(eventObject);
         setIsFormSubmitted(true);
     }
