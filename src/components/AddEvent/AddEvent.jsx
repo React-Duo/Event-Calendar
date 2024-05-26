@@ -3,7 +3,7 @@ import AuthContext from '../../context/AuthContext';
 import { addEvent, getUserContactLists, getUserDetails } from '../../service/database-service';
 import './AddEvent.css';
 import Weekdays from './Weekdays';
-import { getMonthDays } from '../../service/utils';
+import { getMonthDays, getWeekDay } from '../../service/utils';
 
 const AddEvent = () => {
     const { isLoggedIn } = useContext(AuthContext);
@@ -104,21 +104,28 @@ const AddEvent = () => {
                                 visibility, canInvite, locationType, location, invited, repeat };
 
         if (repeat !== "single") {
-            if (repeat.schedule === "daily") {
                 const startDay = new Date(startDate).getDate();
                 const startMonth = new Date(startDate).getMonth() + 1;
                 const startYear = new Date(startDate).getFullYear();
-
                 const endDay = new Date(endDate).getDate();
                 const endMonth = new Date(endDate).getMonth() + 1;
                 const endYear = new Date(endDate).getFullYear();
+                const events = [];
 
                 if (startMonth === endMonth) {
                     for (let i = startDay; i <= endDay; i++) {
                         const newStartDate = `${startYear}-${startMonth}-${i}`;
-                        const newEndDate = `${endYear}-${endMonth}-${i}`;
-                        const newEvent = {...eventObject, startDate: newStartDate, endDate: newEndDate};
-                        console.log(newEvent);
+                        const newEndDate = newStartDate;
+                        if (repeat.schedule === "daily") {
+                            const newEvent = {...eventObject, startDate: newStartDate, endDate: newEndDate};
+                            events.push(newEvent);
+                        } else if (repeat.schedule === "weekly") {
+                            const weekday = getWeekDay(new Date(newStartDate).getDay());
+                            if (repeat.weekdays.includes(weekday)) {
+                                const newEvent = {...eventObject, startDate: newStartDate, endDate: newEndDate};
+                                events.push(newEvent);
+                            } 
+                        }
                     }
                 } else if (startMonth < endMonth) {
                     for (let i = startMonth; i <= endMonth; i++) {
@@ -127,23 +134,47 @@ const AddEvent = () => {
                             for (let i = startDay; i <= numberOfDays; i++) {
                                 const newStartDate = `${startYear}-${startMonth}-${i}`;
                                 const newEndDate = newStartDate;
-                                const newEvent = {...eventObject, startDate: newStartDate, endDate: newEndDate};
-                                console.log(newEvent);
+                                if (repeat.schedule === "daily") {
+                                    const newEvent = {...eventObject, startDate: newStartDate, endDate: newEndDate};
+                                    events.push(newEvent);
+                                } else if (repeat.schedule === "weekly") {
+                                    const weekday = getWeekDay(new Date(newStartDate).getDay());
+                                    if (repeat.weekdays.includes(weekday)) {
+                                        const newEvent = {...eventObject, startDate: newStartDate, endDate: newEndDate};
+                                        events.push(newEvent);
+                                    } 
+                                }
                             }
                         }  else if (i === endMonth) {
                             for (let i = 1; i <= endDay; i++) {
                                 const newStartDate = `${endYear}-${endMonth}-${i}`;
                                 const newEndDate = newStartDate;
-                                const newEvent = {...eventObject, startDate: newStartDate, endDate: newEndDate};
-                                console.log(newEvent);
+                                if (repeat.schedule === "daily") {
+                                    const newEvent = {...eventObject, startDate: newStartDate, endDate: newEndDate};
+                                    events.push(newEvent);
+                                } else if (repeat.schedule === "weekly") {
+                                    const weekday = getWeekDay(new Date(newStartDate).getDay());
+                                    if (repeat.weekdays.includes(weekday)) {
+                                        const newEvent = {...eventObject, startDate: newStartDate, endDate: newEndDate};
+                                        events.push(newEvent);
+                                    } 
+                                }
                             }
                         } else {
                             const numberOfDays = getMonthDays(`${startYear}-${i}`);
                             for (let x = 1; x <= numberOfDays; x++) {
                                 const newStartDate = `${startYear}-${i}-${x}`;
                                 const newEndDate = newStartDate;
-                                const newEvent = {...eventObject, startDate: newStartDate, endDate: newEndDate};
-                                console.log(newEvent);
+                                if (repeat.schedule === "daily") {
+                                    const newEvent = {...eventObject, startDate: newStartDate, endDate: newEndDate};
+                                    events.push(newEvent);
+                                } else if (repeat.schedule === "weekly") {
+                                    const weekday = getWeekDay(new Date(newStartDate).getDay());
+                                    if (repeat.weekdays.includes(weekday)) {
+                                        const newEvent = {...eventObject, startDate: newStartDate, endDate: newEndDate};
+                                        events.push(newEvent);
+                                    } 
+                                }
                             }
                         }
                     }
@@ -152,15 +183,9 @@ const AddEvent = () => {
                     console.log("Invalid date range");
                     return;
                 }
-            }
-
-
-
-
-
-
         }
         
+
         setForm(eventObject);
         setIsFormSubmitted(true);
     }
