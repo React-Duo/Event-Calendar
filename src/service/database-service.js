@@ -44,9 +44,12 @@ export const getUserContactLists = async (email) => {
   }
 }
 
-export const addEvent = async (eventDetails) => { 
+export const addEvent = async (events) => { 
   try { 
-    return await push(ref(database, 'events'), eventDetails);
+    console.log(events);
+    return await Promise.all(events.map(async (event) => {
+        await push(ref(database, 'events'), event);
+    }));
   } catch (error) {
     console.log(error.message);
   }

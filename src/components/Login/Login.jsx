@@ -21,11 +21,9 @@ const Login = () => {
         if (isFormSubmitted) {
             const loginHandler = async () => {
                 try {
-                    setLoading(true);
+                    setLoading(true);                    
                     const userCredentials = await signInUser(form.emailAddress, form.password);
-                    if (typeof userCredentials === 'string' && userCredentials.includes('auth/invalid-credential')) {
-                       throw new Error(`Incorrect login credentials.`);
-                    } 
+                    if (!userCredentials) throw new Error(`Incorrect login credentials.`);
                     setIsLoginSuccessful(true);
                 } catch (error) {
                     setError(error.message);

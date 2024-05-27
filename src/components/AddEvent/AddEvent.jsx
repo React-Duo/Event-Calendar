@@ -11,12 +11,7 @@ const AddEvent = () => {
     const [suggestions, setSuggestions] = useState([]);
     const [invitedUsers, setInvitedUsers] = useState([]);
     const [inputValue, setInputValue] = useState('');
-    const [form, setForm] = useState({
-        author: '', title: '', description: '', 
-        startDate: '', startTime: '', endDate: '', endTime: '', 
-        visibility: '', invitedUsers: [], canInvite: false, 
-        locationType: '', location: '', repeat: ''
-    });
+    const [events, setEvents] = useState([]);
     const [isFormSubmitted, setIsFormSubmitted] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -59,15 +54,16 @@ const AddEvent = () => {
         const handleAddEvent = async () => {
             try {
                 setLoading(true);
-                await addEvent(form);
+                await addEvent(events);
                 setLoading(false);
+                setError(null);
             } catch (error) {
                 setLoading(false);
                 setError(error.message);
             }
         }
-        //if (isFormSubmitted) handleAddEvent();
-    }, [form]);
+        if (isFormSubmitted) handleAddEvent();
+    }, [events]);
 
     const formSubmit = (event) => {
         event.preventDefault();
@@ -258,8 +254,7 @@ const AddEvent = () => {
             }
         }
 
-        console.log(events);
-        setForm(eventObject);
+        setEvents(events);
         setIsFormSubmitted(true);
     }
 
