@@ -2,6 +2,7 @@
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    margin-left: 15px;
 }
 
 /* calendar */
@@ -78,6 +79,12 @@
     padding: 0.25rem;
 }
 
+.single-event-title-container{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
 /* month */
 .container-month{
     flex: 1 1 0%;
@@ -101,8 +108,9 @@
     border: 1px solid rgba(136, 136, 136, 0.544);
     height: 30px;
     display: flex;
-    flex-direction: row;
-    align-items: center;
+    flex-direction: column;
+    height: 70px;
+    overflow-y: auto;
 }
 .hour-container h4{
     padding: 0px 11px
@@ -122,11 +130,22 @@
 }
 
 .hour-day-container h4 {
-    padding: 0px 15px;
-    border-right: 3px solid rgba(17, 17, 17, 0.544);
+    /* padding: 0px 15px; */
+    /* border-right: 3px solid rgba(17, 17, 17, 0.544); */
 }
 
 .hour-day-container p {
     display: block;
     padding-left: 15px;
+}
+
+.hours-static{
+    position: absolute;
+    top: 11em;
+    left: 10.3em;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    font-size: 17px;
+    font-weight: bold;
 }
