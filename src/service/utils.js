@@ -28,7 +28,15 @@ export function getWeek(month = dayjs().month(), weekOffset = dayjs().week() - d
     });
     return daysMatrix;
 }
-
+export function getDay(dayOffset = 0) {
+    const year = dayjs().year();
+    const month = dayjs().month();
+    const currentDay = dayjs().add(dayOffset, 'day').date();
+    const dayMatrix = new Array(24).fill(null).map((_, hour) => {
+        return dayjs(new Date(year, month, currentDay, hour));
+    });
+    return dayMatrix;
+}
 
 export function getMonthDays(date) {
     const month = new Date(date).getMonth() + 1;
