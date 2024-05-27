@@ -10,9 +10,10 @@ const ContextWrapper = (props) => {
     const [view, setView] = useState("month")
     const [month, setMonth] = useState(dayjs().month())
     const [weekOffset, setWeekOffset] = useState(dayjs().week() - dayjs(new Date(dayjs().year(), month - 1, 1)).week())
+    const [dayOffset, setDayOffset] = useState(0)
 
     return (
-            <GlobalContext.Provider value={{ monthIndex, setMonthIndex, view, setView, weekOffset, setWeekOffset }}>
+            <GlobalContext.Provider value={{ monthIndex, setMonthIndex, view, setView, weekOffset, setWeekOffset, dayOffset, setDayOffset }}>
                 {props.children}
             </GlobalContext.Provider>
     )

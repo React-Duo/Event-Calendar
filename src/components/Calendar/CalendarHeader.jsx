@@ -9,9 +9,10 @@ const CalendarHeader = () => {
   const { monthIndex, setMonthIndex } = useContext(GlobalContext)
   const { weekOffset, setWeekOffset } = useContext(GlobalContext)
   const { view, setView } = useContext(GlobalContext)
+  const { dayOffset, setDayOffset } = useContext(GlobalContext)
   dayjs.extend(localeData)
 
-
+  // week
   const handleNextWeek = () => {
     setWeekOffset(weekOffset + 1)
   }
@@ -22,7 +23,7 @@ const CalendarHeader = () => {
   const handleResetWeek = () => {
     setWeekOffset(dayjs().week() - dayjs(new Date(dayjs().year(), monthIndex - 1, 1)).week())
   }
-
+// month
   const handlePrevMonth = () => {
     setMonthIndex(monthIndex - 1)
   }
@@ -32,14 +33,27 @@ const CalendarHeader = () => {
   const handleReset = () => {
     setMonthIndex(dayjs().month())
   }
+// day
+
+  const handleNextDay = () => {
+    setDayOffset(dayOffset + 1)
+  }
+  const handlePrevDay = () => {
+    setDayOffset(dayOffset - 1)
+  }
+  const resetDayOffset = () => {
+    setDayOffset(0)
+  };
 
   return (
     <header className="calendar-header">
       <button onClick={() => {
         if (view === "month") {
           handlePrevMonth()
-        } else {
+        } else if(view === "week") {
           handlePrevWeek()
+        } else if(view === "day") {
+          handlePrevDay()
         }
       }}>
         <span >
@@ -49,12 +63,15 @@ const CalendarHeader = () => {
       <h2>
         {view === "month" && dayjs(new Date(dayjs().year(), monthIndex)).format("MMMM YYYY")}
         {view === "week" && `${dayjs().startOf('week').subtract(1, 'day').add(weekOffset * 7, 'day').format("DD")} - ${dayjs().startOf('week').subtract(1, 'day').add(weekOffset * 7 + 6, 'day').format("DD")}`}        
+        {view === "day" && dayjs().add(dayOffset, 'day').format("DD MMMM YYYY")}
         </h2>
       <button onClick={() => {
         if (view === "month") {
           handleNextMonth()
-        } else {
+        } else if(view === "week") {
           handleNextWeek()
+        } else if(view === "day") {
+          handleNextDay()
         }
       }}>
         <span>
@@ -66,13 +83,19 @@ const CalendarHeader = () => {
           handleReset()
         } else if (view === "week") {
           handleResetWeek()
+        } else if (view === "day") {
+          resetDayOffset()
         }
       }}>Today</button>
       <button onClick={() => {
         handleReset()
         setView("month")
       }}>Month</button>
-      <button>Day</button>
+      <button onClick={()=> {
+         handleReset()
+        resetDayOffset()
+        setView("day")
+      }}>Day</button>
       <button onClick={() => {
         handleReset()
         setView("week")

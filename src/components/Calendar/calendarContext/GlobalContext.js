@@ -7,6 +7,8 @@ const GlobalContext = React.createContext({
     setView: () => {},
     weekOffset: 0,
     setWeekOffset: () => {},
+    dayOffset: 0,
+    setDayOffset: () => {}
 });
 
 export default GlobalContext;

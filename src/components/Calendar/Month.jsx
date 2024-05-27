@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import GlobalContext from "./calendarContext/GlobalContext";
 
 
-const Month = ({ month}) => {
+const Month = ({ month, day}) => {
     const [allEvents, setAllEvents] = useState([]);
     const { isLoggedIn } = useContext(AuthContext);
     const { view } = useContext(GlobalContext);
@@ -42,12 +42,18 @@ const Month = ({ month}) => {
                 ))}
             </div>
         )
-    } else {
+    } else if(view === "week"){
         return (
             <div className="container-week">
                 {month.map((day, i) => (
                     <Day events={allEvents} day={day} key={i} rowIdx={i} />
                 ))}
+            </div>
+        )
+    } else if(view === "day"){
+        return (
+            <div className="container-day">
+                <Day events={allEvents} day={day} rowIdx={0} />
             </div>
         )
     }
@@ -59,6 +65,7 @@ Month.propTypes = {
         PropTypes.array,
         PropTypes.object
     ]).isRequired,
+    day: PropTypes.array
 }
 
 export default Month;

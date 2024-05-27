@@ -1,7 +1,7 @@
 import "./Calendar.css"
 import React from "react";
 import { useState, useContext, useEffect } from "react";
-import { getMonth, getWeek } from "../../service/utils";
+import { getMonth, getWeek, getDay } from "../../service/utils";
 import CalendarHeader from "./CalendarHeader";
 import Month from "./Month";
 import GlobalContext from "./calendarContext/GlobalContext";
@@ -12,22 +12,25 @@ const Calendar = () => {
     const { monthIndex } = useContext(GlobalContext)
     const { view } = useContext(GlobalContext);
     const { weekOffset } = useContext(GlobalContext);
-
+    const { dayOffset } = useContext(GlobalContext);
+    const [currentDay, setCurrentDay] = useState(getDay());
 
     useEffect(() => {
         if(view === "month"){
             setCurrentMonth(getMonth(monthIndex));
-        }else{
+        }else if(view === "week"){
             setCurrentMonth(getWeek(monthIndex, weekOffset));
+        }else if(view === "day"){
+            setCurrentDay(getDay(dayOffset));
         }
-    }, [monthIndex, view, weekOffset])
+    }, [monthIndex, view, weekOffset, dayOffset])
 
     return (
         <React.Fragment>
                 <div className="calendar-container">
                     <CalendarHeader />
                     <div className="calendar-month-container">
-                        <Month month={currentMonth} />
+                        <Month month={currentMonth} day={currentDay} />
                     </div>
                 </div>
         </React.Fragment>

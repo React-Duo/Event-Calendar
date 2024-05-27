@@ -10,7 +10,6 @@ const Day = ({ events, day, rowIdx }) => {
     const [dayEvents, setDayEvents] = useState([])
     dayjs.extend(isBetween)
     const { view } = useContext(GlobalContext);
-
     useEffect(() => {
         if (view === "month") {
             const dayEvents = events.filter(event => {
@@ -19,6 +18,7 @@ const Day = ({ events, day, rowIdx }) => {
 
             setDayEvents(dayEvents)
         }
+
     }, [day, events]);
 
     function getCurrentDayClass() {
@@ -49,19 +49,35 @@ const Day = ({ events, day, rowIdx }) => {
 
             </div>
         )
-    } else {
+    } else if(view === "week") {
         return (
             <div className='days'>
                 <header>
                     <p>{day[0].format('ddd').toUpperCase()}</p>
                 </header>
                 {day.map((hour, i) => (
-                    <div key={i}>
-                        {hour.format("dddd") === "Monday" ? <div className='hour-container'><p>{hour.format("HH:mm")}</p></div> : <div className='hour-container'></div>}
+                    <div key={i} className=''>
+                        {hour.format("dddd") === "Monday" ? <div className='hour-container'><h4>{hour.format("HH:mm")}</h4></div> : <div className='hour-container'></div>}
+                        
                     </div>
                 ))}
             </div>
         )
+    } else if(view === "day") {
+        return (
+            <div className='days'>
+                <header>
+                    <p>{day[0].format('dddd').toUpperCase()}</p>
+                </header>
+                {day.map((hour, i) => (
+                    <div key={i} className='hour-day-container'>
+                        <div ><h4>{hour.format("HH")}</h4></div>
+                        <div></div>
+                    </div>
+                ))}
+            </div>
+        )
+    
     }
 }
 

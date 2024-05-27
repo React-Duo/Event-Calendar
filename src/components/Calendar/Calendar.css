@@ -23,6 +23,11 @@
     font-weight: bold;
 }
 
+.calendar-header h2{
+    width: 180px;
+    text-align: center;
+}
+
 .calendar-header button{
     padding: 7px;
     border-radius: 5px;
@@ -96,8 +101,32 @@
     border: 1px solid rgba(136, 136, 136, 0.544);
     height: 30px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    align-items: center;
 }
-.hour-container p{
-    padding: 5px 0px;    
+.hour-container h4{
+    padding: 0px 11px
+}
+
+
+
+/* single day */
+
+.hour-day-container {
+    border: 1px solid rgba(136, 136, 136, 0.544);
+    height: 60px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 1000px;
+}
+
+.hour-day-container h4 {
+    padding: 0px 15px;
+    border-right: 3px solid rgba(17, 17, 17, 0.544);
+}
+
+.hour-day-container p {
+    display: block;
+    padding-left: 15px;
 }
