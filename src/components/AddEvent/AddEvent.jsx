@@ -89,6 +89,12 @@ const AddEvent = () => {
                 if (event.target.friday.checked) weekdays.push("Friday");
                 if (event.target.saturday.checked) weekdays.push("Saturday");
                 if (event.target.sunday.checked) weekdays.push("Sunday");
+
+                if (weekdays.length === 0) {
+                    setError("Select at least one weekday!");
+                    console.log("Select at least one weekday!");
+                    return;
+                }
                 repeat = {...repeat, weekdays};
             }
         }
