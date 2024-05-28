@@ -8,8 +8,8 @@ dayjs.extend(weekOfYear);
 const ContextWrapper = (props) => {
     const [monthIndex, setMonthIndex] = useState(dayjs().month())
     const [view, setView] = useState("month")
-    const [month, setMonth] = useState(dayjs().month())
-    const [weekOffset, setWeekOffset] = useState(dayjs().week() - dayjs(new Date(dayjs().year(), month - 1, 1)).week())
+    const [month] = useState(dayjs().month())
+    const [weekOffset, setWeekOffset] = useState(dayjs().week() - dayjs(new Date(dayjs().year(), month - 1, 1)).week()+ 1)
     const [dayOffset, setDayOffset] = useState(0)
 
     return (
@@ -22,5 +22,7 @@ const ContextWrapper = (props) => {
 ContextWrapper.propTypes = {
     children: PropTypes.node
 };
+
+
 
 export default ContextWrapper

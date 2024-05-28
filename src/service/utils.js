@@ -15,7 +15,7 @@ export function getMonth(month = dayjs().month()) {
     return daysMatrix;
 }
 
-export function getWeek(month = dayjs().month(), weekOffset = dayjs().week() - dayjs(new Date(dayjs().year(), month - 1, 1)).week()) {
+export function getWeek(month = dayjs().month(), weekOffset = dayjs().week() - dayjs(new Date(dayjs().year(), month - 1, 1)).week() + 1) {
 
     const year = dayjs().year();
     const firstDayOfWeek = dayjs().startOf('week').date();
