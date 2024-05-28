@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import AuthContext from '../../context/AuthContext';
-import { addEvent, getUserContactLists, getUserDetails } from '../../service/database-service';
+import { addEvent, addIdToEvent, getUserContactLists, getUserDetails } from '../../service/database-service';
 import './AddEvent.css';
 import Weekdays from './Weekdays';
 import { getMonthDays, getWeekDay } from '../../service/utils';
@@ -52,10 +52,12 @@ const AddEvent = () => {
     }, []);
 
     useEffect(() => {
+        console.log(events);
         const handleAddEvent = async () => {
             try {
                 setLoading(true);
-                await addEvent(events);
+                const eventIds = await addEvent(events);
+                addIdToEvent(eventIds);
                 setLoading(false);
                 setError(null);
             } catch (error) {
@@ -84,8 +86,7 @@ const AddEvent = () => {
 
         console.log(uploadedFile);
 
-
-
+            
 
         
         if (repeat !== "single") {
