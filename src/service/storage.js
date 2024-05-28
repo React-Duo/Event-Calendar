@@ -12,7 +12,6 @@ export const uploadFile = async (username, file) => {
     await uploadBytes(imageNameRef, file)
   };
   
-
 /**
  * Retrieves the URL of a file associated with a user's photo.
  *
@@ -27,5 +26,20 @@ export const getFile = async (username) => {
   } catch (error) {
     console.log(error);
   }
+}
+
+export const uploadEventImage = async (path, image) => {
+  try {
+    await uploadBytes(ref(storage, `events/${path}/photo`), image);
+  } catch (error) {
+    console.log(error);
   }
-  
+};
+
+export const getImageURL = async (path) => {
+  try {
+    return await getDownloadURL(ref(storage, `events/${path}/photo`))
+  } catch (error) {
+    console.log(error);
+  }
+}
