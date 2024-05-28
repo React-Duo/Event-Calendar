@@ -3,19 +3,42 @@ import dayjs from 'dayjs'
 import isBetween from 'dayjs/plugin/isBetween';
 import PropTypes from 'prop-types';
 import GlobalContext from "./calendarContext/GlobalContext";
+import { getAllEvents } from '../../service/database-service'
+import AuthContext from "../../context/AuthContext";
 
 
-
-const Day = ({ events, day, rowIdx }) => {
+const Day = ({ day, rowIdx }) => {
     const [dayEvents, setDayEvents] = useState([])
     dayjs.extend(isBetween)
     const { view } = useContext(GlobalContext);
+    const [events, setAllEvents] = useState([]);
+    const { isLoggedIn } = useContext(AuthContext);
+
+    useEffect(() => {
+        const fetchEvents = async () => {
+            const events = await getAllEvents();
+            if (events) {
+                const filteredEvents = events.filter(event => event[1].author === isLoggedIn.user || event[1].invited && event[1].invited.includes(isLoggedIn.user));
+                setAllEvents(filteredEvents);
+            } else {
+                setAllEvents([]);
+            }
+
+        };
+        fetchEvents();
+
+
+    }, [isLoggedIn.user, view]);
     useEffect(() => {
         if (view === "month") {
             const dayEvents = events.filter(event => {
                 return dayjs(day.format("MM-DD-YYYY")).isBetween(event[1].startDate, event[1].endDate, "day", '[]')
             })
-
+            setDayEvents(dayEvents)
+        } else if (view === "week") {
+            const dayEvents = events.filter(event => {
+                return day.map(d => dayjs(d.format("MM-DD-YYYY")).isBetween(event[1].startDate, event[1].endDate, "day", '[]'))
+            })
             setDayEvents(dayEvents)
         }
 
@@ -49,21 +72,27 @@ const Day = ({ events, day, rowIdx }) => {
 
             </div>
         )
-    } else if(view === "week") {
+    } else if (view === "week") {
         return (
-            <div className='days'>
+            <div className='days'>   
                 <header>
-                    <p>{day[0].format('ddd').toUpperCase()}</p>
+                    <p>{day[0].format('DD-ddd').toUpperCase()}</p>
                 </header>
                 {day.map((hour, i) => (
-                    <div key={i} className=''>
-                        {hour.format("dddd") === "Monday" ? <div className='hour-container'><h4>{hour.format("HH:mm")}</h4></div> : <div className='hour-container'></div>}
-                        
+                    <div key={i} >
+                        {/* {hour.format("dddd") === "Monday" && <div className='hour-container'><h4>{hour.format("HH:mm")}</h4></div>} */}
+                        <div className='hour-container'>
+                        {dayEvents.map((event, eventIndex) => (
+                            <div key={eventIndex}>
+                                <p >{hour.format("YYYY-M-DD") === event[1].startDate &&dayjs(hour.format("YYYY-MM-DDTHH:mm")).isBetween((dayjs(`${event[1].startDate}T${event[1].startTime}`)), dayjs(`${event[1].endDate}T${event[1].endTime}`), "hour", '[]') && <div ><p className="single-event-title">{event[1].title}</p></div>}</p>                            
+                            </div>
+                        ))}
+                        </div>
                     </div>
                 ))}
             </div>
         )
-    } else if(view === "day") {
+    } else if (view === "day") {
         return (
             <div className='days'>
                 <header>
@@ -71,18 +100,17 @@ const Day = ({ events, day, rowIdx }) => {
                 </header>
                 {day.map((hour, i) => (
                     <div key={i} className='hour-day-container'>
-                        <div ><h4>{hour.format("HH")}</h4></div>
+                        <div ><h4>{hour.format("HH:mm")}</h4></div>
                         <div></div>
                     </div>
                 ))}
             </div>
         )
-    
+
     }
 }
 
 Day.propTypes = {
-    events: PropTypes.array,
     day: PropTypes.oneOfType([
         PropTypes.object,
         PropTypes.array
