@@ -4,7 +4,8 @@ import { addEvent, addIdToEvent, getUserContactLists, getUserDetails } from '../
 import './AddEvent.css';
 import Weekdays from './Weekdays';
 import { getMonthDays, getWeekDay } from '../../service/utils';
-import { maxYearSpan } from '../../common/constants';
+import { DEFAULT_EVENT_IMAGE, MAX_YEAR_SPAN } from '../../common/constants';
+import { getImageURL, uploadEventImage } from '../../service/storage';
 
 const AddEvent = () => {
     const { isLoggedIn } = useContext(AuthContext);
@@ -17,6 +18,7 @@ const AddEvent = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [weeklySchedule, setWeeklySchedule] = useState(false);
+    const [image, setImage] = useState(null);
 
     useEffect(() => {
         const getContacts = async () => {
@@ -57,6 +59,13 @@ const AddEvent = () => {
             try {
                 setLoading(true);
                 const eventIds = await addEvent(events);
+                if (image) {
+                    uploadEventImage(eventIds[0], image);
+                    const imageUrl = getImageURL(eventIds[0]);
+                    console.log(imageUrl);
+                }
+              
+
                 addIdToEvent(eventIds);
                 setLoading(false);
                 setError(null);
@@ -80,14 +89,6 @@ const AddEvent = () => {
                 event.target.endTime.value, event.target.visibility.value, event.target.canInvite.checked, 
                 event.target.locationType.value, event.target.location.value 
             ];
-
-
-        const uploadedFile = event.target.upload.files[0];
-
-        console.log(uploadedFile);
-
-            
-
         
         if (repeat !== "single") {
             repeat = {schedule: repeat};
@@ -111,7 +112,7 @@ const AddEvent = () => {
         }
 
         const eventObject = { author, title, description, startDate, startTime, endDate, endTime, 
-                                visibility, canInvite, locationType, location, invited, repeat };
+                                visibility, canInvite, locationType, location, invited, repeat, photo: DEFAULT_EVENT_IMAGE };
 
         const [startDay, startMonth, startYear] = 
             [ new Date(startDate).getDate(), new Date(startDate).getMonth() + 1, new Date(startDate).getFullYear() ];
@@ -197,8 +198,8 @@ const AddEvent = () => {
         
         if (startYear < endYear) {
 
-            if (endYear - startYear > maxYearSpan) {
-                setError(`Allowed year range is ${maxYearSpan} years!`);
+            if (endYear - startYear > MAX_YEAR_SPAN) {
+                setError(`Allowed year range is ${MAX_YEAR_SPAN} years!`);
                 console.log("Year range is too long!");
                 return;
             }
@@ -280,6 +281,8 @@ const AddEvent = () => {
 
         setEvents(events);
         setIsFormSubmitted(true);
+        const image = event.target.upload.files[0];
+        if (image) setImage(image);
     }
 
     const handleInviteChange = (event) => {
