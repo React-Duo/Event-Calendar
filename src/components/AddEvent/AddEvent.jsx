@@ -4,6 +4,7 @@ import { addEvent, getUserContactLists, getUserDetails } from '../../service/dat
 import './AddEvent.css';
 import Weekdays from './Weekdays';
 import { getMonthDays, getWeekDay } from '../../service/utils';
+import { maxYearSpan } from '../../common/constants';
 
 const AddEvent = () => {
     const { isLoggedIn } = useContext(AuthContext);
@@ -77,6 +78,15 @@ const AddEvent = () => {
                 event.target.endTime.value, event.target.visibility.value, event.target.canInvite.checked, 
                 event.target.locationType.value, event.target.location.value 
             ];
+
+
+        const uploadedFile = event.target.upload.files[0];
+
+        console.log(uploadedFile);
+
+
+
+
         
         if (repeat !== "single") {
             repeat = {schedule: repeat};
@@ -185,6 +195,13 @@ const AddEvent = () => {
         } 
         
         if (startYear < endYear) {
+
+            if (endYear - startYear > maxYearSpan) {
+                setError(`Allowed year range is ${maxYearSpan} years!`);
+                console.log("Year range is too long!");
+                return;
+            }
+
             if (repeat === "single") events.push({...eventObject});
             
             if (repeat !== "single") {
@@ -317,7 +334,7 @@ const AddEvent = () => {
                 <br />
 
                 <label htmlFor="startDate" className="required"> Start Date </label>
-                <input type="date" id="startDate" name="startDate" className="common" required/>
+                <input type="datetime-local" id="startDate" name="startDate" className="common" required/>
 
                 <label htmlFor="startTime" className="required"> Hour </label>
                 <input type="time" id="startTime" name="startTime" className="common" required/>
@@ -341,7 +358,7 @@ const AddEvent = () => {
                 <br />
 
                 <label htmlFor="endDate" className="required"> End Date </label>
-                <input type="date" id="endDate" name="endDate" className="common" required/>
+                <input type="datetime-local" id="endDate" name="endDate" className="common" required/>
 
                 <label htmlFor="endTime" className="required"> Hour </label>
                 <input type="time" id="endTime" name="endTime" className="common" required/>
