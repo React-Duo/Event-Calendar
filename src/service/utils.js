@@ -38,6 +38,19 @@ export function getDay(dayOffset = 0) {
     return dayMatrix;
 }
 
+export function getWorkWeek(month = dayjs().month(), weekOffset = dayjs().week() - dayjs(new Date(dayjs().year(), month - 1, 1)).week() + 1) {
+    const year = dayjs().year();
+    const firstDayOfWeek = dayjs().startOf('week').date();
+    let currentDayCount = firstDayOfWeek + (weekOffset * 7);
+    const daysMatrix = new Array(5).fill([]).map(() => {
+        currentDayCount++;
+        return new Array(24).fill(null).map((_, hour) => {
+            return dayjs(new Date(year, month - 2, currentDayCount - 2, hour));
+        });
+    });
+    return daysMatrix;
+}
+
 export function getMonthDays(date) {
     const month = new Date(date).getMonth() + 1;
     const year = new Date(date).getFullYear();
