@@ -94,7 +94,7 @@ const AddEvent = () => {
                     setError("Select at least one weekday!");
                     console.log("Select at least one weekday!");
                     return;
-                }
+                } 
                 repeat = {...repeat, weekdays};
             }
         }
