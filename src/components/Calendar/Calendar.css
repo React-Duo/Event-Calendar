@@ -101,12 +101,18 @@
     grid-template-columns: repeat(7, 1fr);
     
 }
+/* work-week */
+
+.container-workWeek{
+    flex: 1 1 0%;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+}
 
 /* hours */
 
 .hour-container{
     border: 1px solid rgba(136, 136, 136, 0.544);
-    height: 30px;
     display: flex;
     flex-direction: column;
     height: 70px;
@@ -122,22 +128,19 @@
 
 .hour-day-container {
     border: 1px solid rgba(136, 136, 136, 0.544);
-    height: 60px;
+    height: 70px;
     display: flex;
     flex-direction: row;
     align-items: center;
     width: 1000px;
 }
 
-.hour-day-container h4 {
-    /* padding: 0px 15px; */
-    /* border-right: 3px solid rgba(17, 17, 17, 0.544); */
-}
 
 .hour-day-container p {
     display: block;
     padding-left: 15px;
 }
+
 
 .hours-static{
     position: absolute;
@@ -148,4 +151,12 @@
     gap: 50px;
     font-size: 17px;
     font-weight: bold;
+}
+.hour-day-container-event{
+    display: flex;
+    flex-direction: column;
+    height: 70px;
+    overflow-y: auto;
+    margin-left: 15px;
+    width: 500px;
 }
