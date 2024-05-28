@@ -47,7 +47,7 @@ const CalendarHeader = () => {
 
   return (
     <header className="calendar-header">
-    {view === "week" &&      <div className='hours-static'>
+    {view === "week" || view ==="workWeek" || view==="day" ? <div className='hours-static'>
                 <div></div>
                 <div>00</div>
                 <div>01</div>
@@ -73,7 +73,7 @@ const CalendarHeader = () => {
                 <div>21</div>
                 <div>22</div>
                 <div>23</div>
-            </div>}
+            </div>:""}
       <button onClick={() => {
         if (view === "month") {
           handlePrevMonth()
