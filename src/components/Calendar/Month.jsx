@@ -38,6 +38,15 @@ const Month = ({ month, day}) => {
                 <Day  day={day} rowIdx={0} />
             </div>
         )
+    } else if(view === "workWeek"){
+        return (
+            <div className="container-workWeek">
+                {month.map((day, i) => (
+                    <Day  day={day} key={i} rowIdx={i} />
+                ))}
+            </div>
+        )
+    
     }
 }
 

@@ -1,7 +1,7 @@
 import "./Calendar.css"
 import React from "react";
 import { useState, useContext, useEffect } from "react";
-import { getMonth, getWeek, getDay } from "../../service/utils";
+import { getMonth, getWeek, getDay, getWorkWeek } from "../../service/utils";
 import CalendarHeader from "./CalendarHeader";
 import Month from "./Month";
 import GlobalContext from "./calendarContext/GlobalContext";
@@ -22,6 +22,9 @@ const Calendar = () => {
             setCurrentMonth(getWeek(monthIndex, weekOffset));
         }else if(view === "day"){
             setCurrentDay(getDay(dayOffset));
+        }else if(view === "workWeek"){
+            console.log(getWorkWeek(monthIndex, weekOffset));
+            setCurrentMonth(getWorkWeek(monthIndex, weekOffset));
         }
     }, [monthIndex, view, weekOffset, dayOffset])
 

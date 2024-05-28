@@ -45,6 +45,12 @@ const Day = ({ day, rowIdx }) => {
                 return day.map(d => dayjs(d.format("MM-DD-YYYY")).isBetween(event[1].startDate, event[1].endDate, "day", '[]'))
             })
             setDayEvents(dayEvents)
+        } 
+        else if (view === "workWeek") {
+            const dayEvents = events.filter(event => {
+                return day.map(d => dayjs(d.format("MM-DD-YYYY")).isBetween(event[1].startDate, event[1].endDate, "day", '[]'))
+            })
+            setDayEvents(dayEvents)
         }
 
     }, [day, events]);
@@ -118,6 +124,25 @@ const Day = ({ day, rowIdx }) => {
             </div>
         )
 
+    } else if(view === "workWeek"){
+        return (
+            <div className='days'>
+                <header>
+                    <p>{day[0].format('DD-ddd').toUpperCase()}</p>
+                </header>
+                {day.map((hour, i) => (
+                    <div key={i} >
+                        <div className='hour-container'>
+                        {dayEvents.map((event, eventIndex) => (
+                            <div key={eventIndex}>
+                                <div >{dayjs(hour.format("YYYY-MM-DDTHH:mm")).isBetween((dayjs(`${event[1].startDate}T${event[1].startTime}`)), dayjs(`${event[1].endDate}T${event[1].endTime}`), "hour", '[]') && <div ><p className="single-event-title">{event[1].title}</p></div>}</div>                            
+                            </div>
+                        ))}
+                        </div>
+                    </div>
+                ))}
+            </div>
+        )
     }
 }
 
