@@ -90,8 +90,7 @@ const Day = ({ day, rowIdx }) => {
                     <p>{day[0].format('DD-ddd').toUpperCase()}</p>
                 </header>
                 {day.map((hour, i) => (
-                    <div key={i} >
-                        {/* {hour.format("dddd") === "Monday" && <div className='hour-container'><h4>{hour.format("HH:mm")}</h4></div>} */}
+                    <div key={i} >                      
                         <div className='hour-container'>
                         {dayEvents.map((event, eventIndex) => (
                             <div key={eventIndex}>
@@ -107,11 +106,10 @@ const Day = ({ day, rowIdx }) => {
         return (
             <div className='days'>
                 <header>
-                    <p>{day[0].format('dddd').toUpperCase()}</p>
+                    <p id='single-day-name'>{day[0].format('dddd').toUpperCase()}</p>
                 </header>
                 {day.map((hour, i) => (
                     <div key={i} className='hour-day-container'>
-                        <div ><h4>{hour.format("HH:mm")}</h4></div>
                         <div className='hour-day-container-event'>
                         {dayEvents.map((event, eventIndex) => (
                             <div key={eventIndex}>

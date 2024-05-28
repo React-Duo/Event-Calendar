@@ -17,6 +17,7 @@
     gap: 15px;
     align-items: center;
     padding: 10px 20px;
+    height: 90px;
 }
 
 .calendar-header h1 {
@@ -32,12 +33,19 @@
 .calendar-header button{
     padding: 7px;
     border-radius: 5px;
+    height: 45px;
+    display: flex;
+    align-items: center;
 }
 .calendar-header button:hover{
     background-color: rgba(32, 84, 180, 0.778);
     transition: background-color 0.3s ease;
 }
 
+.selected{
+    background-color: rgba(32, 84, 180, 0.778);
+    color: white;
+}
 
 /* day */
 .days {
@@ -51,6 +59,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 80px;
 }
 .days header p {
     padding: 10px;
@@ -89,8 +98,8 @@
 .container-month{
     flex: 1 1 0%;
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    grid-template-rows: repeat(5, 1fr);
+    grid-template-columns: repeat(7, minmax(45px, 1fr));
+    grid-template-rows: repeat(auto-fit, minmax(100px, 1fr));
 }
 
 /* week */
@@ -98,7 +107,8 @@
 .container-week{
     flex: 1 1 0%;
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    grid-template-columns: repeat(7, minmax(45px, 1fr));
+
     
 }
 /* work-week */
@@ -106,7 +116,8 @@
 .container-workWeek{
     flex: 1 1 0%;
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    /* grid-template-columns: repeat(5, 1fr); */
+    grid-template-columns: repeat(5, minmax(45px, 1fr));
 }
 
 /* hours */
@@ -117,6 +128,7 @@
     flex-direction: column;
     height: 70px;
     overflow-y: auto;
+    overflow-x: hidden;
 }
 .hour-container h4{
     padding: 0px 11px
@@ -132,19 +144,25 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    width: 1000px;
+    width: 1300px;
+}
+.hour-day-container-event{
+    display: flex;
+    flex-direction: column;
+    height: 70px;
+    overflow-y: auto;
+    width: 100%;
 }
 
-
 .hour-day-container p {
-    display: block;
     padding-left: 15px;
+    margin-left: 25px;
 }
 
 
 .hours-static{
     position: absolute;
-    top: 11em;
+    top: 12em;
     left: 10.3em;
     display: flex;
     flex-direction: column;
@@ -152,11 +170,75 @@
     font-size: 17px;
     font-weight: bold;
 }
-.hour-day-container-event{
-    display: flex;
-    flex-direction: column;
-    height: 70px;
-    overflow-y: auto;
-    margin-left: 15px;
-    width: 500px;
+#single-day-name{
+    margin-left: 35px;
+}
+
+@media screen and (max-width: 800px) {
+    .hours-static{
+        top: 16em;
+        left: 0.6em;
+    }
+}
+
+@media screen and (max-width: 620px) {
+    .days header{
+        width: 45px;
+    }
+    .hours-static{
+        top: 17em;
+        left: 0.6em;
+    }
+    .calendar-header{
+        display: flex;
+        gap: 3px;
+        align-items: center;
+        padding: 10px 0px;
+    }
+}
+
+@media screen and (max-width: 430px) {
+    .hours-static{
+        top: 22.3em;
+        left: 0.6em;
+    }
+    .calendar-header{
+        display: flex;
+        gap: 3px;
+        align-items: center;
+        padding: 10px 0px;
+    }
+    .calendar-header{
+        display: grid;
+        grid-template-columns: 75px auto 75px;
+        align-items: center;
+        padding: 10px 10px;
+        height: 90px;
+        margin-bottom: 55px;
+    }
+ 
+} 
+
+@media screen and (max-width: 1550px) {
+    .hour-day-container {
+        width: 1000px;
+    }
+   
+}
+@media screen and (max-width: 1230px) {
+    .hour-day-container {
+        width: 700px;
+    }    
+}
+@media screen and (max-width: 930px) {
+    .hour-day-container {
+        width: 500px;
+    }
+
+}
+@media screen and (max-width: 560px) {
+    .hour-day-container {
+        width: 330px;
+    }
+
 }

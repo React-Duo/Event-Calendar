@@ -23,7 +23,6 @@ const Calendar = () => {
         }else if(view === "day"){
             setCurrentDay(getDay(dayOffset));
         }else if(view === "workWeek"){
-            console.log(getWorkWeek(monthIndex, weekOffset));
             setCurrentMonth(getWorkWeek(monthIndex, weekOffset));
         }
     }, [monthIndex, view, weekOffset, dayOffset])
