@@ -24,7 +24,6 @@
   list-style: none;
   color: rgb(120, 138, 158);
   cursor: pointer;
-  /* text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.667); */
   margin-top: 15px;
 }
 .side-bar-tags i {
@@ -39,4 +38,36 @@
 .activePath{
   color: rgba(40,90,255) !important;
 
+}
+
+@media screen and (max-width: 800px){
+  .side-bar-container {
+    margin: 0;
+    padding: 0;
+    width: 100%; /* Full width */
+    position: static;
+    top: 0;
+    left: 0;
+    background-color: rgb(255, 255, 255);
+    border-right: 0px solid rgba(40, 40, 40, 0.716);
+
+  }
+  
+  .side-bar-tags {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    font-size: 15px;
+    padding: 10px 20px; /* Adjust padding */
+    align-items: center;
+  }
+
+  .side-bar-tags img{
+    width: 90px;
+    height: 40px;
+  }
+
+  .side-bar-tags i {
+    padding-right: 10px;
+  }
 }

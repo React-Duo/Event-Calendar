@@ -103,7 +103,7 @@ const AllEvents = () => {
                         </div>
                     ))
                 ) : (
-                    <p>No events</p>
+                    <p id="no-events-text">No events</p>
                 )}
             </div>
         </div>

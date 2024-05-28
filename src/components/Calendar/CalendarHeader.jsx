@@ -92,7 +92,7 @@ const CalendarHeader = () => {
       <h2>
         {view === "month" && dayjs(new Date(dayjs().year(), monthIndex)).format("MMMM YYYY")}
         {view === "week" && `${dayjs().startOf('week').subtract(1, 'day').add(weekOffset * 7, 'day').format("DD")} - ${dayjs().startOf('week').subtract(1, 'day').add(weekOffset * 7 + 6, 'day').format("DD")}`}        
-        {view === "day" && dayjs().add(dayOffset, 'day').format("DD MMMM YYYY")}
+        {view === "day" && dayjs().add(dayOffset, 'day').format("DD MMMM")}
         {view === "workWeek" && `${dayjs().startOf('week').subtract(1, 'day').add(weekOffset * 7, 'day').format("DD")} - ${dayjs().startOf('week').subtract(1, 'day').add(weekOffset * 7 + 4, 'day').format("DD")}`}
         </h2>
       <button onClick={() => {
@@ -121,20 +121,20 @@ const CalendarHeader = () => {
           handleResetWeek()
         }
       }}>Today</button>
-      <button onClick={() => {
+      <button className={view === "month" ? "selected" : ""} onClick={() => {
         handleReset()
         setView("month")
       }}>Month</button>
-      <button onClick={()=> {
+      <button className={view === "day" ? "selected" : ""} onClick={()=> {
          handleReset()
         resetDayOffset()
         setView("day")
       }}>Day</button>
-      <button onClick={() => {
+      <button className={view === "week" ? "selected" : ""} onClick={() => {
         handleReset()
         setView("week")
       }}>Week</button>
-      <button onClick={()=> {
+      <button className={view === "workWeek" ? "selected" : ""} onClick={()=> {
          handleReset()
         setView("workWeek")
       }}>Work week</button>
