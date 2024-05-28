@@ -56,6 +56,16 @@ export const addEvent = async (events) => {
   }
 }
 
+export const addIdToEvent = async (eventIds) => {
+  try {
+    return await Promise.all(eventIds.map(async (eventId) => {
+      return await update(ref(database, `events/${eventId}`), { id: eventId });
+    }));
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
 export const getUsers = async () => {
   try {
     const snapshot = await get(ref(database, "users"));
