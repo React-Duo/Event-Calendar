@@ -45,10 +45,17 @@ export const getUserContactLists = async (email) => {
 }
 
 export const addEvent = async (events) => { 
+  let seriesId = '';
   try { 
-    return await Promise.all(events.map(async (event) => {
+    return await Promise.all(events.map(async (event, index) => {
         const response = await push(ref(database, 'events'), event);
         const eventId = response._path.pieces_[1];
+        if (index === 0) seriesId = eventId;
+        if (event.repeat !== 'single') {
+          await update(ref(database, `events/${eventId}`), { id: eventId, seriesId });
+        } else {
+          await update(ref(database, `events/${eventId}`), { id: eventId });
+        }
         return eventId;
     }));
   } catch (error) {
