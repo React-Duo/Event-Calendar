@@ -15,4 +15,5 @@ export const LETTER_REGEX = /[a-zA-Z]/;
 export const ALPHA_NUMERIC_REGEX = /^[a-zA-Z0-9]+$/;
 export const SPECIAL_CHARS_REGEX = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
 export const defaultImage = 'https://tse1.mm.bing.net/th?q=blank%20profile%20picture%20image';
-export const maxYearSpan = 3;
+export const MAX_YEAR_SPAN = 3;
+export const DEFAULT_EVENT_IMAGE = 'https://leekduck.com/assets/img/events/events-default.jpg';
