@@ -4,6 +4,7 @@ import { addEvent, getUserContactLists, getUserDetails } from '../../service/dat
 import './AddEvent.css';
 import Weekdays from './Weekdays';
 import { getMonthDays, getWeekDay } from '../../service/utils';
+import { maxYearSpan } from '../../common/constants';
 
 const AddEvent = () => {
     const { isLoggedIn } = useContext(AuthContext);
@@ -51,6 +52,7 @@ const AddEvent = () => {
     }, []);
 
     useEffect(() => {
+        console.log(events);
         const handleAddEvent = async () => {
             try {
                 setLoading(true);
@@ -62,7 +64,7 @@ const AddEvent = () => {
                 setError(error.message);
             }
         }
-        if (isFormSubmitted) handleAddEvent();
+        //if (isFormSubmitted) handleAddEvent();
     }, [events]);
 
     const formSubmit = (event) => {
@@ -185,6 +187,13 @@ const AddEvent = () => {
         } 
         
         if (startYear < endYear) {
+
+            if (endYear - startYear > maxYearSpan) {
+                setError(`Allowed year range is ${maxYearSpan} years!`);
+                console.log("Year range is too long!");
+                return;
+            }
+
             if (repeat === "single") events.push({...eventObject});
             
             if (repeat !== "single") {
