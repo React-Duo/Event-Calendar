@@ -108,6 +108,8 @@ const AllEvents = () => {
                                     <p>From: <span >{`${event[1].startDate}th ${event[1].startTime}`}</span></p>
                                     <p>To:<span>{`  ${event[1].endDate}th ${event[1].endTime}`}</span></p>
                                 </div>
+                                <div>
+                                <p>Repeating: {event[1].repeat.schedule ? (event[1].repeat.schedule === "weekly" ? event[1].repeat.weekdays + "" : event[1].repeat.schedule) : event[1].repeat}</p>                                </div>
                                 <p>{event[1].location}</p>
                                 <div className="people-going">
                                     {event[1].invited && event[1].invited.filter(person => person !== isLoggedIn.user).slice(0, 2).map((person, index) => (
