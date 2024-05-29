@@ -17,22 +17,22 @@ const AllEvents = () => {
         const fetchEvents = async () => {
 
             const events = await getAllEvents();
-            const publicEvents = events.filter(event => event[1].visibility === "public");
-            
-            const uniqueSeriesEvents = publicEvents.reduce((acc, current) => {
-                const x = acc.find(item => item[1].seriesId === current[1].seriesId);
-                if (!x) {
-                    return acc.concat([current]);
-                } else {
-                    return acc;
-                }
-            }, []);
-            setEvents(uniqueSeriesEvents);
-            setEventsToShow(uniqueSeriesEvents);
+            if(events){
+                const publicEvents = events.filter(event => event[1].visibility === "public");
+                const uniqueSeriesEvents = publicEvents.reduce((acc, current) => {
+                    const x = acc.find(item => item[1].seriesId === current[1].seriesId);
+                    if (!x || !current[1].seriesId) {
+                        return acc.concat([current]);
+                    } else {
+                        return acc;
+                    }
+                }, []);
+                setEvents(uniqueSeriesEvents);
+                setEventsToShow(uniqueSeriesEvents);
+            }
+           
         };
         fetchEvents();
-
-       
     }, []);
 
     const fetchAddUserToEvent = async (eventId, seriesId) => {
