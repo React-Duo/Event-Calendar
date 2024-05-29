@@ -18,20 +18,46 @@ const AllEvents = () => {
 
             const events = await getAllEvents();
             const publicEvents = events.filter(event => event[1].visibility === "public");
-            setEvents(publicEvents);
-            setEventsToShow(publicEvents);
+            
+            const uniqueSeriesEvents = publicEvents.reduce((acc, current) => {
+                const x = acc.find(item => item[1].seriesId === current[1].seriesId);
+                if (!x) {
+                    return acc.concat([current]);
+                } else {
+                    return acc;
+                }
+            }, []);
+            setEvents(uniqueSeriesEvents);
+            setEventsToShow(uniqueSeriesEvents);
         };
         fetchEvents();
 
        
     }, []);
 
-    const fetchAddUserToEvent = async (eventId) => {
-        await addUserToEvent(eventId, isLoggedIn.user);
-        const events = await getAllEvents();
+    const fetchAddUserToEvent = async (eventId, seriesId) => {
+        let events = await getAllEvents();
+        if(seriesId){
+            const seriesEvents = events.filter(event => event[1].seriesId === seriesId);
+            seriesEvents.forEach(async event => {
+                await addUserToEvent(event[0], isLoggedIn.user);
+            })
+        } else {
+            await addUserToEvent(eventId, isLoggedIn.user);
+        }   
+        events = await getAllEvents();
         const publicEvents = events.filter(event => event[1].visibility === "public");
-        setEvents(publicEvents);
-        setEventsToShow(publicEvents);
+             
+        const uniqueSeriesEvents = publicEvents.reduce((acc, current) => {
+            const x = acc.find(item => item[1].seriesId === current[1].seriesId);
+            if (!x) {
+                return acc.concat([current]);
+            } else {
+                return acc;
+            }
+        }, []);
+        setEvents(uniqueSeriesEvents);
+        setEventsToShow(uniqueSeriesEvents);
         setFilter("joined")
     };
 
@@ -97,7 +123,7 @@ const AllEvents = () => {
                                 </div>
                                 <div className="single-event-options">
                                     <button className="btn" disabled>More info</button>
-                                    {event[1].invited.includes(isLoggedIn.user) ? <button className="btn" style={{ color: "green" }} disabled>Joined</button> : <button className="btn"  onClick={() => fetchAddUserToEvent(event[0])}>Join</button>}
+                                    {event[1].invited.includes(isLoggedIn.user) ? <button className="btn" style={{ color: "green" }} disabled>Joined</button> : <button className="btn"  onClick={() => fetchAddUserToEvent(event[0], event[1].seriesId)}>Join</button>}
                                 </div>
                             </div>
                         </div>
