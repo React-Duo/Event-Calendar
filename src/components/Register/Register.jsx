@@ -97,10 +97,6 @@ const Register = () => {
         }
     }, [enterWebsite, isRegSuccessful]);
 
-    const updateError = (message) => {
-        setError(message);
-    }
-
     const register = (event) => {
         event.preventDefault();        
         const firstName = event.target.firstName.value;
