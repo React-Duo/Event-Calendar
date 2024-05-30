@@ -51,29 +51,28 @@ const Header = () => {
 
   useEffect(() => {
     const fetchAuthorEvents = async () => {
-      const events = await getAllEvents();
-      if(events){
-          const uniqueSeriesEvents = events.reduce((acc, current) => {
-              const x = acc.find(item => item[1].seriesId === current[1].seriesId);
-              if (!x || !current[1].seriesId) {
-                  return acc.concat([current]);
-              } else {
-                  return acc;
-              }
-          }, []);
+        const events = await getAllEvents();
+      
+        if(events){
+            const uniqueSeriesEvents = events.reduce((acc, current) => {
+                const x = acc.find(item => item[1].seriesId === current[1].seriesId);
+                if (!x || !current[1].seriesId) {
+                    return acc.concat([current]);
+                } else {
+                    return acc;
+                }
+            }, []);
 
             const now = dayjs();
             const threeDaysFromNow = now.add(3, 'day');
             const alerts = uniqueSeriesEvents.filter(event => {
                 const eventDate = dayjs(event[1].startDate);
-                return eventDate.isBefore(threeDaysFromNow) && eventDate.isAfter(now);
+                return event[1].invited.includes(isLoggedIn.user) && eventDate.isBefore(threeDaysFromNow) && eventDate.isAfter(now);
             }).map(event => event[1]);
             setAlerts(alerts);
         }
     };
     fetchAuthorEvents();
-
-
 }, [isLoggedIn.user]);
 
   return (

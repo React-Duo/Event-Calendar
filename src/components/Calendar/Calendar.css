@@ -72,13 +72,14 @@
     
 }
 .calendar-event-title{
+
     margin-right: 0.75rem;
     font-size: 0.875rem;
     margin-bottom: 0.25rem;
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;
-    
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .single-event-title{

@@ -12,45 +12,13 @@ const AllEvents = () => {
     const { isLoggedIn } = useContext(AuthContext);
     const [showedEvents, setShowedEvents] = useState("All events");
 
-
-    useEffect(() => {
-        const fetchEvents = async () => {
-
-            const events = await getAllEvents();
-            if(events){
-                const publicEvents = events.filter(event => event[1].visibility === "public");
-                const uniqueSeriesEvents = publicEvents.reduce((acc, current) => {
-                    const x = acc.find(item => item[1].seriesId === current[1].seriesId);
-                    if (!x || !current[1].seriesId) {
-                        return acc.concat([current]);
-                    } else {
-                        return acc;
-                    }
-                }, []);
-                setEvents(uniqueSeriesEvents);
-                setEventsToShow(uniqueSeriesEvents);
-            }
-           
-        };
-        fetchEvents();
-    }, []);
-
-    const fetchAddUserToEvent = async (eventId, seriesId) => {
-        let events = await getAllEvents();
-        if(seriesId){
-            const seriesEvents = events.filter(event => event[1].seriesId === seriesId);
-            seriesEvents.forEach(async event => {
-                await addUserToEvent(event[0], isLoggedIn.user);
-            })
-        } else {
-            await addUserToEvent(eventId, isLoggedIn.user);
-        }   
-        events = await getAllEvents();
+const fetchAndSetEvents = async () => {
+    const events = await getAllEvents();
+    if(events){
         const publicEvents = events.filter(event => event[1].visibility === "public");
-             
         const uniqueSeriesEvents = publicEvents.reduce((acc, current) => {
             const x = acc.find(item => item[1].seriesId === current[1].seriesId);
-            if (!x) {
+            if (!x || !current[1].seriesId) {
                 return acc.concat([current]);
             } else {
                 return acc;
@@ -58,10 +26,14 @@ const AllEvents = () => {
         }, []);
         setEvents(uniqueSeriesEvents);
         setEventsToShow(uniqueSeriesEvents);
-        setFilter("joined")
-    };
+    }
+};
 
-   useEffect(() => {
+useEffect(() => {
+    fetchAndSetEvents();
+}, []);
+
+useEffect(() => {
     const filterEvents = (filter) => {
         if (filter === "top") {
             const topEvents = events.sort((a, b) => b[1].invited.length - a[1].invited.length);
@@ -81,7 +53,19 @@ const AllEvents = () => {
         }
     }
     filterEvents(filter);
-   }, [filter])
+}, [filter, events, isLoggedIn.user]);
+
+const fetchAddUserToEvent = async (eventId, seriesId) => {
+    let events = await getAllEvents();
+    if(seriesId){
+        const seriesEvents = events.filter(event => event[1].seriesId === seriesId);
+        await Promise.all(seriesEvents.map(event => addUserToEvent(event[0], isLoggedIn.user)));
+    } else {
+        await addUserToEvent(eventId, isLoggedIn.user);
+    }   
+    fetchAndSetEvents();
+};
+   
 
     return (
         <div className="all-events-container">
