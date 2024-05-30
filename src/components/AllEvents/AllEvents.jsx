@@ -17,21 +17,47 @@ const AllEvents = () => {
         const fetchEvents = async () => {
 
             const events = await getAllEvents();
-            const publicEvents = events.filter(event => event[1].visibility === "public");
-            setEvents(publicEvents);
-            setEventsToShow(publicEvents);
+            if(events){
+                const publicEvents = events.filter(event => event[1].visibility === "public");
+                const uniqueSeriesEvents = publicEvents.reduce((acc, current) => {
+                    const x = acc.find(item => item[1].seriesId === current[1].seriesId);
+                    if (!x || !current[1].seriesId) {
+                        return acc.concat([current]);
+                    } else {
+                        return acc;
+                    }
+                }, []);
+                setEvents(uniqueSeriesEvents);
+                setEventsToShow(uniqueSeriesEvents);
+            }
+           
         };
         fetchEvents();
-
-       
     }, []);
 
-    const fetchAddUserToEvent = async (eventId) => {
-        await addUserToEvent(eventId, isLoggedIn.user);
-        const events = await getAllEvents();
+    const fetchAddUserToEvent = async (eventId, seriesId) => {
+        let events = await getAllEvents();
+        if(seriesId){
+            const seriesEvents = events.filter(event => event[1].seriesId === seriesId);
+            seriesEvents.forEach(async event => {
+                await addUserToEvent(event[0], isLoggedIn.user);
+            })
+        } else {
+            await addUserToEvent(eventId, isLoggedIn.user);
+        }   
+        events = await getAllEvents();
         const publicEvents = events.filter(event => event[1].visibility === "public");
-        setEvents(publicEvents);
-        setEventsToShow(publicEvents);
+             
+        const uniqueSeriesEvents = publicEvents.reduce((acc, current) => {
+            const x = acc.find(item => item[1].seriesId === current[1].seriesId);
+            if (!x) {
+                return acc.concat([current]);
+            } else {
+                return acc;
+            }
+        }, []);
+        setEvents(uniqueSeriesEvents);
+        setEventsToShow(uniqueSeriesEvents);
         setFilter("joined")
     };
 
@@ -82,6 +108,8 @@ const AllEvents = () => {
                                     <p>From: <span >{`${event[1].startDate}th ${event[1].startTime}`}</span></p>
                                     <p>To:<span>{`  ${event[1].endDate}th ${event[1].endTime}`}</span></p>
                                 </div>
+                                <div>
+                                <p>Repeating: {event[1].repeat.schedule ? (event[1].repeat.schedule === "weekly" ? event[1].repeat.weekdays + "" : event[1].repeat.schedule) : event[1].repeat}</p>                                </div>
                                 <p>{event[1].location}</p>
                                 <div className="people-going">
                                     {event[1].invited && event[1].invited.filter(person => person !== isLoggedIn.user).slice(0, 2).map((person, index) => (
@@ -97,7 +125,7 @@ const AllEvents = () => {
                                 </div>
                                 <div className="single-event-options">
                                     <button className="btn" disabled>More info</button>
-                                    {event[1].invited.includes(isLoggedIn.user) ? <button className="btn" style={{ color: "green" }} disabled>Joined</button> : <button className="btn"  onClick={() => fetchAddUserToEvent(event[0])}>Join</button>}
+                                    {event[1].invited.includes(isLoggedIn.user) ? <button className="btn" style={{ color: "green" }} disabled>Joined</button> : <button className="btn"  onClick={() => fetchAddUserToEvent(event[0], event[1].seriesId)}>Join</button>}
                                 </div>
                             </div>
                         </div>
