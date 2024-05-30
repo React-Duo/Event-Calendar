@@ -1,11 +1,12 @@
 import { useContext, useEffect, useState } from 'react';
 import AuthContext from '../../context/AuthContext';
 import { addEvent, addIdToEvent, getUserContactLists, getUserDetails } from '../../service/database-service';
-import './AddEvent.css';
-import Weekdays from './Weekdays';
-import { getMonthDays, getWeekDay } from '../../service/utils';
+import { getMonthDays, getWeekDay, isAddressValid } from '../../service/utils';
 import { DEFAULT_EVENT_IMAGE, MAX_YEAR_SPAN } from '../../common/constants';
 import { getImageURL, uploadEventImage } from '../../service/storage';
+import Address from '../Address/Address';
+import Weekdays from './Weekdays';
+import './AddEvent.css';
 
 const AddEvent = () => {
     const { isLoggedIn } = useContext(AuthContext);
@@ -19,6 +20,7 @@ const AddEvent = () => {
     const [error, setError] = useState(null);
     const [weeklySchedule, setWeeklySchedule] = useState(false);
     const [image, setImage] = useState(null);
+    const [isOffline, setIsOffline] = useState(false);
 
     useEffect(() => {
         const getContacts = async () => {
@@ -82,14 +84,14 @@ const AddEvent = () => {
         let repeat = event.target.repeat.value;
         const invited = invitedUsers.map(user => user.email);
         const [author, title, description, startDate, startTime, endDate, endTime, 
-                visibility, canInvite, locationType, location] = 
+                visibility, canInvite, locationType] = 
             [ 
                 isLoggedIn.user, event.target.title.value, event.target.description.value, 
                 event.target.startDate.value, event.target.startTime.value, event.target.endDate.value, 
                 event.target.endTime.value, event.target.visibility.value, event.target.canInvite.checked, 
-                event.target.locationType.value, event.target.location.value 
+                event.target.locationType.value
             ];
-        
+   
         if (repeat !== "single") {
             repeat = {schedule: repeat};
             if (event.target.repeat.value === "weekly") {
@@ -112,7 +114,16 @@ const AddEvent = () => {
         }
 
         const eventObject = { author, title, description, startDate, startTime, endDate, endTime, 
-                                visibility, canInvite, locationType, location, invited, repeat, photo: DEFAULT_EVENT_IMAGE };
+                                visibility, canInvite, locationType, invited, repeat, photo: DEFAULT_EVENT_IMAGE };
+
+        if (event.target.location?.value) eventObject.location = event.target.location.value;
+        else {
+            const [country, city, street] = 
+                [event.target.country.value, event.target.city.value, event.target.street.value];
+            const location = { country, city, street };
+            if (isAddressValid(location, setError) === 'Address is invalid') return;
+            eventObject.location = { country, city, street };
+        }
 
         const [startDay, startMonth, startYear] = 
             [ new Date(startDate).getDate(), new Date(startDate).getMonth() + 1, new Date(startDate).getFullYear() ];
@@ -317,6 +328,10 @@ const AddEvent = () => {
 
     }
 
+    const handleLocationTypeChange = (event) => {
+        if (event.target.value === "offline") setIsOffline(true);
+        else setIsOffline(false);
+    }
 
     if (loading) {
         return (
@@ -353,11 +368,7 @@ const AddEvent = () => {
                     <option value="monthly">Monthly</option>
                 </select>
                                     
-                {weeklySchedule &&  
-                    <>
-                        <Weekdays handle={handleWeekdayChange}/>
-                    </>
-                }
+                { weeklySchedule &&  <> <Weekdays handle={handleWeekdayChange}/> </> }
                 <br />
                 <br />
 
@@ -420,19 +431,21 @@ const AddEvent = () => {
                 <br />
 
                 <label htmlFor="locationType" className="required"> Location Type </label>
-                <select name="locationType" id="locationType" className="common" required >
+                <select name="locationType" id="locationType" onChange={handleLocationTypeChange} className="common" required >
                     <option value="online">Online</option>
                     <option value="offline">Offline</option>
                 </select>
-                
-                <label htmlFor="location" className="required"> Location </label>
-                <input type="text" name="location" id="location" className="common" required />
-                <br />
+
+                {isOffline ? <><br /><Address /></> : (
+                    <>
+                        <label htmlFor="location" className="required"> Location </label>
+                        <input type="text" name="location" id="location" className="common" required />
+                    </>
+                )} 
                 <br />
 
                 <label htmlFor="upload"> Upload Image </label>
                 <input type="file" name="upload" id="upload" className="formbold-form-file" />
-                <br />
                 <br />
 
                 {error && <p className="error">{error}</p>}

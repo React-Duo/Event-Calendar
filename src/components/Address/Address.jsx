@@ -5,7 +5,7 @@ const Address = () => {
 
     return (
         <>
-            <label htmlFor="address">Address </label>
+            <label htmlFor="address"> Location </label>
             <span className="address">
                 <input type="text" name="country" id="country" placeholder="Country"/>
                 <h5><i>{COUNTRY_MIN_CHARS}-{COUNTRY_MAX_CHARS} chars | upper-/lowercase | space</i></h5>
