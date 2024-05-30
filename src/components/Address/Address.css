@@ -1,0 +1,23 @@
+.address {
+    display: flex;
+    flex-direction: column;
+    margin: 5px;
+    padding: 15px;
+    background-color: #f0f0f0;
+    border: 1px solid #000;
+    border-radius: 5px;
+}
+
+.address input {
+    width: 100%;
+    margin: 5px;
+    padding: 5px;
+    border: 1px solid #000;
+    border-radius: 5px;
+    align-self: flex-end; 
+}
+
+.address h5  {
+    align-self: flex-end;
+}
+
