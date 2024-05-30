@@ -1,6 +1,9 @@
 import dayjs from "dayjs";
 import weekOfYear from 'dayjs/plugin/weekOfYear'
 dayjs.extend(weekOfYear);
+import { STREET_MIN_CHARS, STREET_MAX_CHARS, STREET_REGEX, 
+        COUNTRY_MIN_CHARS, COUNTRY_MAX_CHARS, COUNTRY_REGEX,
+        CITY_MIN_CHARS, CITY_MAX_CHARS, CITY_REGEX } from '../common/constants.js';
 
 export function getMonth(month = dayjs().month()) {
     const year = dayjs().year();
@@ -84,4 +87,21 @@ export function getWeekDay(dayAsNumber) {
         6: "Saturday"
     }
     return weekDays[dayAsNumber];
+}
+
+export function isAddressValid (location, setError) {
+    if (!COUNTRY_REGEX.test(location.country)) {  
+        setError(`Country must contain ${COUNTRY_MIN_CHARS}-${COUNTRY_MAX_CHARS} characters, uppercase/lowercase letters and space only.`);
+        return 'Address is invalid';
+    }
+
+    if (!CITY_REGEX.test(location.city)) {
+        setError(`City must contain ${CITY_MIN_CHARS}-${CITY_MAX_CHARS} characters, uppercase/lowercase letters and space only.`);
+        return 'Address is invalid';
+    }
+
+    if (!STREET_REGEX.test(location.street)) {
+        setError(`Street must contain ${STREET_MIN_CHARS}-${STREET_MAX_CHARS} characters, uppercase/lowercase letters, digits and space/dot.`);
+        return 'Address is invalid';
+    }
 }
