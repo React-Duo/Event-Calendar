@@ -5,9 +5,18 @@ import { handleUserDelete, registerUser } from '../../service/authentication-ser
 import AuthContext from '../../context/AuthContext.jsx';
 import './Register.css';
 import { NAME_MIN_CHARS, NAME_MAX_CHARS, USERNAME_MIN_LENGTH, USERNAME_MAX_LENGTH, 
-        PASSWORD_MIN_CHARS, PASSWORD_MAX_CHARS, EMAIL_REGEX, 
-        PHONE_REGEX, PHONE_DIGITS, ADDRESS_MIN_CHARS, ADDRESS_MAX_CHARS, ADDRESS_REGEX, 
-        DIGIT_REGEX, LETTER_REGEX, ALPHA_NUMERIC_REGEX, SPECIAL_CHARS_REGEX, defaultImage } from '../../common/constants.js';
+        PASSWORD_MIN_CHARS, PASSWORD_MAX_CHARS, EMAIL_REGEX, PHONE_REGEX, PHONE_DIGITS, 
+        DIGIT_REGEX, LETTER_REGEX, ALPHA_NUMERIC_REGEX, SPECIAL_CHARS_REGEX, DEFAULT_IMAGE, 
+        STREET_MIN_CHARS, 
+        STREET_MAX_CHARS, 
+        STREET_REGEX, 
+        COUNTRY_MIN_CHARS,
+        COUNTRY_MAX_CHARS,
+        COUNTRY_REGEX,
+        CITY_MIN_CHARS,
+        CITY_MAX_CHARS,
+        CITY_REGEX} from '../../common/constants.js';
+import Address from '../Address/Address.jsx';
 
 const Register = () => {
     const [loading, setLoading] = useState(false);
@@ -19,7 +28,7 @@ const Register = () => {
         lastName: '',
         emailAddress: '',
         phoneNumber: '',
-        address: '',
+        address: {},
         username: '',
         password: '',
         photo: '',
@@ -34,9 +43,8 @@ const Register = () => {
                 try {
                     setLoading(true);
                     const userCredentials = await registerUser(form.emailAddress, form.password);
-                    if (!userCredentials) {
-                        throw new Error(`User with ${form.emailAddress} email address could not be created.`);
-                    }
+                    if (!userCredentials) throw new Error(`User with ${form.emailAddress} email address could not be created.`);
+                    
                     const snapshots = await checkIfUserExists(form.username, form.emailAddress, form.phoneNumber);
                     const [user, email, phone] = snapshots;
 
@@ -102,7 +110,11 @@ const Register = () => {
         const lastName = event.target.lastName.value;
         const emailAddress = event.target.email.value;
         const phoneNumber = event.target.phone.value;
-        const address = event.target.address.value;
+        const address = {
+            country: event.target.country.value,
+            city: event.target.city.value,
+            street: event.target.street.value,
+        };
         const username = event.target.username.value;
         const password = event.target.password.value;
 
@@ -128,8 +140,18 @@ const Register = () => {
             return;
         }
 
-        if (!ADDRESS_REGEX.test(address)) {
-            setError(`Address must contain ${ADDRESS_MIN_CHARS}-${ADDRESS_MAX_CHARS} characters, uppercase/lowercase letters, digits and space/dot.`);
+        if (!COUNTRY_REGEX.test(address.country)) {  
+            setError(`Country must contain ${COUNTRY_MIN_CHARS}-${COUNTRY_MAX_CHARS} characters, uppercase/lowercase letters and space only.`);
+            return;
+        }
+
+        if (!CITY_REGEX.test(address.city)) {
+            setError(`City must contain ${CITY_MIN_CHARS}-${CITY_MAX_CHARS} characters, uppercase/lowercase letters and space only.`);
+            return;
+        }
+
+        if (!STREET_REGEX.test(address.street)) {
+            setError(`Street must contain ${STREET_MIN_CHARS}-${STREET_MAX_CHARS} characters, uppercase/lowercase letters, digits and space/dot.`);
             return;
         }
 
@@ -144,7 +166,7 @@ const Register = () => {
                 return;
         }
 
-        setForm({ firstName, lastName, emailAddress, phoneNumber, address, username, password, photo: defaultImage});
+        setForm({ firstName, lastName, emailAddress, phoneNumber, address, username, password, photo: DEFAULT_IMAGE});
         setIsFormSubmitted(true);
     }
 
@@ -169,25 +191,49 @@ const Register = () => {
         <form onSubmit={register} className="register-form">
             <h2>Register</h2>
             {error && <div>{error}</div>} <br />
-            <span><label htmlFor="firstName" className="required">First Name </label><input type="text" name="firstName" id='firstName' required /></span> <br />
-            <h5><i>/ First name must be between {NAME_MIN_CHARS}-{NAME_MAX_CHARS} characters long. /</i></h5> <br />
+            <span className="input-container">
+                <label htmlFor="firstName" className="required">First Name </label>
+                <input type="text" name="firstName" id='firstName' required />
+                <h5><i>/{NAME_MIN_CHARS}-{NAME_MAX_CHARS} chars/</i></h5>
+            </span>
+            <br />
 
-            <span><label htmlFor="lastName" className="required">Last Name </label><input type="text" name="lastName" id='lastName' required /></span> <br />
-            <h5><i>/ Last name must be between {NAME_MIN_CHARS}-{NAME_MAX_CHARS} characters long. /</i></h5> <br />
+            <span className="input-container">
+                <label htmlFor="lastName" className="required">Last Name </label>
+                <input type="text" name="lastName" id='lastName' required />
+                <h5><i>/{NAME_MIN_CHARS}-{NAME_MAX_CHARS} chars/</i></h5>
+            </span>
+            <br />
 
-            <span><label htmlFor="email" className="required">Email address </label><input type="email" name="email" id='email' required /></span> <br />
+            <span className="input-container">
+                <label htmlFor="email" className="required">Email address </label>
+                <input type="email" name="email" id='email' required />
+            </span>
+            <br />
 
-            <span><label htmlFor="phone" className="required">Phone Number </label><input type="text" name="phone" id='phone' required /></span> <br />
-            <h5><i>/ Phone number must contain {PHONE_DIGITS} digits exactly. /</i></h5> <br />
+            <span className="input-container">
+                <label htmlFor="phone" className="required">Phone </label>
+                <input type="text" name="phone" id='phone' required />
+                <h5><i>/{PHONE_DIGITS} digits exactly/</i></h5>
+            </span>
+            <br />
 
-            <span><label htmlFor="address">Address </label><input type="text" name="address" id='address' /></span> <br />
-            <h5><i>/ Address must contain {ADDRESS_MIN_CHARS}-{ADDRESS_MAX_CHARS} characters, uppercase/lowercase letters, digits and space/dot. /</i></h5> <br />
+            <Address />
+            <br />
 
-            <span><label htmlFor="username" className="required">Username </label><input type="text" name="username" id='username' required /></span> <br />
-            <h5><i>/ Username must contain {USERNAME_MIN_LENGTH}-{USERNAME_MAX_LENGTH} characters, uppercase/lowercase letters and digits only. /</i></h5> <br />
+            <span className="input-container">
+                <label htmlFor="username" className="required">Username </label>
+                <input type="text" name="username" id='username' required />
+                <h5><i>/{USERNAME_MIN_LENGTH}-{USERNAME_MAX_LENGTH} chars, upper-/lowercase, digits/</i></h5>
+            </span>
+            <br />
 
-            <span><label htmlFor="password" className="required">Password </label><input type="password" name="password" id='password' required /></span> <br />
-            <h5><i>/ Password must contain {PASSWORD_MIN_CHARS}-{PASSWORD_MAX_CHARS} characters, ONE digit, ONE letter and ONE special character at least. /</i></h5> <br />
+            <span className="input-container">
+                <label htmlFor="password" className="required">Password </label>
+                <input type="password" name="password" id='password' required />
+                <h5><i>/{PASSWORD_MIN_CHARS}-{PASSWORD_MAX_CHARS} chars, at least ONE digit, letter and special char/</i></h5>
+            </span>
+            <br />
 
             <button type="submit">Register</button>
         </form>
