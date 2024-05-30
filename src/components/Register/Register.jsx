@@ -3,20 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import { checkIfUserExists, createUser } from '../../service/database-service.js';
 import { handleUserDelete, registerUser } from '../../service/authentication-service.js';
 import AuthContext from '../../context/AuthContext.jsx';
-import './Register.css';
 import { NAME_MIN_CHARS, NAME_MAX_CHARS, USERNAME_MIN_LENGTH, USERNAME_MAX_LENGTH, 
         PASSWORD_MIN_CHARS, PASSWORD_MAX_CHARS, EMAIL_REGEX, PHONE_REGEX, PHONE_DIGITS, 
         DIGIT_REGEX, LETTER_REGEX, ALPHA_NUMERIC_REGEX, SPECIAL_CHARS_REGEX, DEFAULT_IMAGE, 
-        STREET_MIN_CHARS, 
-        STREET_MAX_CHARS, 
-        STREET_REGEX, 
-        COUNTRY_MIN_CHARS,
-        COUNTRY_MAX_CHARS,
-        COUNTRY_REGEX,
-        CITY_MIN_CHARS,
-        CITY_MAX_CHARS,
-        CITY_REGEX} from '../../common/constants.js';
+        } from '../../common/constants.js';
 import Address from '../Address/Address.jsx';
+import { isAddressValid } from '../../service/utils.js';
+import './Register.css';
 
 const Register = () => {
     const [loading, setLoading] = useState(false);
@@ -28,7 +21,7 @@ const Register = () => {
         lastName: '',
         emailAddress: '',
         phoneNumber: '',
-        address: {},
+        location: {},
         username: '',
         password: '',
         photo: '',
@@ -74,7 +67,7 @@ const Register = () => {
                         lastName: form.lastName, 
                         email: form.emailAddress, 
                         phone: form.phoneNumber,
-                        address: form.address,
+                        location: form.location,
                         username: form.username, 
                         photo: form.photo,
                         role: 'author',
@@ -104,13 +97,17 @@ const Register = () => {
         }
     }, [enterWebsite, isRegSuccessful]);
 
+    const updateError = (message) => {
+        setError(message);
+    }
+
     const register = (event) => {
         event.preventDefault();        
         const firstName = event.target.firstName.value;
         const lastName = event.target.lastName.value;
         const emailAddress = event.target.email.value;
         const phoneNumber = event.target.phone.value;
-        const address = {
+        const location = {
             country: event.target.country.value,
             city: event.target.city.value,
             street: event.target.street.value,
@@ -140,20 +137,7 @@ const Register = () => {
             return;
         }
 
-        if (!COUNTRY_REGEX.test(address.country)) {  
-            setError(`Country must contain ${COUNTRY_MIN_CHARS}-${COUNTRY_MAX_CHARS} characters, uppercase/lowercase letters and space only.`);
-            return;
-        }
-
-        if (!CITY_REGEX.test(address.city)) {
-            setError(`City must contain ${CITY_MIN_CHARS}-${CITY_MAX_CHARS} characters, uppercase/lowercase letters and space only.`);
-            return;
-        }
-
-        if (!STREET_REGEX.test(address.street)) {
-            setError(`Street must contain ${STREET_MIN_CHARS}-${STREET_MAX_CHARS} characters, uppercase/lowercase letters, digits and space/dot.`);
-            return;
-        }
+        if (isAddressValid(location, setError) === 'Address is invalid') return;
 
         if (username.length < USERNAME_MIN_LENGTH || username.length > USERNAME_MAX_LENGTH || !ALPHA_NUMERIC_REGEX.test(username)) {
             setError(`${username} is not a valid username.`);
@@ -166,7 +150,7 @@ const Register = () => {
                 return;
         }
 
-        setForm({ firstName, lastName, emailAddress, phoneNumber, address, username, password, photo: DEFAULT_IMAGE});
+        setForm({ firstName, lastName, emailAddress, phoneNumber, location, username, password, photo: DEFAULT_IMAGE});
         setIsFormSubmitted(true);
     }
 
