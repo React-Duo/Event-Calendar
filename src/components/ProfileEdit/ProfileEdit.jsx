@@ -24,17 +24,16 @@ const ProfileEdit = () => {
   const [deleteMessage, setDeleteMessage] = useState(null);
   const navigate = useNavigate();
   const [addressForm, setAddress] = useState({
-    address: "",
     city: "",
-    country: ""
+    country: "",
+    street: ""
   })
 
 
   const validateAddress = async (addressForm) => {
-    const { address, city, country } = addressForm;
-    if (address && city && country) {
-      const fullAddress = `${address}, ${city}, ${country}`;
-      await editCredential(userDetails.username, "address", fullAddress);
+    const { street, city, country } = addressForm;
+    if (street && city && country) {
+      await editCredential(userDetails.username, "address", addressForm);
       setSuccess("Success! Address updated.");
       setError(null);
     } else {
@@ -234,10 +233,10 @@ const ProfileEdit = () => {
               <label className="input__label">Address</label>
               <input
                 required
-                onChange={(e) => setAddress({ ...addressForm, address: e.target.value })}
+                onChange={(e) => setAddress({ ...addressForm, street: e.target.value })}
                 className="address-inputs"
                 type="text"
-                placeholder="Address"
+                placeholder="Street"
               />
               <div>
                 <label className="input__label">City</label>
