@@ -3,12 +3,21 @@ import { assets } from "../../assets/assets";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../context/AuthContext";
-import { getUserDetails } from "../../service/database-service";
+import { getUserDetails, getAllEvents } from "../../service/database-service";
+import Notifications from "../Notifications/Notifications";
+import dayjs from "dayjs"
+
 
 const Header = () => {
   const [photo, setPhoto] = useState("");
   const navigate = useNavigate();
   const { isLoggedIn } = useContext(AuthContext);
+  const [showNotifications, setShowNotifications] = useState(false);
+  const [alerts, setAlerts] = useState([])
+
+  const handleNotifications = () => {
+    setShowNotifications(!showNotifications);
+  };
 
   //Todo: Change the photo dinamically when the user changes it form profile
   useEffect(() => {
@@ -40,6 +49,33 @@ const Header = () => {
     navigate(`/logout`);
   }
 
+  useEffect(() => {
+    const fetchAuthorEvents = async () => {
+      const events = await getAllEvents();
+      if(events){
+          const uniqueSeriesEvents = events.reduce((acc, current) => {
+              const x = acc.find(item => item[1].seriesId === current[1].seriesId);
+              if (!x || !current[1].seriesId) {
+                  return acc.concat([current]);
+              } else {
+                  return acc;
+              }
+          }, []);
+
+            const now = dayjs();
+            const threeDaysFromNow = now.add(3, 'day');
+            const alerts = uniqueSeriesEvents.filter(event => {
+                const eventDate = dayjs(event[1].startDate);
+                return eventDate.isBefore(threeDaysFromNow) && eventDate.isAfter(now);
+            }).map(event => event[1]);
+            setAlerts(alerts);
+        }
+    };
+    fetchAuthorEvents();
+
+
+}, [isLoggedIn.user]);
+
   return (
     <>
       <div className="header">
@@ -61,8 +97,9 @@ const Header = () => {
         ) : (
           <div className="header-menu">
             <div className="notifier new">
-              <i className="bell fa fa-bell-o"></i>
-              <div className="badge">5</div>
+              <i onClick={handleNotifications} className="bell fa fa-bell-o"></i>
+              <div className="badge">{alerts.length}</div>
+              {showNotifications && <Notifications alerts={alerts}/>}
             </div>
             <div className="header-person">
               <div className="options-header">
