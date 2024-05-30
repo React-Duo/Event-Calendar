@@ -1,7 +1,7 @@
 .register-form {
     display: flex;
     flex-direction: column;
-    width: 500px;
+    width: 35%;
     margin: 0 auto;
     margin-top: 30px;
     margin-bottom: 30px;
@@ -12,9 +12,6 @@
   --main-color: black;
   padding: 40px;
   background: rgb(60,215,248);
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
   justify-content: center;
   border-radius: 5px;
   border: 2px solid var(--main-color);
@@ -22,25 +19,20 @@
   font-weight: bold;
 }
 
-/* .registerContainer{
-    height: 100vh;
-} */
-
 .register-form label {
     display: inline-block;
     font-size: 22px;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-weight: bold;
-    width: 150px; 
 }
 
-.register-form h2{
+.register-form h2 {
     font-family: "Poetsen One", sans-serif;
     font-size: 27px;
 }
 
 .register-form input {
-    width: 250px;
+    width: 100%;
     height: 40px;
     border-radius: 5px;
     border: 2px solid var(--main-color);
@@ -51,6 +43,19 @@
     color: var(--font-color);
     padding: 0px 10px;
     outline: none;
+}
+
+.input-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-container h5 {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    align-self: flex-end; 
+    margin-top: 5px;
+    font-size: 0.9em;
+    color: #666;
 }
 
 .register-form input:hover {
