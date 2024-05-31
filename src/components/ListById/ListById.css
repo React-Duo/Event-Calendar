@@ -9,7 +9,6 @@
   list-style: none;
   font-size: 25px;
   cursor: pointer;
-  /* border-bottom: 5px solid rgba(17, 89, 183, 0.599); */
 }
 
 .list-by-id h1 {
@@ -56,6 +55,7 @@ td {
   padding: 10px;
   text-align: left;
 }
+
 
 .table-btn:hover {
   background: linear-gradient(to bottom, #2c2f63, #5b67b7);
@@ -126,4 +126,57 @@ td {
 .userEvents-options .fa-solid:hover {
   color:rgba(0, 0, 0, 0.551);
   transform: scale(1.1);
+}
+
+.fa-user-tie{
+  padding-left: 7px;
+}
+
+@media screen and (max-width: 885px) {
+  
+ .table-actions{
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: center;
+ }
+ 
+}
+@media screen and (max-width: 590px) {
+
+  .table-btn {
+    font-size: 13px;
+    padding: 12px 11px;
+    width: 130px;
+  }
+
+  th,
+td {
+  display: table-cell;
+  padding: 15px 0px;
+  text-align: left;
+}
+}
+@media screen and (max-width: 490px) {
+  
+  .table-email{
+    display: none;
+  }
+  .table-btn {
+    font-size: 13px;
+    padding: 12px 11px;
+    width: 130px;
+  }
+
+}
+
+@media screen and (max-width: 540px){
+  .userEvents {
+    width: 400px;
+  }
+}
+@media screen and (max-width: 450px){
+  .userEvents {
+    width: 380px;
+  }
 }

@@ -34,27 +34,27 @@ const ListById = () => {
   const handleAddUserToEvent = async (eventId, user, seriesId) => {
     try {
       const events = await getAllEvents();
-      if(seriesId){
+      if (seriesId) {
         const seriesEvents = events.filter(event => event[1].seriesId === seriesId);
         await Promise.all(seriesEvents.map(event => addUserToEvent(event[0], user)));
-      }else{
+      } else {
         await addUserToEvent(eventId, user);
       }
       fetchAuthorEvents();
     } catch (error) {
       console.error(error);
     }
-};
+  };
 
   const fetchAuthorEvents = async () => {
     const events = await getEventByEmail(isLoggedIn.user);
-    if(events){
+    if (events) {
       const uniqueSeriesEvents = events.reduce((acc, current) => {
         const x = acc.find(item => item[1].seriesId === current[1].seriesId);
         if (!x || !current[1].seriesId) {
-            return acc.concat([current]);
+          return acc.concat([current]);
         } else {
-            return acc;
+          return acc;
         }
       }, []);
       setAuthorEvents(uniqueSeriesEvents);
@@ -68,9 +68,9 @@ const ListById = () => {
         const list = await getListById(listId);
         const listWithDetails = { ...list };
         listWithDetails.contacts = list.contacts ? await Promise.all(list.contacts.map(async (contact) => await getUserDetails(contact))) : [];
-        if(list.owner !== isLoggedIn.user){
+        if (list.owner !== isLoggedIn.user) {
           const userDetails = await getUserDetails(list.owner);
-          listWithDetails.contacts.push(userDetails);
+          listWithDetails.contacts.unshift(userDetails);
         }
         setList(list);
         setContactsDetails(listWithDetails.contacts);
@@ -148,7 +148,7 @@ const ListById = () => {
                 <tr>
                   <th>Photo</th>
                   <th>Name</th>
-                  <th>Email</th>
+                  <th className="table-email">Email</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -159,8 +159,11 @@ const ListById = () => {
                       <td>
                         <img src={contact[0].photo} alt="Contact" />
                       </td>
-                      <td>{contact[0].username}</td>
-                      <td>{contact[0].email}</td>
+                      <td>
+                        {contact[0].username}
+                        {contact[0].email === list.owner && <i className="fa-solid fa-user-tie fa-lg"></i>}
+                      </td>
+                      <td className="table-email">{contact[0].email}</td>
                       <td className="table-actions">
                         <button onClick={() => {
                           handleShowEvents()
@@ -184,13 +187,13 @@ const ListById = () => {
                   </div>
                   {authorEvents ? authorEvents.map((event, index) => (
                     <div key={index} className="single-author-event">
-                    {event[1].invited.includes(userToAdd) && <i
-                            className="fa-solid fa-check"
-                            style={{ color: "#63E6BE" }}
-                        ></i>}
+                      {event[1].invited.includes(userToAdd) && <i
+                        className="fa-solid fa-check"
+                        style={{ color: "#63E6BE" }}
+                      ></i>}
                       <p>{event[1].title}</p>
                       <div className="userEvents-options">
-                        <i onClick={()=> handleAddUserToEvent(event[0], userToAdd, event[1].seriesId)} className="fa-solid fa-user-plus"></i>
+                        <i onClick={() => handleAddUserToEvent(event[0], userToAdd, event[1].seriesId)} className="fa-solid fa-user-plus"></i>
                       </div>
                     </div>
                   )) : "No events"}

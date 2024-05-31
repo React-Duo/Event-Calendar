@@ -109,3 +109,19 @@
   border: 2px solid #000;
   transform: scale(1.2);
 }
+
+@media screen and (max-width: 570px) {
+  .container-list-form {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    width: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+  }
+  
+}
