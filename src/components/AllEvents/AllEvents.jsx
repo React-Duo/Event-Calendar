@@ -1,5 +1,5 @@
 import "./AllEvents.css"
-import { getAllEvents, addUserToEvent } from "../../service/database-service"
+import { getAllEvents, addUserToEvent, getUserDetails } from "../../service/database-service"
 import { useEffect, useState, useContext } from "react"
 import AuthContext from "../../context/AuthContext";
 
@@ -39,21 +39,37 @@ const AllEvents = () => {
                 const topEvents = events.sort((a, b) => b[1].invited.length - a[1].invited.length);
                 setEventsToShow([...topEvents]);
                 setShowedEvents("Top events")
-            }
-            if (filter === "today") {
+            } else if (filter === "today") {
                 const todayEvents = events.filter(event => event[1].startDate === new Date().toISOString().split('T')[0]);
                 setEventsToShow([...todayEvents]);
                 setShowedEvents("Today events")
-            }
-
-            if (filter === "joined") {
+            } else if (filter === "joined") {
                 const joinedEvents = events.filter(event => event[1].invited.includes(isLoggedIn.user));
                 setEventsToShow([...joinedEvents]);
                 setShowedEvents("Joined events")
+            } 
+            else if(filter === "location") {
+                const userLocation = async () => {
+                    const details = await getUserDetails(isLoggedIn.user);
+                    const locationEvents = events.filter(event => {
+                        if (typeof event[1].location === 'string') {
+                            return event[1].location.includes(details[0].address.city);
+                        } else {
+                            return event[1].location.city.includes(details[0].address.city);
+                        }
+                    });
+                    setEventsToShow([...locationEvents]);
+                }
+                userLocation();
+                setShowedEvents("Sofia events")
             }
         }
         filterEvents(filter);
     }, [filter, events, isLoggedIn.user]);
+
+    //  {typeof event[1].location === 'string'
+    // ? event[1].location
+    // : `${event[1].location.city}, ${event[1].location.country}, ${event[1].location.street}`}
 
     const fetchAddUserToEvent = async (eventId, seriesId) => {
         let events = await getAllEvents();
@@ -74,7 +90,7 @@ const AllEvents = () => {
                 <h3>{showedEvents}</h3>
             </div>
             <div className="events-filter">
-                <p><i className="fa-solid fa-location-dot"></i>My location</p>
+                <p onClick={()=> setFilter("location")} ><i className="fa-solid fa-location-dot"></i>My location</p>
                 <p onClick={() => setFilter("top")}>Top</p>
                 <p onClick={() => setFilter("today")}>Today</p>
                 <p onClick={() => setFilter("joined")}>Joined</p>
