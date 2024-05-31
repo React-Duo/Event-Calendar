@@ -131,6 +131,10 @@ const AddEvent = () => {
             [ new Date(endDate).getDate(), new Date(endDate).getMonth() + 1, new Date(endDate).getFullYear() ];
         const events = [];          
 
+        const today = new Date().toISOString().split('T')[0];
+        const startHour = new Date(`${today}T${startTime}:00`);
+        const endHour = new Date(`${today}T${endTime}:00`);
+
         if (startYear > endYear) {
             setError("Start year is greater than end year!");
             console.log("Invalid date range");
@@ -151,39 +155,46 @@ const AddEvent = () => {
                 }
 
                 if (startDay === endDay) {
-                    console.log(startTime);
-                    console.log(endTime);
-                    if (startTime > endTime) {
+                    if (startHour > endHour) {  
                         setError("Start time is greater than end time!");
-                        console.log("Invalid time range");
+                        console.log("Invalid time range");  
                         return;
-                    } 
+                    }
+
+                    events.push({...eventObject});
                 }
 
                 if (startDay < endDay) {
+                    if (repeat === "single") events.push({...eventObject});
 
+                    if (repeat !== "single") {
+                        if (startHour > endHour) {  
+                            setError("Start time is greater than end time!");
+                            console.log("Invalid time range");  
+                            return;
+                        }
 
-
-
-                }
-
-                if (repeat !== "single") {
-                    for (let currentDate = startDay; currentDate <= endDay; currentDate++) {
-                        const date = `${startYear}-${startMonth}-${currentDate}`;
-                        if (repeat.schedule === "daily") events.push({...eventObject, startDate: date, endDate: date});
-                        if (repeat.schedule === "weekly") {
-                            const weekday = getWeekDay(new Date(date).getDay());
-                            if (repeat.weekdays.includes(weekday)) events.push({...eventObject, startDate: date, endDate: date});
+                        for (let currentDate = startDay; currentDate <= endDay; currentDate++) {
+                            const date = `${startYear}-${startMonth}-${currentDate}`;
+                            if (repeat.schedule === "daily") events.push({...eventObject, startDate: date, endDate: date});
+                            if (repeat.schedule === "weekly") {
+                                const weekday = getWeekDay(new Date(date).getDay());
+                                if (repeat.weekdays.includes(weekday)) events.push({...eventObject, startDate: date, endDate: date});
+                            }
                         }
                     }
                 }
-
-                if (repeat === "single") events.push({...eventObject});
             }
             if (startMonth < endMonth) {
                 if (repeat === "single") events.push({...eventObject});
 
                 if (repeat !== "single") {
+                    if (startHour > endHour) {  
+                        setError("Start time is greater than end time!");
+                        console.log("Invalid time range");  
+                        return;
+                    }
+
                     for (let currentMonth = startMonth; currentMonth <= endMonth; currentMonth++) {
                         if (currentMonth === startMonth) {
                             const monthDays = getMonthDays(`${startYear}-${startMonth}`);
@@ -225,7 +236,6 @@ const AddEvent = () => {
         } 
         
         if (startYear < endYear) {
-
             if (endYear - startYear > MAX_YEAR_SPAN) {
                 setError(`Allowed year range is ${MAX_YEAR_SPAN} years!`);
                 console.log("Year range is too long!");
@@ -235,6 +245,12 @@ const AddEvent = () => {
             if (repeat === "single") events.push({...eventObject});
             
             if (repeat !== "single") {
+                if (startHour > endHour) {  
+                    setError("Start time is greater than end time!");
+                    console.log("Invalid time range");  
+                    return;
+                }
+                
                 for (let currentYear = startYear; currentYear <= endYear; currentYear++) {
                     if (currentYear === startYear) {
                         for (let currentMonth = startMonth; currentMonth <= 12; currentMonth++) {
