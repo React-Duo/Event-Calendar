@@ -87,7 +87,14 @@
     margin-top: 5px;
     border-radius: 11px;
     padding: 0.25rem;
+    cursor: pointer;
 }
+
+.single-event-title:hover{
+    background-color: rgba(185, 125, 52, 0.842);
+    transition: background-color 0.3s ease;
+}
+
 
 .single-event-title-container{
     display: flex;
