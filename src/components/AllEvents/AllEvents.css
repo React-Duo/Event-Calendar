@@ -74,6 +74,7 @@
     word-wrap: break-word;
     hyphens: auto;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    height: 520px;
 }
 
 .single-event img {
@@ -90,25 +91,49 @@
     padding: 10px 10px 10px 10px;
 }
 
-.hours-event span {
+.hours-event{
+    display: flex;
+    align-items: center;
+    gap: 11px;
+}
+
+.hours-event-left{
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(233,232,231);
+    padding: 7px;
+    width: 55px;
+    height: 55px;   
+    border-radius: 15px;
+    align-items: center;
+    gap: 3px;
+}
+
+.hours-event-left p{
+    opacity: 70%;
+}
+
+
+.hours-event-right p:first-child {
+    font-size: 18px;
     font-weight: bold;
-    color: rgba(40, 90, 255);
 }
 
-.hours-event p {
-    padding-bottom: 3px;
+#single-event-location{
+    opacity: 80%;
 }
 
-.people-going img {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-}
 
 .people-going {
     display: flex;
     flex-direction: column;
     height: 50px;
+}
+
+#people-going-length {
+    font-size: 14px;
+    padding-bottom: 5px;
+    padding-top: 5px;
 }
 
 .one-person {
@@ -126,7 +151,7 @@
     gap: 15px;
     align-items: center;
     justify-content: center;
-    margin-top: 15px;
+    margin-top: 35px;
 }
 
 #no-events-text{

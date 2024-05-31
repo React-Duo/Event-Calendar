@@ -2,6 +2,7 @@ import "./AllEvents.css"
 import { getAllEvents, addUserToEvent, getUserDetails } from "../../service/database-service"
 import { useEffect, useState, useContext } from "react"
 import AuthContext from "../../context/AuthContext";
+import dayjs from "dayjs";
 
 
 
@@ -47,12 +48,12 @@ const AllEvents = () => {
                 const joinedEvents = events.filter(event => event[1].invited.includes(isLoggedIn.user));
                 setEventsToShow([...joinedEvents]);
                 setShowedEvents("Joined events")
-            } 
-            else if(filter === "location") {
+            }
+            else if (filter === "location") {
                 const userLocation = async () => {
                     const details = await getUserDetails(isLoggedIn.user);
                     const locationEvents = events.filter(event => {
-                        if(event[1].locationType !== "online"){
+                        if (event[1].locationType !== "online") {
                             return event[1].location.city === details[0].address.city;
                         }
                     });
@@ -61,7 +62,7 @@ const AllEvents = () => {
                 }
                 userLocation();
             }
-            else if(filter === "online") {
+            else if (filter === "online") {
                 const onlineEvents = events.filter(event => event[1].locationType === "online");
                 setEventsToShow([...onlineEvents]);
                 setShowedEvents("Online events")
@@ -69,10 +70,6 @@ const AllEvents = () => {
         }
         filterEvents(filter);
     }, [filter, events, isLoggedIn.user]);
-
-    //  {typeof event[1].location === 'string'
-    // ? event[1].location
-    // : `${event[1].location.city}, ${event[1].location.country}, ${event[1].location.street}`}
 
     const fetchAddUserToEvent = async (eventId, seriesId) => {
         let events = await getAllEvents();
@@ -93,7 +90,7 @@ const AllEvents = () => {
                 <h3>{showedEvents}</h3>
             </div>
             <div className="events-filter">
-                <p className={filter === "location" ? "activeFilter" : ""} onClick={()=> setFilter("location")} ><i className="fa-solid fa-location-dot"></i>My location</p>
+                <p className={filter === "location" ? "activeFilter" : ""} onClick={() => setFilter("location")} ><i className="fa-solid fa-location-dot"></i>My location</p>
                 <p className={filter === "online" ? "activeFilter" : ""} onClick={() => setFilter("online")}>Online</p>
                 <p className={filter === "top" ? "activeFilter" : ""} onClick={() => setFilter("top")}>Top</p>
                 <p className={filter === "today" ? "activeFilter" : ""} onClick={() => setFilter("today")}>Today</p>
@@ -109,20 +106,37 @@ const AllEvents = () => {
                             <div className="single-event-details">
                                 <h3>{event[1].title}</h3>
                                 <div className="hours-event">
-                                    <p>From: <span >{`${event[1].startDate}th ${event[1].startTime}`}</span></p>
-                                    <p>To:<span>{`  ${event[1].endDate}th ${event[1].endTime}`}</span></p>
+                                    <div className="hours-event-left">
+                                        <h4>{dayjs(event[1].startDate).format("DD")}</h4>
+                                        <p>{dayjs(event[1].startDate).format("MMM")}</p>
+                                    </div>
+                                    <div className="hours-event-right">
+                                        <p>{dayjs(event[1].startDate).format("dddd")}</p>
+                                        <p>{`Start ${event[1].startTime}`}</p>
+                                    </div>
+                                    <div><i className="fa-solid fa-right-long fa-lg"></i></div>
+                                    <div className="hours-event-left">
+                                        <h4>{dayjs(event[1].endDate).format("DD")}</h4>
+                                        <p>{dayjs(event[1].endDate).format("MMM")}</p>
+                                    </div>
+                                    <div className="hours-event-right">
+                                        <p>{dayjs(event[1].endDate).format("dddd")}</p>
+                                        <p>{`End ${event[1].endTime}`}</p>
+                                    </div>
                                 </div>
                                 <div>
                                     <p>Repeating: {event[1].repeat.schedule ? (event[1].repeat.schedule === "weekly" ? event[1].repeat.weekdays + "" : event[1].repeat.schedule) : event[1].repeat}</p>                                </div>
-                                <p>
+                                <p id="single-event-location">
+                                    <i className="fa-solid fa-location-dot fa-lg"></i>
                                     {typeof event[1].location === 'string'
                                         ? event[1].location
-                                        : `${event[1].location.city}, ${event[1].location.country}, ${event[1].location.street}`}
+                                        : `${event[1].location.street}, ${event[1].location.city}`}
                                 </p>
                                 <div className="people-going">
+                                    {event[1].invited && event[1].invited.length < 2 && <p id="people-going-length">{event[1].invited.length} going</p>}
                                     {event[1].invited && event[1].invited.filter(person => person !== isLoggedIn.user).slice(0, 2).map((person, index) => (
                                         <div className="one-person" key={index}>
-                                            <p>{`${person} is going  `}</p>
+                                            <p>{`${person} joined`}</p>
                                         </div>
                                     ))}
                                     {event[1].invited && event[1].invited.length > 2 && (
