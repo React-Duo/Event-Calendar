@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import GlobalContext from "./calendarContext/GlobalContext";
 import { getAllEvents } from '../../service/database-service'
 import AuthContext from "../../context/AuthContext";
+import { useNavigate } from 'react-router-dom';
 
 
 const Day = ({ day, rowIdx }) => {
@@ -13,7 +14,8 @@ const Day = ({ day, rowIdx }) => {
     const { view } = useContext(GlobalContext);
     const [events, setAllEvents] = useState([]);
     const { isLoggedIn } = useContext(AuthContext);
-
+    const navigate = useNavigate();
+    
     useEffect(() => {
         const fetchEvents = async () => {
             const events = await getAllEvents();
@@ -75,7 +77,7 @@ const Day = ({ day, rowIdx }) => {
                             <div className="single-event-title">{dayEvents[0][1].title}</div>
                         ) : (
                             dayEvents.map((event, index) => (
-                                <div className="single-event-title" key={index}>{event[1].title}</div>
+                                <div onClick={()=> navigate("/settings")} className="single-event-title" key={index}>{event[1].title}</div>
                             ))
                         )}
                     </div>
@@ -94,7 +96,7 @@ const Day = ({ day, rowIdx }) => {
                         <div className='hour-container'>
                         {dayEvents.map((event, eventIndex) => (
                             <div key={eventIndex}>
-                                <div >{dayjs(hour.format("YYYY-MM-DDTHH:mm")).isBetween((dayjs(`${event[1].startDate}T${event[1].startTime}`)), dayjs(`${event[1].endDate}T${event[1].endTime}`), "hour", '[]') && <div ><p className="single-event-title">{event[1].title}</p></div>}</div>                            
+                                <div >{dayjs(hour.format("YYYY-MM-DDTHH:mm")).isBetween((dayjs(`${event[1].startDate}T${event[1].startTime}`)), dayjs(`${event[1].endDate}T${event[1].endTime}`), "hour", '[]') && <div ><p onClick={()=> navigate("/settings")} className="single-event-title">{event[1].title}</p></div>}</div>                            
                             </div>
                         ))}
                         </div>
@@ -113,7 +115,7 @@ const Day = ({ day, rowIdx }) => {
                         <div className='hour-day-container-event'>
                         {dayEvents.map((event, eventIndex) => (
                             <div key={eventIndex}>
-                                <div >{dayjs(hour.format("YYYY-MM-DDTHH:mm")).isBetween((dayjs(`${event[1].startDate}T${event[1].startTime}`)), dayjs(`${event[1].endDate}T${event[1].endTime}`), "hour", '[]') && <div ><p className="single-event-title">{event[1].title}</p></div>}</div>                            
+                                <div >{dayjs(hour.format("YYYY-MM-DDTHH:mm")).isBetween((dayjs(`${event[1].startDate}T${event[1].startTime}`)), dayjs(`${event[1].endDate}T${event[1].endTime}`), "hour", '[]') && <div ><p onClick={()=> navigate("/settings")} className="single-event-title">{event[1].title}</p></div>}</div>                            
                             </div>
                         ))}
                         </div>
@@ -133,7 +135,7 @@ const Day = ({ day, rowIdx }) => {
                         <div className='hour-container'>
                         {dayEvents.map((event, eventIndex) => (
                             <div key={eventIndex}>
-                                <div >{dayjs(hour.format("YYYY-MM-DDTHH:mm")).isBetween((dayjs(`${event[1].startDate}T${event[1].startTime}`)), dayjs(`${event[1].endDate}T${event[1].endTime}`), "hour", '[]') && <div ><p className="single-event-title">{event[1].title}</p></div>}</div>                            
+                                <div >{dayjs(hour.format("YYYY-MM-DDTHH:mm")).isBetween((dayjs(`${event[1].startDate}T${event[1].startTime}`)), dayjs(`${event[1].endDate}T${event[1].endTime}`), "hour", '[]') && <div ><p onClick={()=> navigate("/settings")} className="single-event-title">{event[1].title}</p></div>}</div>                            
                             </div>
                         ))}
                         </div>

@@ -1,4 +1,5 @@
 import "./ContentPublic.css";
+import { assets } from "../../assets/assets";
 
 const ContentPublic = () => {
   return (
@@ -14,17 +15,26 @@ const ContentPublic = () => {
       <div>
         <img
           className="content-public-img"
-          src="https://picsum.photos/900/500"
+          src={assets.publicHeader}
           alt="demo"
         />
       </div>
       <div className="partners">
         <h3>Simplified scheduling for more than 20 million users worldwide</h3>
-        <div className="partners-logos">
-          <img src="https://picsum.photos/200/50" alt="partner" />
-          <img src="https://picsum.photos/200/50" alt="partner" />
-          <img src="https://picsum.photos/200/50" alt="partner" />
-          <img src="https://picsum.photos/200/50" alt="partner" />
+        <div id='container-scroll'>
+          <div className='scroll'>
+            <div className='item'><img src={assets.company1}></img></div>
+            <div className='item'><img src={assets.company2}></img></div>
+            <div className='item'><img src={assets.company3}></img></div>
+            <div className='item'><img src={assets.company4}></img></div>
+            <div className='item'><img src={assets.company1}></img></div>
+            <div className='item'><img src={assets.company5}></img></div>
+            <div className='item'><img src={assets.company6}></img></div>
+            <div className='item'><img src={assets.company7}></img></div>
+            <div className='item'><img src={assets.company8}></img></div>
+            <div className='item'><img src={assets.company9}></img></div>
+            <div className='item'><img src={assets.company10}></img></div>
+          </div>
         </div>
       </div>
     </div>

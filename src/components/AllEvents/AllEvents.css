@@ -1,7 +1,7 @@
 .all-events-container {
-    background-color: rgb(255, 255, 255);
+    /* background-color: rgb(255, 255, 255);
     padding: 20px;
-    border-radius: 15px;
+    border-radius: 15px; */
 }
 
 .events-filter {
@@ -11,6 +11,7 @@
     border-radius: 15px;
     width: fit-content;
     font-weight: bold;
+    margin: 0 auto;
 }
 
 .fa-location-dot {
@@ -135,6 +136,10 @@
     margin-top: 5px;
     text-align: center;
 
+}
+
+.activeFilter {
+    color: rgba(40,90,255) !important;
 }
 
 @media screen and (max-width: 460px) {
