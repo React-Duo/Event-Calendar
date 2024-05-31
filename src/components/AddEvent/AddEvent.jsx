@@ -150,6 +150,23 @@ const AddEvent = () => {
                     return;
                 }
 
+                if (startDay === endDay) {
+                    console.log(startTime);
+                    console.log(endTime);
+                    if (startTime > endTime) {
+                        setError("Start time is greater than end time!");
+                        console.log("Invalid time range");
+                        return;
+                    } 
+                }
+
+                if (startDay < endDay) {
+
+
+
+
+                }
+
                 if (repeat !== "single") {
                     for (let currentDate = startDay; currentDate <= endDay; currentDate++) {
                         const date = `${startYear}-${startMonth}-${currentDate}`;
