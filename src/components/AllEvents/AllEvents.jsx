@@ -52,16 +52,19 @@ const AllEvents = () => {
                 const userLocation = async () => {
                     const details = await getUserDetails(isLoggedIn.user);
                     const locationEvents = events.filter(event => {
-                        if (typeof event[1].location === 'string') {
-                            return event[1].location.includes(details[0].address.city);
-                        } else {
-                            return event[1].location.city.includes(details[0].address.city);
+                        if(event[1].locationType !== "online"){
+                            return event[1].location.city === details[0].address.city;
                         }
                     });
                     setEventsToShow([...locationEvents]);
+                    setShowedEvents(`Events in ${details[0].address.city}`)
                 }
                 userLocation();
-                setShowedEvents("Sofia events")
+            }
+            else if(filter === "online") {
+                const onlineEvents = events.filter(event => event[1].locationType === "online");
+                setEventsToShow([...onlineEvents]);
+                setShowedEvents("Online events")
             }
         }
         filterEvents(filter);
@@ -90,17 +93,18 @@ const AllEvents = () => {
                 <h3>{showedEvents}</h3>
             </div>
             <div className="events-filter">
-                <p onClick={()=> setFilter("location")} ><i className="fa-solid fa-location-dot"></i>My location</p>
-                <p onClick={() => setFilter("top")}>Top</p>
-                <p onClick={() => setFilter("today")}>Today</p>
-                <p onClick={() => setFilter("joined")}>Joined</p>
+                <p className={filter === "location" ? "activeFilter" : ""} onClick={()=> setFilter("location")} ><i className="fa-solid fa-location-dot"></i>My location</p>
+                <p className={filter === "online" ? "activeFilter" : ""} onClick={() => setFilter("online")}>Online</p>
+                <p className={filter === "top" ? "activeFilter" : ""} onClick={() => setFilter("top")}>Top</p>
+                <p className={filter === "today" ? "activeFilter" : ""} onClick={() => setFilter("today")}>Today</p>
+                <p className={filter === "joined" ? "activeFilter" : ""} onClick={() => setFilter("joined")}>Joined</p>
             </div>
             <div className="all-events">
                 {eventsToShow && eventsToShow.length !== 0 ? (
                     eventsToShow.map((event, index) => (
                         <div className="single-event" key={index}>
                             <div>
-                                <img src="https://picsum.photos/380/200" alt="event" />
+                                <img src={event[1].photo} alt="event cover photo" />
                             </div>
                             <div className="single-event-details">
                                 <h3>{event[1].title}</h3>
