@@ -68,7 +68,7 @@ return (
                     </div>
                     <div>
                         <h4>{`${user.firstName} ${user.lastName}`}</h4>
-                        <p>{user.email}</p>
+                        <p id="user-email-length">{user.email}</p>
                     </div>
                     {user.email === isLoggedIn.user ? (
                         <>
