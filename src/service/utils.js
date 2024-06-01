@@ -19,10 +19,9 @@ export function getMonth(month = dayjs().month()) {
 }
 
 export function getWeek(month = dayjs().month(), weekOffset = dayjs().week() - dayjs(new Date(dayjs().year(), month - 1, 1)).week() + 1) {
-
     const year = dayjs().year();
     const firstDayOfWeek = dayjs().startOf('week').date();
-    let currentDayCount = firstDayOfWeek + (weekOffset * 7);
+    let currentDayCount = firstDayOfWeek + (weekOffset * 7 -3);
     const daysMatrix = new Array(7).fill([]).map(() => {
         currentDayCount++;
         return new Array(24).fill(null).map((_, hour) => {
@@ -44,7 +43,7 @@ export function getDay(dayOffset = 0) {
 export function getWorkWeek(month = dayjs().month(), weekOffset = dayjs().week() - dayjs(new Date(dayjs().year(), month - 1, 1)).week() + 1) {
     const year = dayjs().year();
     const firstDayOfWeek = dayjs().startOf('week').date();
-    let currentDayCount = firstDayOfWeek + (weekOffset * 7);
+    let currentDayCount = firstDayOfWeek + (weekOffset * 7 - 3);
     const daysMatrix = new Array(5).fill([]).map(() => {
         currentDayCount++;
         return new Array(24).fill(null).map((_, hour) => {
