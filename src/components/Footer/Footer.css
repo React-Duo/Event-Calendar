@@ -103,3 +103,20 @@
     color: #fff;
   }
   
+  @media screen and (max-width: 800px) {
+    .container-footer {
+      position: static;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      background-color: rgb(255, 253, 253);
+      color: rgb(120, 138, 158);
+      text-align: center;
+      padding: 0px 20px;
+      border-top: 1px solid #333333a4;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+  }
+  
+  }

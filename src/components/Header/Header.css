@@ -168,3 +168,35 @@
   filter: blur(1px);
   transform: scale(0.95, 0.95);
 }
+
+@media screen and (max-width: 768px) {
+  .header {
+    padding: 20px 20px;
+  }
+
+  .header-logo img {
+    width: 150px;
+    height: 40px;
+  }
+
+  .header-menu {
+    gap: 10px;
+  }
+
+  .header-person {
+    gap: 10px;
+  }
+
+  .options {
+    width: 150px;
+  }
+
+  .value {
+    padding: 5px;
+  }
+
+  .value svg {
+    width: 10px;
+  }
+  
+}

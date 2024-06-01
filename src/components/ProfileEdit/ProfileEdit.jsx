@@ -238,7 +238,7 @@ const ProfileEdit = () => {
                 type="text"
                 placeholder="Street"
               />
-              <div>
+              <div id="city-county-inputs">
                 <label className="input__label">City</label>
                 <input required className="address-inputs"
                   placeholder="City"
@@ -262,15 +262,17 @@ const ProfileEdit = () => {
           </div>
           {error && <div className="profile-errorMessage">{error}</div>} <br />
           {success && <div className="profile-confirmMessage">{success}</div>} <br />
-          <div>
-            <h3>Delete Profile</h3>
-            <p>Delete your account and all of your source data.This is irreversible.</p>
+          <div id="delete-profile-part">
+            <div >
+              <h3>Delete Profile</h3>
+              <p>Delete your account and all of your source data.This is irreversible.</p>
+            </div>
+            <div><button onClick={() => setDeleteMessage("Are you sure you want to delete you profile?")} className="delete-btn">Delete</button></div>
+            {deleteMessage && <div className="delete-message">{deleteMessage}
+              <button onClick={logoutHandler} className="delete-btn">Yes</button>
+              <button onClick={() => setDeleteMessage(null)} className="delete-btn">No</button>
+            </div>}
           </div>
-          <div><button onClick={() => setDeleteMessage("Are you sure you want to delete you profile?")} className="delete-btn">Delete</button></div>
-          {deleteMessage && <div className="delete-message">{deleteMessage}
-            <button onClick={logoutHandler} className="delete-btn">Yes</button>
-            <button onClick={() => setDeleteMessage(null)} className="delete-btn">No</button>
-          </div>}
         </div>
       </div>
     </div>
