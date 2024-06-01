@@ -114,18 +114,10 @@ const AllEvents = () => {
                                         <p>{dayjs(event[1].startDate).format("dddd")}</p>
                                         <p>{`Start ${event[1].startTime}`}</p>
                                     </div>
-                                    <div><i className="fa-solid fa-right-long fa-lg"></i></div>
-                                    <div className="hours-event-left">
-                                        <h4>{dayjs(event[1].endDate).format("DD")}</h4>
-                                        <p>{dayjs(event[1].endDate).format("MMM")}</p>
-                                    </div>
-                                    <div className="hours-event-right">
-                                        <p>{dayjs(event[1].endDate).format("dddd")}</p>
-                                        <p>{`End ${event[1].endTime}`}</p>
-                                    </div>
                                 </div>
                                 <div>
-                                    <p>Repeating: {event[1].repeat.schedule ? (event[1].repeat.schedule === "weekly" ? event[1].repeat.weekdays + "" : event[1].repeat.schedule) : event[1].repeat}</p>                                </div>
+                                    <p>Repeating: {event[1].repeat.schedule ? (event[1].repeat.schedule === "weekly" ? event[1].repeat.weekdays + "" : event[1].repeat.schedule) : event[1].repeat}</p>
+                                </div>
                                 <p id="single-event-location">
                                     <i className="fa-solid fa-location-dot fa-lg"></i>
                                     {typeof event[1].location === 'string'
