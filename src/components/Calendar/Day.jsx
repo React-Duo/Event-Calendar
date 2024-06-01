@@ -89,7 +89,7 @@ const Day = ({ day, rowIdx }) => {
         return (
             <div className='days'>   
                 <header>
-                    <p>{day[0].format('DD-ddd').toUpperCase()}</p>
+                    <p>{day[0].format('DD-ddd MM').toUpperCase()}</p>
                 </header>
                 {day.map((hour, i) => (
                     <div key={i} >                      

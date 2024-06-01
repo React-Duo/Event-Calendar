@@ -1,7 +1,9 @@
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import GlobalContext from "./calendarContext/GlobalContext"
 import dayjs from "dayjs"
 import localeData from 'dayjs/plugin/localeData'
+import isoWeek from 'dayjs/plugin/isoWeek'
+dayjs.extend(isoWeek);
 dayjs.locale('en-gb')
 
 
@@ -11,19 +13,27 @@ const CalendarHeader = () => {
   const { view, setView } = useContext(GlobalContext)
   const { dayOffset, setDayOffset } = useContext(GlobalContext)
   dayjs.extend(localeData)
+  const [nextWeek, setNextWeek] = useState(0);
+  const [prevWeek, setPrevWeek] = useState(0);
 
   // week
   const handleNextWeek = () => {
+    setNextWeek(nextWeek + 1);
     setWeekOffset(weekOffset + 1)
   }
 
   const handlePrevWeek = () => {
+    setPrevWeek(prevWeek + 1);
     setWeekOffset(weekOffset - 1)
   }
+
   const handleResetWeek = () => {
+    setNextWeek(0);
+    setPrevWeek(0);
     setWeekOffset(dayjs().week() - dayjs(new Date(dayjs().year(), monthIndex - 1, 1)).week() + 1)
+
   }
-// month
+  // month
   const handlePrevMonth = () => {
     setMonthIndex(monthIndex - 1)
   }
@@ -33,7 +43,7 @@ const CalendarHeader = () => {
   const handleReset = () => {
     setMonthIndex(dayjs().month())
   }
-// day
+  // day
 
   const handleNextDay = () => {
     setDayOffset(dayOffset + 1)
@@ -47,41 +57,41 @@ const CalendarHeader = () => {
 
   return (
     <header className="calendar-header">
-    {view === "week" || view ==="workWeek" || view==="day" ? <div className='hours-static'>
-                <div></div>
-                <div>00</div>
-                <div>01</div>
-                <div>02</div>
-                <div>03</div>
-                <div>04</div>
-                <div>05</div>
-                <div>06</div>
-                <div>07</div>
-                <div>08</div>
-                <div>09</div>
-                <div>10</div>
-                <div>11</div>
-                <div>12</div>
-                <div>13</div>
-                <div>14</div>
-                <div>15</div>
-                <div>16</div>
-                <div>17</div>
-                <div>18</div>
-                <div>19</div>
-                <div>20</div>
-                <div>21</div>
-                <div>22</div>
-                <div>23</div>
-            </div>:""}
+      {view === "week" || view === "workWeek" || view === "day" ? <div className='hours-static'>
+        <div></div>
+        <div>00</div>
+        <div>01</div>
+        <div>02</div>
+        <div>03</div>
+        <div>04</div>
+        <div>05</div>
+        <div>06</div>
+        <div>07</div>
+        <div>08</div>
+        <div>09</div>
+        <div>10</div>
+        <div>11</div>
+        <div>12</div>
+        <div>13</div>
+        <div>14</div>
+        <div>15</div>
+        <div>16</div>
+        <div>17</div>
+        <div>18</div>
+        <div>19</div>
+        <div>20</div>
+        <div>21</div>
+        <div>22</div>
+        <div>23</div>
+      </div> : ""}
       <button onClick={() => {
         if (view === "month") {
           handlePrevMonth()
-        } else if(view === "week") {
+        } else if (view === "week") {
           handlePrevWeek()
-        } else if(view === "day") {
+        } else if (view === "day") {
           handlePrevDay()
-        } else if(view === "workWeek") {
+        } else if (view === "workWeek") {
           handlePrevWeek()
         }
       }}>
@@ -91,18 +101,17 @@ const CalendarHeader = () => {
       </button>
       <h2>
         {view === "month" && dayjs(new Date(dayjs().year(), monthIndex)).format("MMMM YYYY")}
-        {view === "week" && `${dayjs().startOf('week').subtract(1, 'day').add(weekOffset * 7, 'day').format("DD")} - ${dayjs().startOf('week').subtract(1, 'day').add(weekOffset * 7 + 6, 'day').format("DD")}`}        
+        {view === "week" && `${dayjs('2021-05-27').add((nextWeek - prevWeek) * 7, 'day').format("DD")} - ${dayjs('2021-06-02').add((nextWeek - prevWeek) * 7, 'day').format("DD")}`}
         {view === "day" && dayjs().add(dayOffset, 'day').format("DD MMMM")}
-        {view === "workWeek" && `${dayjs().startOf('week').subtract(1, 'day').add(weekOffset * 7, 'day').format("DD")} - ${dayjs().startOf('week').subtract(1, 'day').add(weekOffset * 7 + 4, 'day').format("DD")}`}
-        </h2>
+        {view === "workWeek" && `${dayjs('2021-05-27').add((nextWeek - prevWeek) * 7, 'day').format("DD")} - ${dayjs('2021-05-31').add((nextWeek - prevWeek) * 7, 'day').format("DD")}`}      </h2>
       <button onClick={() => {
         if (view === "month") {
           handleNextMonth()
-        } else if(view === "week") {
+        } else if (view === "week") {
           handleNextWeek()
-        } else if(view === "day") {
+        } else if (view === "day") {
           handleNextDay()
-        }else if(view === "workWeek") {
+        } else if (view === "workWeek") {
           handleNextWeek()
         }
       }}>
@@ -125,8 +134,8 @@ const CalendarHeader = () => {
         handleReset()
         setView("month")
       }}>Month</button>
-      <button className={view === "day" ? "selected" : ""} onClick={()=> {
-         handleReset()
+      <button className={view === "day" ? "selected" : ""} onClick={() => {
+        handleReset()
         resetDayOffset()
         setView("day")
       }}>Day</button>
@@ -134,8 +143,8 @@ const CalendarHeader = () => {
         handleReset()
         setView("week")
       }}>Week</button>
-      <button className={view === "workWeek" ? "selected" : ""} onClick={()=> {
-         handleReset()
+      <button className={view === "workWeek" ? "selected" : ""} onClick={() => {
+        handleReset()
         setView("workWeek")
       }}>Work week</button>
 
