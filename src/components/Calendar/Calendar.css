@@ -222,9 +222,16 @@
         align-items: center;
         padding: 10px 10px;
         height: 90px;
-        margin-bottom: 55px;
+        margin-bottom: 75px;
     }
- 
+    .calendar-header button{
+        padding: 7px;
+        border-radius: 5px;
+        height: 45px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 } 
 
 @media screen and (max-width: 1550px) {
