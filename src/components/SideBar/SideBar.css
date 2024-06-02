@@ -22,7 +22,8 @@
 }
 .side-bar-tags li {
   list-style: none;
-  color: rgb(96,96,96);
+  color: rgba(66, 63, 63, 0.782);
+  text-shadow: 3px 3px 3px rgba(0, 0, 0, 0.159);
   cursor: pointer;
   margin-top: 15px;
 }
