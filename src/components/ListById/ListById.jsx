@@ -5,6 +5,8 @@ import { getListById, updateList, deleteList, getAllEvents, getUserDetails, getE
 import AuthContext from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import SearchUsers from "../SearchUsers/SearchUsers";
+import VideoRoom from "../VideoRoom/VideoRoom";
+
 
 
 const ListById = () => {
@@ -22,6 +24,7 @@ const ListById = () => {
   const [showEvents, setShowEvents] = useState(false);
   const [userToAdd, setUserToAdd] = useState("")
   const [preferencesMessage, setPreferencesMessage] = useState(false)
+  const [joined, setJoined] = useState(false)
 
   const handleShowSearch = () => {
     setShowSearch(!showSearch);
@@ -214,7 +217,15 @@ const ListById = () => {
         )}
         {contentIn === "chat" && (
           <div>
-            <p>Chat</p>
+            {!joined && (
+              <button onClick={() => setJoined(true)} className="btn">Join</button>
+            )}
+            {joined && (
+              <div>
+              <button onClick={() => setJoined(false)} className="btn">Leave</button>
+              <VideoRoom />
+              </div>
+            )}
           </div>
         )}
       </div>
