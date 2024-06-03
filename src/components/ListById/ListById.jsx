@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 import SearchUsers from "../SearchUsers/SearchUsers";
 
 
-
 const ListById = () => {
   const params = useParams();
   const listId = params.id;
@@ -22,6 +21,7 @@ const ListById = () => {
   const [authorEvents, setAuthorEvents] = useState([]);
   const [showEvents, setShowEvents] = useState(false);
   const [userToAdd, setUserToAdd] = useState("")
+  const [preferencesMessage, setPreferencesMessage] = useState(false)
 
   const handleShowSearch = () => {
     setShowSearch(!showSearch);
@@ -33,14 +33,21 @@ const ListById = () => {
 
   const handleAddUserToEvent = async (eventId, user, seriesId) => {
     try {
-      const events = await getAllEvents();
-      if (seriesId) {
-        const seriesEvents = events.filter(event => event[1].seriesId === seriesId);
-        await Promise.all(seriesEvents.map(event => addUserToEvent(event[0], user)));
-      } else {
-        await addUserToEvent(eventId, user);
+      const userDetails = await getUserDetails(user);
+      if (userDetails[0].invitePreference !== "true") {
+        const events = await getAllEvents();
+        if (seriesId) {
+          const seriesEvents = events.filter(event => event[1].seriesId === seriesId);
+          await Promise.all(seriesEvents.map(event => addUserToEvent(event[0], user)));
+        } else {
+          await addUserToEvent(eventId, user);
+        }
+        fetchAuthorEvents();
+        setPreferencesMessage(false)
       }
-      fetchAuthorEvents();
+      else {
+        setPreferencesMessage(true)
+      }
     } catch (error) {
       console.error(error);
     }
@@ -183,6 +190,7 @@ const ListById = () => {
                     <button onClick={() => {
                       handleShowEvents()
                       setUserToAdd("")
+                      setPreferencesMessage(false)
                     }} className="button--icon">x </button>
                   </div>
                   {authorEvents ? authorEvents.map((event, index) => (
@@ -197,6 +205,8 @@ const ListById = () => {
                       </div>
                     </div>
                   )) : "No events"}
+                  {preferencesMessage && 
+                    <p className="errorMessage">User has set preferences to not be invited to events</p>}
                 </div>}
               </tbody>
             </table>
