@@ -45,6 +45,7 @@ export const getUserContactLists = async (email) => {
 }
 
 export const addEvent = async (events) => { 
+  console.log(events);
   let seriesId = '';
   try { 
     return await Promise.all(events.map(async (event, index) => {
@@ -52,7 +53,7 @@ export const addEvent = async (events) => {
         const eventId = response._path.pieces_[1];
         if (index === 0) seriesId = eventId;
         if (event.repeat !== 'single') {
-          await update(ref(database, `events/${eventId}`), { id: eventId, seriesId });
+          if (index !== 0) await update(ref(database, `events/${eventId}`), { id: eventId, seriesId });
         } else {
           await update(ref(database, `events/${eventId}`), { id: eventId });
         }
@@ -68,6 +69,19 @@ export const addIdToEvent = async (eventIds) => {
     return await Promise.all(eventIds.map(async (eventId) => {
       return await update(ref(database, `events/${eventId}`), { id: eventId });
     }));
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
+export const getEventById = async (eventId) => {
+  try {
+    const snapshot = await get(ref(database, `events/${eventId}`));
+    if (snapshot.exists()) {
+      return snapshot.val();
+    } else {
+      throw new Error("Event not found!");
+    }
   } catch (error) {
     console.log(error.message);
   }
