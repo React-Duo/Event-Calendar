@@ -51,54 +51,55 @@ const Header = () => {
 
   useEffect(() => {
     const fetchAuthorEvents = async () => {
-        const events = await getAllEvents();
-      
-        if(events){
-            const uniqueSeriesEvents = events.reduce((acc, current) => {
-                const x = acc.find(item => item[1].seriesId === current[1].seriesId);
-                if (!x || !current[1].seriesId) {
-                    return acc.concat([current]);
-                } else {
-                    return acc;
-                }
-            }, []);
+      const events = await getAllEvents();
 
-            const now = dayjs();
-            const threeDaysFromNow = now.add(3, 'day');
-            const alerts = uniqueSeriesEvents.filter(event => {
-                const eventDate = dayjs(event[1].startDate);
-                return event[1].invited.includes(isLoggedIn.user) && eventDate.isBefore(threeDaysFromNow) && eventDate.isAfter(now);
-            }).map(event => event[1]);
-            setAlerts(alerts);
-        }
+      if (events) {
+        const myEvents = events.filter(event => event[1].repeat === "single" || event[1].seriesId);
+        const uniqueSeriesEvents = myEvents.reduce((acc, current) => {
+          const event = acc.find(item => item[1].seriesId === current[1].seriesId);
+          if (!event || !current[1].seriesId) {
+            return acc.concat([current]);
+          } else {
+            return acc;
+          }
+        }, []);
+
+        const now = dayjs();
+        const threeDaysFromNow = now.add(3, 'day');
+        const alerts = uniqueSeriesEvents.filter(event => {
+          const eventDate = dayjs(event[1].startDate);
+          return event[1].invited.includes(isLoggedIn.user) && eventDate.isBefore(threeDaysFromNow) && eventDate.isAfter(now);
+        }).map(event => event[1]);
+        setAlerts(alerts);
+      }
     };
     fetchAuthorEvents();
-}, [isLoggedIn.user]);
+  }, [isLoggedIn.user]);
 
   return (
     <>
       <div className="header">
-        
+
         {!isLoggedIn.status ? (
           <>
-          <div className="header-logo">
-          <img src={assets.logo} alt="logo" />
-        </div>
-          <div className="header-menu">
-            <a id="loginBtn" href="#" onClick={handleLoginClick}>
-              Log in
-            </a>
-            <a id="registerBtn" href="#" onClick={handleRegisterClick}>
-              Get started
-            </a>
-          </div>
+            <div className="header-logo">
+              <img src={assets.logo} alt="logo" />
+            </div>
+            <div className="header-menu">
+              <a id="loginBtn" href="#" onClick={handleLoginClick}>
+                Log in
+              </a>
+              <a id="registerBtn" href="#" onClick={handleRegisterClick}>
+                Get started
+              </a>
+            </div>
           </>
         ) : (
           <div className="header-menu">
             <div className="notifier new">
               <i onClick={handleNotifications} className="bell fa fa-bell-o"></i>
               <div className="badge">{alerts.length}</div>
-              {showNotifications && <Notifications alerts={alerts}/>}
+              {showNotifications && <Notifications alerts={alerts} />}
             </div>
             <div className="header-person">
               <div className="options-header">
@@ -108,12 +109,12 @@ const Header = () => {
                 ></img>
               </div>
               <p>{isLoggedIn.user}</p>
-              <i  className="fa-solid fa-chevron-down fa-sm"></i>
+              <i className="fa-solid fa-chevron-down fa-sm"></i>
               <div className="options">
-                  <button onClick={() => navigate("/profile")} className="value"><i className="fa-regular fa-user fa-sm"></i>Public profile</button>
-                  <button onClick={() => navigate("/settings")} className="value"><i className="fa-solid fa-gear fa-sm"></i>Settings</button>
-                  <button className="value" onClick={handleLogoutClick}><i className="fa-solid fa-arrow-right-from-bracket fa-sm"></i>Log out</button>
-                </div>
+                <button onClick={() => navigate("/profile")} className="value"><i className="fa-regular fa-user fa-sm"></i>Public profile</button>
+                <button onClick={() => navigate("/settings")} className="value"><i className="fa-solid fa-gear fa-sm"></i>Settings</button>
+                <button className="value" onClick={handleLogoutClick}><i className="fa-solid fa-arrow-right-from-bracket fa-sm"></i>Log out</button>
+              </div>
             </div>
           </div>
         )}
