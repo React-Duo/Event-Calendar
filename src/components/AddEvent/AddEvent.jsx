@@ -56,7 +56,6 @@ const AddEvent = () => {
     }, []);
 
     useEffect(() => {
-        console.log(events);
         const handleAddEvent = async () => {
             try {
                 setLoading(true);
@@ -129,8 +128,9 @@ const AddEvent = () => {
             [ new Date(startDate).getDate(), new Date(startDate).getMonth() + 1, new Date(startDate).getFullYear() ];
         const [endDay, endMonth, endYear] = 
             [ new Date(endDate).getDate(), new Date(endDate).getMonth() + 1, new Date(endDate).getFullYear() ];
-        const events = [];          
-
+        const events = [];   
+        events.push({...eventObject});
+        
         const today = new Date().toISOString().split('T')[0];
         const startHour = new Date(`${today}T${startTime}:00`);
         const endHour = new Date(`${today}T${endTime}:00`);
