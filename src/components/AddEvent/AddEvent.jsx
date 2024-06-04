@@ -129,7 +129,7 @@ const AddEvent = () => {
         const [endDay, endMonth, endYear] = 
             [ new Date(endDate).getDate(), new Date(endDate).getMonth() + 1, new Date(endDate).getFullYear() ];
         const events = [];   
-        events.push({...eventObject});
+        if (repeat !== "single") events.push({...eventObject});
         
         const today = new Date().toISOString().split('T')[0];
         const startHour = new Date(`${today}T${startTime}:00`);
