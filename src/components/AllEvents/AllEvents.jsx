@@ -16,7 +16,7 @@ const AllEvents = () => {
     const fetchAndSetEvents = async () => {
         const events = await getAllEvents();
         if (events) {
-            const publicEvents = events.filter(event => event[1].visibility === "public");
+            const publicEvents = events.filter(event => event[1].visibility === "public" && event[1].repeat === "single" || event[1].seriesId);
             const uniqueSeriesEvents = publicEvents.reduce((acc, current) => {
                 const x = acc.find(item => item[1].seriesId === current[1].seriesId);
                 if (!x || !current[1].seriesId) {
@@ -74,14 +74,13 @@ const AllEvents = () => {
     const fetchAddUserToEvent = async (eventId, seriesId) => {
         let events = await getAllEvents();
         if (seriesId) {
-            const seriesEvents = events.filter(event => event[1].seriesId === seriesId);
+            const seriesEvents = events.filter(event => event[1].seriesId === seriesId || seriesId === event[0]);
             await Promise.all(seriesEvents.map(event => addUserToEvent(event[0], isLoggedIn.user)));
         } else {
             await addUserToEvent(eventId, isLoggedIn.user);
         }
         fetchAndSetEvents();
     };
-
 
     return (
         <div className="all-events-container">

@@ -40,7 +40,7 @@ const ListById = () => {
       if (userDetails[0].invitePreference !== "true") {
         const events = await getAllEvents();
         if (seriesId) {
-          const seriesEvents = events.filter(event => event[1].seriesId === seriesId);
+          const seriesEvents = events.filter(event => event[1].seriesId === seriesId || seriesId === event[0]);
           await Promise.all(seriesEvents.map(event => addUserToEvent(event[0], user)));
         } else {
           await addUserToEvent(eventId, user);
@@ -59,9 +59,10 @@ const ListById = () => {
   const fetchAuthorEvents = async () => {
     const events = await getEventByEmail(isLoggedIn.user);
     if (events) {
-      const uniqueSeriesEvents = events.reduce((acc, current) => {
-        const x = acc.find(item => item[1].seriesId === current[1].seriesId);
-        if (!x || !current[1].seriesId) {
+        let uniqueSeries = events.filter(event =>event[1].repeat === "single" || event[1].seriesId);
+        const uniqueSeriesEvents = uniqueSeries.reduce((acc, current) => {
+        const event = acc.find(item => item[1].seriesId === current[1].seriesId);
+        if (!event  || !current[1].seriesId) {
           return acc.concat([current]);
         } else {
           return acc;
