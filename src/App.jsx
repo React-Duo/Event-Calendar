@@ -16,6 +16,7 @@ import AddEvent from './components/AddEvent/AddEvent';
 import CalendarView from './views/CalendarView/CalendarView';
 import Footer from './components/Footer/Footer';
 import Settings from './views/Settings/Settings';
+import SingleEvent from './components/SingleEvent/SingleEvent';
 
 const App = () => {
 
@@ -41,6 +42,7 @@ const App = () => {
             <Route path="/contacts/:id" element=<SingleList /> />
             <Route path="/calendar" element=<CalendarView /> />
             <Route path="/settings" element=<Settings /> />
+            <Route path="/event/:id" element={<SingleEvent />} />
       </Routes>
         {authValue.status &&  <Footer />}
       </AuthContext.Provider>
