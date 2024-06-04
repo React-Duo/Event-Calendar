@@ -21,7 +21,8 @@ const Day = ({ day, rowIdx }) => {
             const events = await getAllEvents();
             if (events) {
                 const filteredEvents = events.filter(event => event[1].author === isLoggedIn.user || event[1].invited && event[1].invited.includes(isLoggedIn.user));
-                setAllEvents(filteredEvents);
+                const eventsToVisualize = filteredEvents.filter(event => event[1].repeat === "single" || event[1].seriesId);
+                setAllEvents(eventsToVisualize);
             } else {
                 setAllEvents([]);
             }
