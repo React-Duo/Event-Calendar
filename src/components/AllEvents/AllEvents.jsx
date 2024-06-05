@@ -18,7 +18,7 @@ const AllEvents = () => {
     const fetchAndSetEvents = async () => {
         const events = await getAllEvents();
         if (events) {
-            const publicEvents = events.filter(event => event[1].visibility === "public" && event[1].repeat === "single" || event[1].seriesId);
+            const publicEvents = events.filter(event => event[1].visibility === "public" && (event[1].repeat === "single" || event[1].seriesId) || event[1].invited.includes(isLoggedIn.user)  && (event[1].repeat === "single" || event[1].seriesId));
             const uniqueSeriesEvents = publicEvents.reduce((acc, current) => {
                 const x = acc.find(item => item[1].seriesId === current[1].seriesId);
                 if (!x || !current[1].seriesId) {
