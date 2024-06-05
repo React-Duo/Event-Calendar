@@ -3,6 +3,7 @@ import { getAllEvents, addUserToEvent, getUserDetails } from "../../service/data
 import { useEffect, useState, useContext } from "react"
 import AuthContext from "../../context/AuthContext";
 import dayjs from "dayjs";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -12,6 +13,7 @@ const AllEvents = () => {
     const [eventsToShow, setEventsToShow] = useState([]);
     const { isLoggedIn } = useContext(AuthContext);
     const [showedEvents, setShowedEvents] = useState("All events");
+    const navigate = useNavigate();
 
     const fetchAndSetEvents = async () => {
         const events = await getAllEvents();
@@ -137,7 +139,7 @@ const AllEvents = () => {
                                     )}
                                 </div>
                                 <div className="single-event-options">
-                                    <button className="btn" disabled>More info</button>
+                                    <button onClick={()=> navigate(`/event/${event[0]}`)} className="btn" >More info</button>
                                     {event[1].invited.includes(isLoggedIn.user) ? <button className="btn" style={{ color: "green" }} disabled>Joined</button> : <button className="btn" onClick={() => fetchAddUserToEvent(event[0], event[1].seriesId)}>Join</button>}
                                 </div>
                             </div>
