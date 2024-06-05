@@ -1,9 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getEventById, getUserDetails } from '../../service/database-service';
+import  AuthContext  from '../../context/AuthContext';
 import "./SingleEvent.css";
 
 const SingleEvent = () => {
+    const { isLoggedIn } = useContext(AuthContext);
     const { id } = useParams();
     const [event, setEvent] = useState(null);
     const [author, setAuthor] = useState(null);
@@ -35,6 +37,8 @@ const SingleEvent = () => {
         if (event) fetchAuthor();
     }, [event]);
 
+    
+
     return (
         <div className="single-event-info">
             {event && <div>
@@ -58,6 +62,8 @@ const SingleEvent = () => {
                 </p>
                 <p><span>Visibility:</span> {event.visibility}</p>
                 <p><span>Allow invited users to invite others:</span> {event.canInvite ? "Yes": "No"}</p>
+                {console.log(isLoggedIn.user)}
+                <button onClick={() => {}}>Edit</button>
             </div>
             }
         </div>
