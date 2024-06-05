@@ -11,12 +11,9 @@ const VideoPlayer = ({ user }) => {
   });
 
   return (
-    <div>
-        Uid: {user.uid}
       <div className="video-player"
         ref={ref}
       ></div>
-    </div>
   );
 };
 
