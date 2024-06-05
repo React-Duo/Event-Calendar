@@ -61,7 +61,7 @@ const Chat = ({ listId, setContentIn }) => {
         <form onSubmit={(e) => { e.preventDefault(); sendMessage(currentMessage); }}>
             <div className="input-area">
                 <input id="messageInput" type="text" placeholder="Message..." value={currentMessage.message} onChange={(e) => setCurrentMessage({ ...currentMessage, message: e.target.value })} />
-                <button id="sendButton" type="submit"><i className="fa-regular fa-paper-plane fa-lg"></i></button>
+                <button id="sendButton" type="submit"><i className="fa-regular fa-paper-plane fa-xl"></i></button>
             </div>
         </form>
     </div>
