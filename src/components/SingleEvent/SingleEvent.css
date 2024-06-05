@@ -1,28 +1,26 @@
 .single-event-info {
   display: flex;
   justify-content: center; 
-  height: 100vh;
   background-color: #f0f0f0; 
 }
 
-.single-event-info > div {
+.single-event-info > form {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 50%; 
-  height: 70%; 
   margin: 70px;
-  background: white;
   padding: 20px;
+  background: white;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
-  border-radius: 8px;
+  border-radius: 8px;  
 }
 
 .single-event-info p {
   display: flex;
   justify-content: space-between;
   width: 90%;
-  margin: 8px 0;
+  margin: 10px 0;
 }
 
 .single-event-info p span {
@@ -30,19 +28,98 @@
 }
 
 .single-event-info img {
-  width: 300px;
-  height: 300px;
-  margin: 20px 0;
+  width: 250px;
+  height: 250px;
+  margin: 12px 0;
   border-radius: 8px;
 }
 
-button {
+#editTitle {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 1%;
+  font-size: 0.7em;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+#editDescription {
+  width: 70%;
+  padding: 10px;
+  margin-bottom: 1%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+#editLocationType {
+  width: 15%;
+  padding: 10px;
+  margin-bottom: 1%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+#editVisibility {
+  width: 15%;
+  padding: 10px;
+  margin-bottom: 1%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+#editCanInvite {
+  margin: 0;
+  vertical-align: middle;
+}
+
+.error-message {
+  color: red;
+  font-size: 1.0em;
+  font-weight: bold;
+}
+
+#editLocation {
+  width: 35%;
+  padding: 10px;
+  margin-bottom: 1%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.address {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+  border: 1px solid #ccc;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+}
+
+.address input {
+  padding: 10px;
+  margin-bottom: 1%;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+}
+
+.address h5 {
+  margin-bottom: 5px;
+  font-size: 0.8em;
+  font-weight: normal;
+  color: rgb(44, 176, 44);
+}
+
+.form-button {
   background-color: #4b77dc;
   border: none;          
   color: white;           
   padding: 15px 32px;      
-  text-align: center;      
-  display: inline-block;   
   font-size: 16px;     
   margin: 4px 2px;        
   cursor: pointer;       
@@ -50,6 +127,6 @@ button {
   transition: background-color 0.3s ease;
 }
 
-button:hover {
+.form-button:hover {
   background-color: #45a049;
 }

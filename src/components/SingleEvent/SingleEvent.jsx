@@ -2,13 +2,17 @@ import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getEventById, getUserDetails } from '../../service/database-service';
 import  AuthContext  from '../../context/AuthContext';
+import Address from '../Address/Address';
 import "./SingleEvent.css";
+import { isAddressValid } from '../../service/utils';
 
 const SingleEvent = () => {
     const { isLoggedIn } = useContext(AuthContext);
     const { id } = useParams();
     const [event, setEvent] = useState(null);
     const [author, setAuthor] = useState(null);
+    const [editStatus, setEditStatus] = useState(false);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchEvent = async () => {
@@ -37,34 +41,137 @@ const SingleEvent = () => {
         if (event) fetchAuthor();
     }, [event]);
 
-    
+    const handleEdit = (e) => {
+        e.preventDefault();
+
+        const title = e.target.editTitle.value || event.title;
+        console.log(title);
+
+        const description = e.target.editDescription.value || event.description;
+        console.log(description);
+
+        const locationType = e.target.editLocationType.value || event.locationType;
+        console.log(locationType);
+
+        let location = locationType === "offline" 
+                            ? {country: e.target.country.value, city: e.target.city.value, street: e.target.street.value}
+                            : e.target.editLocation.value;
+
+        location = location ? location : event.location;
+        console.log(location);
+
+        if (isAddressValid(location, setError) === 'Address is invalid') return;
+
+
+        const visibility = e.target.editVisibility.value || event.visibility;
+        console.log(visibility);
+
+        const canInvite = e.target.editCanInvite.checked;
+        console.log(canInvite);
+ 
+       
+        setEvent({...event, title, description, locationType, location, visibility, canInvite});
+        setError(null);
+        setEditStatus(false);
+
+
+    }
+
+    const handleLocationTypeChange = (e) => {
+        e.preventDefault();
+        setEvent({...event, locationType: e.target.value});
+    }
 
     return (
         <div className="single-event-info">
-            {event && <div>
-                <h1>{event.title}</h1>
+            {event && 
+            <form onSubmit={handleEdit}>
+                <h1>{editStatus ? <input type="text" id="editTitle" name="editTitle" defaultValue={event.title} /> : event.title }</h1>
+
                 <img src={event.photo} alt="" />
-                <p><span>Author:</span> {author} ({event.author})</p>
-                <p><span>Description:</span> {event.description}</p>
-                <p><span>Repeating:</span> {event.repeat === "single" ? "one-time" : event.repeat.schedule}</p>
-                {event.repeat.schedule === "weekly" && (
-                    <p><span>Every:</span> {event.repeat.weekdays.join(', ')}</p>
-                )} 
-                <p><span>Starting at:</span> {event.startDate} {event.startTime}</p>
-                <p><span>Ending at:</span> {event.endDate} {event.endTime}</p>
-                <p><span>Location Type:</span> {event.locationType}</p>
-                <p><span>Location:</span> 
-                    {event.locationType === "offline" ?
+
+                <p>
+                    <span>Author:</span> {author} ({event.author})
+                </p>
+
+                <p>
+                    <span>Description:</span> 
+                    {editStatus ? <input type="text" id="editDescription" name="editDescription" defaultValue={event.description} /> 
+                                : event.description
+                    }
+                </p>
+
+                <p>
+                    <span>Repeating:</span> {event.repeat === "single" ? "one-time" : event.repeat.schedule}
+                </p>
+                {event.repeat.schedule === "weekly" 
+                    && <p>
+                            <span>Every:</span> {event.repeat.weekdays.join(', ')}
+                        </p>
+                } 
+
+                <p>
+                    <span>Starting at:</span> {event.startDate} {event.startTime}
+                </p>
+
+                <p>
+                    <span>Ending at:</span> {event.endDate} {event.endTime}
+                </p>
+
+                <p>
+                    <span>Location Type:</span> 
+                    {editStatus ? 
+                        <select name="editLocationType" id="editLocationType" onChange={handleLocationTypeChange} defaultValue={event.locationType}>
+                            <option value="offline">Offline</option>
+                            <option value="online">Online</option>
+                        </select>
+                        : 
+                        event.locationType
+                    }
+                </p>
+
+                <p>
+                    <span>Location:</span>
+                    {editStatus ? 
+                        (event.locationType === "offline" 
+                            ? 
+                            <Address from={"singleEvent"} /> 
+                            : 
+                            <input type="text" id="editLocation" name="editLocation" defaultValue={event.locationType === "offline" ? "" : event.location} />)
+                        :
+                        (event.locationType === "offline" ?
                              <span>{event.location.country}, {event.location.city}, {event.location.street}</span>
                              : 
                              event.location
+                        )
                     }
                 </p>
-                <p><span>Visibility:</span> {event.visibility}</p>
-                <p><span>Allow invited users to invite others:</span> {event.canInvite ? "Yes": "No"}</p>
-                {console.log(isLoggedIn.user)}
-                <button onClick={() => {}}>Edit</button>
-            </div>
+
+                <p>
+                    <span>Visibility:</span> 
+                    {editStatus ?
+                        <select name="editVisibility" id="editVisibility" defaultValue={event.visibility}>
+                            <option value="public">Public</option>
+                            <option value="private">Private</option>
+                        </select>
+                    :
+                    event.visibility
+                    }
+                </p>
+
+                <p>
+                    <span>Allow invited users to invite others:</span> 
+                    {editStatus ?
+                        <input type="checkbox" id="editCanInvite" name="editCanInvite" defaultChecked={event.canInvite} />
+                        : 
+                        (event.canInvite ? "Yes": "No")
+                    }
+                </p>
+
+                {editStatus && <button type="submit" className="form-button">Save</button>}
+                {!editStatus && <button onClick={() => setEditStatus(true)} className="form-button">Edit</button>}
+                {error && <p className="error-message">{error}</p>}
+            </form>
             }
         </div>
     )
