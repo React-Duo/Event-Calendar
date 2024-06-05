@@ -8,6 +8,7 @@
     padding: 15px;
     border-radius: 15px;
     width: 400px;
+    z-index: 5;
 }
 
 .notifications-header h3 {
