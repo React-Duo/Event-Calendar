@@ -1,15 +1,20 @@
 import "./VideoRoom.css"
 import AgoraRTC from "agora-rtc-sdk-ng";
 import { useEffect, useState } from "react";
-const APP_ID = "6083e35c080d4b069b777496f343bdb1"
-const TOKEN = "007eJxTYFgS99qw5+xNhh+7l26a8rBEbZafwoG5C3ff/3T12C+xHr9SBQYzAwvjVGPTZAMLgxSTJAMzyyRzc3MTS7M0YxPjpJQkw/xHsWkNgYwMPvMuMDMyQCCIz8JQklpcwsAAAErFIqg="
-const CHANNEL = "test"
-const client = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" });
 import VideoPlayer from "../VideoPlayer/VideoPlayer";
+
+const APP_ID = "6083e35c080d4b069b777496f343bdb1"
+const TOKEN = "007eJxTYFD/eWR958+9L2ZazN1Qx8SZN+PkjL4CvapJ4jGvzmRNqTupwGBmYGGcamyabGBhkGKSZGBmmWRubm5iaZZmbGKclJJkuM0qPq0hkJHB5awBKyMDBIL4LAwlqcUlDAwAwbQgSw=="
+const CHANNEL = "test"
+
+
+
+const client = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" });
 
 const VideoRoom = () => {
     const [users, setUsers] = useState([]);
     const [localTracks, setLocalTracks] = useState([]);
+    const [joined, setJoined] = useState(false);
 
     const handleUserJoined = async (user, mediaType) => {
         await client.subscribe(user, mediaType);
@@ -19,7 +24,7 @@ const VideoRoom = () => {
         }
 
         if (mediaType === 'audio') {
-            user.audioTrack.play()
+            // user.audioTrack.play()
         }
     };
 
@@ -32,16 +37,12 @@ const VideoRoom = () => {
     useEffect(() => {
         client.on('user-published', handleUserJoined);
         client.on('user-left', handleUserLeft);
-
-        client
-            .join(APP_ID, CHANNEL, TOKEN, null)
-            .then((uid) =>
-                Promise.all([
-                    AgoraRTC.createMicrophoneAndCameraTracks(),
-                    uid,
-                ])
-            )
-            .then(([tracks, uid]) => {
+        AgoraRTC.setLogLevel(2);
+        const joinAndPublish = async () => {
+            try {
+                const uid = await client.join(APP_ID, CHANNEL, TOKEN, null);
+                setJoined(true);
+                const tracks = await AgoraRTC.createMicrophoneAndCameraTracks();
                 const [audioTrack, videoTrack] = tracks;
                 setLocalTracks(tracks);
                 setUsers((previousUsers) => [
@@ -52,8 +53,13 @@ const VideoRoom = () => {
                         audioTrack,
                     },
                 ]);
-                client.publish(tracks);
-            });
+                await client.publish(tracks);
+            } catch (error) {
+                console.error("Error joining channel and publishing tracks:", error);
+            }
+        };
+    
+        joinAndPublish();
 
         return () => {
             for (let localTrack of localTracks) {
@@ -65,6 +71,7 @@ const VideoRoom = () => {
             client.unpublish(localTracks).then(() => client.leave());
         };
     }, []);
+
     return (
         <div>
             <div className="video-container">
@@ -73,6 +80,6 @@ const VideoRoom = () => {
                 ))}
             </div>
         </div>
-    )
-}
+    );
+};
 export default VideoRoom
