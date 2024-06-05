@@ -78,7 +78,7 @@ const Day = ({ day, rowIdx }) => {
                             <div className="single-event-title">{dayEvents[0][1].title}</div>
                         ) : (
                             dayEvents.map((event, index) => (
-                                <div onClick={()=> navigate("/settings")} className="single-event-title" key={index}>{event[1].title}</div>
+                                <div onClick={()=> navigate(`/event/${event[0]}`)} className="single-event-title" key={index}>{event[1].title}</div>
                             ))
                         )}
                     </div>
