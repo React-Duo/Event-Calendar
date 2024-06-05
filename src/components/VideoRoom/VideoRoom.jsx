@@ -83,7 +83,7 @@ const VideoRoom = () => {
     }, []);
 
     return (
-        <div className="container-content">
+        <div>
             <button onClick={()=> navigate("/contacts")}>Leave</button>
             <div className="video-container">
                 {users.map(user => (

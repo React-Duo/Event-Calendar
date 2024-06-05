@@ -17,7 +17,6 @@ import CalendarView from './views/CalendarView/CalendarView';
 import Footer from './components/Footer/Footer';
 import Settings from './views/Settings/Settings';
 import SingleEvent from './components/SingleEvent/SingleEvent';
-import VideoRoom from './components/VideoRoom/VideoRoom';
 
 const App = () => {
 
@@ -44,7 +43,6 @@ const App = () => {
             <Route path="/calendar" element=<CalendarView /> />
             <Route path="/settings" element=<Settings /> />
             <Route path="/event/:id" element={<SingleEvent />} />
-            <Route path="/video-room" element={<VideoRoom />} />
       </Routes>
         {authValue.status &&  <Footer />}
       </AuthContext.Provider>
