@@ -19,6 +19,12 @@ const AddList = ({  handleShowNewList, setTriggerRefetch }) => {
       contacts: members,
       owner: isLoggedIn.user,
       color: listColor,
+      messages: [
+       {
+        name: isLoggedIn.user,
+        message: "Welcome to the chat",
+       }
+      ]
     };
     if (listName === "") {
       setShowError(true);
