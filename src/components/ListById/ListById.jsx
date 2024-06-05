@@ -190,14 +190,14 @@ const ListById = () => {
                   ))}
                 {showEvents && <div className="userEvents">
                   <div className="add-list__header">
-                    <h3 >Chose event</h3>
+                    <h3>Chose event</h3>
                     <button onClick={() => {
                       handleShowEvents()
                       setUserToAdd("")
                       setPreferencesMessage(false)
                     }} className="button--icon">x </button>
                   </div>
-                  {authorEvents ? authorEvents.map((event, index) => (
+                  {authorEvents.length > 0 ? authorEvents.map((event, index) => (
                     <div key={index} className="single-author-event">
                       {event[1].invited.includes(userToAdd) && <i
                         className="fa-solid fa-check"
