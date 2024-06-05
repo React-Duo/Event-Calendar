@@ -45,6 +45,8 @@ table {
   margin-top: 15px;
 }
 
+
+
 tr {
   display: table-row;
 }
@@ -53,7 +55,7 @@ th,
 td {
   display: table-cell;
   padding: 10px;
-  text-align: left;
+  text-align: center;
 }
 
 
@@ -78,6 +80,7 @@ td {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
   animation: button-shimmer 2s infinite;
   transition: all 0.3s ease-in-out;
+  width: 137px;
 }
 
 #table-btn-remove {

@@ -75,11 +75,17 @@ const ListById = () => {
 
   useEffect(() => {
     const fetchList = async () => {
+      console.log("wea");
       try {
         const list = await getListById(listId);
         const listWithDetails = { ...list };
-        listWithDetails.contacts = list.contacts ? await Promise.all(list.contacts.map(async (contact) => await getUserDetails(contact))) : [];
-        if (list.owner !== isLoggedIn.user) {
+        listWithDetails.contacts = list.contacts 
+        ? await Promise.all(
+            list.contacts
+                .filter(contact => contact !== isLoggedIn.user)
+                .map(async (contact) => await getUserDetails(contact))
+        ) 
+        : [];        if (list.owner !== isLoggedIn.user) {
           const userDetails = await getUserDetails(list.owner);
           listWithDetails.contacts.unshift(userDetails);
         }
@@ -91,6 +97,7 @@ const ListById = () => {
       }
     };
     fetchList();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [listId, isLoggedIn.user]);
 
   const handleRemoveFromList = async (user) => {
@@ -188,6 +195,8 @@ const ListById = () => {
                       </td>
                     </tr>
                   ))}
+                  </tbody>
+                  </table>
                 {showEvents && <div className="userEvents">
                   <div className="add-list__header">
                     <h3>Chose event</h3>
@@ -212,8 +221,6 @@ const ListById = () => {
                   {preferencesMessage && 
                     <p className="errorMessage">User has set preferences to not be invited to events</p>}
                 </div>}
-              </tbody>
-            </table>
           </div>
         )}
         {contentIn === "chat" && (
