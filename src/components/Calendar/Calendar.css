@@ -83,11 +83,12 @@
 }
 
 .single-event-title{
-    background-color: rgba(185, 125, 52, 0.542);
+    background-color: rgba(69, 82, 119, 0.542);
     margin-top: 5px;
-    border-radius: 11px;
+    border-radius: 5px;
     padding: 0.25rem;
     cursor: pointer;
+    width: fit-content;
 }
 
 .single-event-title:hover{

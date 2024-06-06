@@ -9,6 +9,7 @@
   align-items: center;
   justify-content: center;
   padding: 1.5rem;
+  
 }
 
 .add-list {
@@ -16,7 +17,7 @@
   flex-direction: column;
   width: 100%;
   max-width: 500px;
-  background-color: #fff;
+  background: linear-gradient(145deg, #e6e6e6, #ffffff);;
   box-shadow: 0 15px 30px 0 rgba(0, 125, 171, 0.15);
   border-radius: 10px;
 }
