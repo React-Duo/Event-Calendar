@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { getEventById, getUserDetails } from '../../service/database-service';
+import { getEventById, getUserDetails, updateEvent } from '../../service/database-service';
 import  AuthContext  from '../../context/AuthContext';
 import Address from '../Address/Address';
 import "./SingleEvent.css";
@@ -13,6 +13,7 @@ const SingleEvent = () => {
     const [author, setAuthor] = useState(null);
     const [editStatus, setEditStatus] = useState(false);
     const [error, setError] = useState(null);
+    const [updatedEvent, setUpdatedEvent] = useState(null);
 
     useEffect(() => {
         const fetchEvent = async () => {
@@ -41,6 +42,16 @@ const SingleEvent = () => {
         if (event) fetchAuthor();
     }, [event]);
 
+    useEffect(() => {
+        if (updatedEvent) {
+            try {
+                updateEvent(updatedEvent);
+            } catch (error) {
+                console.log(error.message);
+            }
+        }
+    }, [updatedEvent]);
+  
     const handleEdit = (e) => {
         e.preventDefault();
         const title = e.target.editTitle.value || event.title;
@@ -56,10 +67,9 @@ const SingleEvent = () => {
 
         const visibility = e.target.editVisibility.value || event.visibility;
         const canInvite = e.target.editCanInvite.checked;
- 
-        setEvent({...event, title, description, locationType, location, visibility, canInvite});
 
-        
+        setEvent({...event, title, description, locationType, location, visibility, canInvite});
+        setUpdatedEvent({...event, title, description, locationType, location, visibility, canInvite});
         setError(null);
         setEditStatus(false);
     }
