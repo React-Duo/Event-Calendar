@@ -5,8 +5,8 @@ import { getListById, updateList, deleteList, getAllEvents, getUserDetails, getE
 import AuthContext from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import SearchUsers from "../SearchUsers/SearchUsers";
+import Chat from "../Chat/Chat";
 import VideoRoom from "../VideoRoom/VideoRoom";
-
 
 
 const ListById = () => {
@@ -24,7 +24,7 @@ const ListById = () => {
   const [showEvents, setShowEvents] = useState(false);
   const [userToAdd, setUserToAdd] = useState("")
   const [preferencesMessage, setPreferencesMessage] = useState(false)
-  const [joined, setJoined] = useState(false)
+
 
   const handleShowSearch = () => {
     setShowSearch(!showSearch);
@@ -59,10 +59,10 @@ const ListById = () => {
   const fetchAuthorEvents = async () => {
     const events = await getEventByEmail(isLoggedIn.user);
     if (events) {
-        let uniqueSeries = events.filter(event =>event[1].repeat === "single" || event[1].seriesId);
-        const uniqueSeriesEvents = uniqueSeries.reduce((acc, current) => {
+      let uniqueSeries = events.filter(event => event[1].repeat === "single" || event[1].seriesId);
+      const uniqueSeriesEvents = uniqueSeries.reduce((acc, current) => {
         const event = acc.find(item => item[1].seriesId === current[1].seriesId);
-        if (!event  || !current[1].seriesId) {
+        if (!event || !current[1].seriesId) {
           return acc.concat([current]);
         } else {
           return acc;
@@ -78,11 +78,16 @@ const ListById = () => {
       try {
         const list = await getListById(listId);
         const listWithDetails = { ...list };
-        listWithDetails.contacts = list.contacts ? await Promise.all(list.contacts.map(async (contact) => await getUserDetails(contact))) : [];
-        if (list.owner !== isLoggedIn.user) {
-          const userDetails = await getUserDetails(list.owner);
-          listWithDetails.contacts.unshift(userDetails);
-        }
+        listWithDetails.contacts = list.contacts
+          ? await Promise.all(
+            list.contacts
+              .filter(contact => contact !== isLoggedIn.user)
+              .map(async (contact) => await getUserDetails(contact))
+          )
+          : []; if (list.owner !== isLoggedIn.user) {
+            const userDetails = await getUserDetails(list.owner);
+            listWithDetails.contacts.unshift(userDetails);
+          }
         setList(list);
         setContactsDetails(listWithDetails.contacts);
         await fetchAuthorEvents();
@@ -91,6 +96,7 @@ const ListById = () => {
       }
     };
     fetchList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [listId, isLoggedIn.user]);
 
   const handleRemoveFromList = async (user) => {
@@ -142,6 +148,7 @@ const ListById = () => {
       <div>
         <ul>
           <li onClick={() => setContentIn("members")}>Members</li>
+          <li onClick={() => setContentIn("video")}>Video</li>
           <li onClick={() => setContentIn("chat")}>Chat</li>
         </ul>
       </div>
@@ -188,45 +195,42 @@ const ListById = () => {
                       </td>
                     </tr>
                   ))}
-                {showEvents && <div className="userEvents">
-                  <div className="add-list__header">
-                    <h3>Chose event</h3>
-                    <button onClick={() => {
-                      handleShowEvents()
-                      setUserToAdd("")
-                      setPreferencesMessage(false)
-                    }} className="button--icon">x </button>
-                  </div>
-                  {authorEvents.length > 0 ? authorEvents.map((event, index) => (
-                    <div key={index} className="single-author-event">
-                      {event[1].invited.includes(userToAdd) && <i
-                        className="fa-solid fa-check"
-                        style={{ color: "#63E6BE" }}
-                      ></i>}
-                      <p>{event[1].title}</p>
-                      <div className="userEvents-options">
-                        <i onClick={() => handleAddUserToEvent(event[0], userToAdd, event[1].seriesId)} className="fa-solid fa-user-plus"></i>
-                      </div>
-                    </div>
-                  )) : "No events"}
-                  {preferencesMessage && 
-                    <p className="errorMessage">User has set preferences to not be invited to events</p>}
-                </div>}
               </tbody>
             </table>
+            {showEvents && <div className="userEvents">
+              <div className="add-list__header">
+                <h3>Chose event</h3>
+                <button onClick={() => {
+                  handleShowEvents()
+                  setUserToAdd("")
+                  setPreferencesMessage(false)
+                }} className="button--icon">x </button>
+              </div>
+              {authorEvents.length > 0 ? authorEvents.map((event, index) => (
+                <div key={index} className="single-author-event">
+                  {event[1].invited.includes(userToAdd) && <i
+                    className="fa-solid fa-check"
+                    style={{ color: "#63E6BE" }}
+                  ></i>}
+                  <p>{event[1].title}</p>
+                  <div className="userEvents-options">
+                    <i onClick={() => handleAddUserToEvent(event[0], userToAdd, event[1].seriesId)} className="fa-solid fa-user-plus"></i>
+                  </div>
+                </div>
+              )) : "No events"}
+              {preferencesMessage &&
+                <p className="errorMessage">User has set preferences to not be invited to events</p>}
+            </div>}
           </div>
         )}
         {contentIn === "chat" && (
           <div>
-            {!joined && (
-              <button onClick={() => setJoined(true)} className="btn">Join</button>
-            )}
-            {joined && (
-              <div>
-              <button onClick={() => setJoined(false)} className="btn">Leave</button>
-              <VideoRoom />
-              </div>
-            )}
+            <Chat listId={listId} setContentIn={setContentIn}/>
+          </div>
+        )}
+        {contentIn === "video" && (
+          <div>
+            <VideoRoom />
           </div>
         )}
       </div>

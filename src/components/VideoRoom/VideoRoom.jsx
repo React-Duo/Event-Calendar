@@ -2,9 +2,10 @@ import "./VideoRoom.css"
 import AgoraRTC from "agora-rtc-sdk-ng";
 import { useEffect, useState } from "react";
 import VideoPlayer from "../VideoPlayer/VideoPlayer";
+import { useNavigate } from "react-router-dom";
 
 const APP_ID = "6083e35c080d4b069b777496f343bdb1"
-const TOKEN = "007eJxTYFD/eWR958+9L2ZazN1Qx8SZN+PkjL4CvapJ4jGvzmRNqTupwGBmYGGcamyabGBhkGKSZGBmmWRubm5iaZZmbGKclJJkuM0qPq0hkJHB5awBKyMDBIL4LAwlqcUlDAwAwbQgSw=="
+const TOKEN = "007eJxTYFAtW6nOHXGiIu5+abvqr1X9V7K9rEQk6qYaH6jnEC2ve6rAYGZgYZxqbJpsYGGQYpJkYGaZZG5ubmJplmZsYpyUkmQoMzEhrSGQkUH+ym4WRgYIBPFZGEpSi0sYGACfFx0R"
 const CHANNEL = "test"
 
 
@@ -15,6 +16,9 @@ const VideoRoom = () => {
     const [users, setUsers] = useState([]);
     const [localTracks, setLocalTracks] = useState([]);
     const [joined, setJoined] = useState(false);
+    const navigate = useNavigate();
+
+
 
     const handleUserJoined = async (user, mediaType) => {
         await client.subscribe(user, mediaType);
@@ -24,7 +28,7 @@ const VideoRoom = () => {
         }
 
         if (mediaType === 'audio') {
-            // user.audioTrack.play()
+            user.audioTrack.play()
         }
     };
 
@@ -37,7 +41,7 @@ const VideoRoom = () => {
     useEffect(() => {
         client.on('user-published', handleUserJoined);
         client.on('user-left', handleUserLeft);
-        AgoraRTC.setLogLevel(2);
+        AgoraRTC.setLogLevel(4);
         const joinAndPublish = async () => {
             try {
                 const uid = await client.join(APP_ID, CHANNEL, TOKEN, null);
@@ -58,7 +62,7 @@ const VideoRoom = () => {
                 console.error("Error joining channel and publishing tracks:", error);
             }
         };
-    
+
         joinAndPublish();
 
         return () => {
@@ -68,12 +72,19 @@ const VideoRoom = () => {
             }
             client.off('user-published', handleUserJoined);
             client.off('user-left', handleUserLeft);
-            client.unpublish(localTracks).then(() => client.leave());
+            const cleanup = async () => {
+                if (joined) {
+                    await client.unpublish(localTracks);
+                    await client.leave();
+                }
+            };
+            cleanup();
         };
     }, []);
 
     return (
         <div>
+            <button onClick={()=> navigate("/contacts")}>Leave</button>
             <div className="video-container">
                 {users.map(user => (
                     <VideoPlayer key={user.uid} user={user} />

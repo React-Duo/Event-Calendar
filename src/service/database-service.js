@@ -1,5 +1,6 @@
 import { database } from '../config/firebase-config.js';
 import { ref, get, set, update, query, equalTo, orderByChild, push } from "firebase/database";
+import { onValue } from "firebase/database";
 
 /**
  * Checks if a user exists in the database.
@@ -246,4 +247,41 @@ export const editCredential  = async (user, credential, newCredential) => {
   } catch (error) {
     return error.message;
   }
+}
+
+export const getChatMessages = async (listId) => {
+  try {
+    const snapshot = await get(ref(database, `contactLists/${listId}/messages`));
+    if (snapshot.exists()) {
+      return snapshot.val();
+    } else {
+      throw new Error("Messages not found!");
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
+
+export const updateMessages = async (listId, message) => {
+  try {
+    return await set(ref(database, `contactLists/${listId}/messages`), message);
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
+export const listenForChatMessages = (listId, callback) => {
+  const messagesRef = ref(database, `contactLists/${listId}/messages`);
+  onValue(messagesRef, (snapshot) => {
+    if (snapshot.exists()) {
+      const messagesObject = snapshot.val();
+      const messagesArray = Object.keys(messagesObject).map(key => messagesObject[key]);
+      callback(messagesArray);
+    } else {
+      callback([]);
+    }
+  }, (error) => {
+    console.log(error.message);
+  });
 }

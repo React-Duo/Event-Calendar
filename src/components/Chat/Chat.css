@@ -1,0 +1,110 @@
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(to bottom, rgb(255, 255, 255) 0%, rgba(103, 100, 100, 0.663) 100%);
+    border: 1px solid rgba(0, 0, 0, 0.468);
+    border-radius: 15px;
+    padding: 20px;
+}
+
+.message-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 20px;
+    border-bottom: 1px solid black;
+}
+
+.message-area {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    min-height: 50px;
+    border-radius: 15px;
+    gap: 15px;
+    margin: 20px 20px;
+}
+
+.message-area {
+    display: flex;
+    flex-direction: column;
+}
+
+.message {
+    align-self: flex-start; 
+}
+
+.user-message {
+    align-self: flex-end;  
+}
+
+.user-message p{
+    background-color: rgb(19,88,181) !important;
+}
+
+.message p {
+    background-color: rgba(111, 109, 107, 0.961);
+    width: fit-content;
+    padding: 7px 11px;
+    color: rgb(255, 255, 255);
+    border-radius: 7px;
+}
+.message h4 {
+  font-size: 12px;
+}
+
+/* input */
+
+.input-area {
+    height: 50px;
+    width: 100%; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #2d2d2d;
+    padding: 0 15px;
+    border-radius: 10px;
+    border: 1px solid rgb(63, 63, 63);
+    margin: 0 auto;
+}
+
+#messageInput {
+    width: 100%;  
+    box-sizing: border-box;  
+    height: 40px;  
+    background-color: transparent;
+    outline: none;
+    border: none;
+    padding-left: 10px;
+    color: white;
+}
+.input-area:focus-within {
+    border: 1px solid rgb(110, 110, 110);
+}
+#messageInput:focus~#sendButton svg path,
+#messageInput:valid~#sendButton svg path {
+    fill: #3c3c3c;
+    stroke: white;
+}
+
+#sendButton {
+   width: 10px; 
+    height: 100%;
+    background-color: transparent;
+    outline: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+#sendButton i {
+    height: 18px;
+    transition: all 0.3s;
+    margin-top: 15px;
+    width: 0px;
+    margin-right: 35px;
+    color: white;
+}
