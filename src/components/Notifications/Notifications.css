@@ -4,11 +4,12 @@
     position: absolute;
     top: 70px;
     right: 60px;
-    background-color: rgb(181, 180, 180);
+    background-color: rgb(240,240,240);
     padding: 15px;
     border-radius: 15px;
     width: 400px;
     z-index: 5;
+    
 }
 
 .notifications-header h3 {
@@ -22,7 +23,7 @@
 }
 
 .event-alert {
-    color: rgba(203, 14, 14, 0.641);
+    color: rgba(255, 0, 0, 0.641);
     border-bottom: 2px solid rgba(47, 47, 47, 0.39);
 }
 
