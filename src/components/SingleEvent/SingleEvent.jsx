@@ -43,43 +43,34 @@ const SingleEvent = () => {
 
     const handleEdit = (e) => {
         e.preventDefault();
-
         const title = e.target.editTitle.value || event.title;
-        console.log(title);
-
         const description = e.target.editDescription.value || event.description;
-        console.log(description);
-
         const locationType = e.target.editLocationType.value || event.locationType;
-        console.log(locationType);
-
-        let location = locationType === "offline" 
+        const location = locationType === "offline" 
                             ? {country: e.target.country.value, city: e.target.city.value, street: e.target.street.value}
                             : e.target.editLocation.value;
 
-        location = location ? location : event.location;
-        console.log(location);
-
-        if (isAddressValid(location, setError) === 'Address is invalid') return;
-
+        if (locationType === "offline") {
+            if (isAddressValid(location, setError) === 'Address is invalid') return;
+        }
 
         const visibility = e.target.editVisibility.value || event.visibility;
-        console.log(visibility);
-
         const canInvite = e.target.editCanInvite.checked;
-        console.log(canInvite);
  
-       
         setEvent({...event, title, description, locationType, location, visibility, canInvite});
+
+        
         setError(null);
         setEditStatus(false);
-
-
     }
 
     const handleLocationTypeChange = (e) => {
         e.preventDefault();
-        setEvent({...event, locationType: e.target.value});
+        if (e.target.value === "offline") {
+            setEvent({...event, locationType: e.target.value});
+        } else {
+            setEvent({...event, locationType: e.target.value, location: ""});
+        }
     }
 
     return (
@@ -137,7 +128,7 @@ const SingleEvent = () => {
                             ? 
                             <Address from={"singleEvent"} /> 
                             : 
-                            <input type="text" id="editLocation" name="editLocation" defaultValue={event.locationType === "offline" ? "" : event.location} />)
+                            <input type="text" id="editLocation" name="editLocation" defaultValue={event.location} required />)
                         :
                         (event.locationType === "offline" ?
                              <span>{event.location.country}, {event.location.city}, {event.location.street}</span>
