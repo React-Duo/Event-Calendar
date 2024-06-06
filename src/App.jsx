@@ -44,7 +44,7 @@ const App = () => {
             <Route path="/settings" element=<Settings /> />
             <Route path="/event/:id" element={<SingleEvent />} />
       </Routes>
-        {authValue.status &&  <Footer />}
+    <Footer />
       </AuthContext.Provider>
     </BrowserRouter>
   )

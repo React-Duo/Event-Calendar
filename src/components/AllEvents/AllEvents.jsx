@@ -14,11 +14,17 @@ const AllEvents = () => {
     const { isLoggedIn } = useContext(AuthContext);
     const [showedEvents, setShowedEvents] = useState("All events");
     const navigate = useNavigate();
+    const [numToShow, setNumToShow] = useState(6);
+
+    const handleShowMore = () => {
+        setNumToShow(numToShow + 6);
+    };
+
 
     const fetchAndSetEvents = async () => {
         const events = await getAllEvents();
         if (events) {
-            const publicEvents = events.filter(event => event[1].visibility === "public" && (event[1].repeat === "single" || event[1].seriesId) || event[1].invited.includes(isLoggedIn.user)  && (event[1].repeat === "single" || event[1].seriesId));
+            const publicEvents = events.filter(event => event[1].visibility === "public" && (event[1].repeat === "single" || event[1].seriesId) || event[1].invited.includes(isLoggedIn.user) && (event[1].repeat === "single" || event[1].seriesId));
             const uniqueSeriesEvents = publicEvents.reduce((acc, current) => {
                 const x = acc.find(item => item[1].seriesId === current[1].seriesId);
                 if (!x || !current[1].seriesId) {
@@ -34,7 +40,7 @@ const AllEvents = () => {
 
     useEffect(() => {
         fetchAndSetEvents();
-    }, []);
+    });
 
     useEffect(() => {
         const filterEvents = (filter) => {
@@ -99,7 +105,7 @@ const AllEvents = () => {
             </div>
             <div className="all-events">
                 {eventsToShow && eventsToShow.length !== 0 ? (
-                    eventsToShow.map((event, index) => (
+                    eventsToShow.slice(0, numToShow).map((event, index) => (
                         <div className="single-event" key={index}>
                             <div>
                                 <img src={event[1].photo} alt="event cover photo" />
@@ -139,7 +145,7 @@ const AllEvents = () => {
                                     )}
                                 </div>
                                 <div className="single-event-options">
-                                    <button onClick={()=> navigate(`/event/${event[0]}`)} className="btn" >More info</button>
+                                    <button onClick={() => navigate(`/event/${event[0]}`)} className="btn" >More info</button>
                                     {event[1].invited.includes(isLoggedIn.user) ? <button className="btn" style={{ color: "green" }} disabled>Joined</button> : <button className="btn" onClick={() => fetchAddUserToEvent(event[0], event[1].seriesId)}>Join</button>}
                                 </div>
                             </div>
@@ -149,6 +155,23 @@ const AllEvents = () => {
                     <p id="no-events-text">No events</p>
                 )}
             </div>
+            {eventsToShow && eventsToShow.length > numToShow && (
+                    <button className="cta" onClick={handleShowMore}>  <span className="hover-underline-animation"> Show more </span>
+                        <svg
+                            id="arrow-horizontal"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="30"
+                            height="10"
+                            viewBox="0 0 46 16"
+                        >
+                            <path
+                                id="Path_10"
+                                data-name="Path 10"
+                                d="M8,0,6.545,1.455l5.506,5.506H-30V9.039H12.052L6.545,14.545,8,16l8-8Z"
+                                transform="translate(30)"
+                            ></path>
+                        </svg></button>
+                )}
         </div>
     )
 }

@@ -56,6 +56,7 @@ td {
   display: table-cell;
   padding: 10px;
   text-align: center;
+  font-family: Verdana, Geneva, Tahoma, sans-serif, Courier, monospace;
 }
 
 
@@ -84,7 +85,7 @@ td {
 }
 
 #table-btn-remove {
-  background: linear-gradient(to bottom, #b41313, #5d5e7c);
+  background: linear-gradient(to bottom, #a11d1d, #63647f);
   margin-left: 5px;
 }
 
