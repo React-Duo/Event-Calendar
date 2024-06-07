@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { getEventById, getUserDetails } from '../../service/database-service';
+import { getEventById, getUserDetails, updateEvent } from '../../service/database-service';
 import  AuthContext  from '../../context/AuthContext';
 import Address from '../Address/Address';
 import "./SingleEvent.css";
@@ -13,6 +13,7 @@ const SingleEvent = () => {
     const [author, setAuthor] = useState(null);
     const [editStatus, setEditStatus] = useState(false);
     const [error, setError] = useState(null);
+    const [updatedEvent, setUpdatedEvent] = useState(null);
 
     useEffect(() => {
         const fetchEvent = async () => {
@@ -41,45 +42,45 @@ const SingleEvent = () => {
         if (event) fetchAuthor();
     }, [event]);
 
+    useEffect(() => {
+        if (updatedEvent) {
+            try {
+                updateEvent(updatedEvent);
+            } catch (error) {
+                console.log(error.message);
+            }
+        }
+    }, [updatedEvent]);
+  
     const handleEdit = (e) => {
         e.preventDefault();
-
         const title = e.target.editTitle.value || event.title;
-        console.log(title);
-
         const description = e.target.editDescription.value || event.description;
-        console.log(description);
-
         const locationType = e.target.editLocationType.value || event.locationType;
-        console.log(locationType);
-
-        let location = locationType === "offline" 
+        const location = locationType === "offline" 
                             ? {country: e.target.country.value, city: e.target.city.value, street: e.target.street.value}
                             : e.target.editLocation.value;
 
-        location = location ? location : event.location;
-        console.log(location);
-
-        if (isAddressValid(location, setError) === 'Address is invalid') return;
-
+        if (locationType === "offline") {
+            if (isAddressValid(location, setError) === 'Address is invalid') return;
+        }
 
         const visibility = e.target.editVisibility.value || event.visibility;
-        console.log(visibility);
-
         const canInvite = e.target.editCanInvite.checked;
-        console.log(canInvite);
- 
-       
+
         setEvent({...event, title, description, locationType, location, visibility, canInvite});
+        setUpdatedEvent({...event, title, description, locationType, location, visibility, canInvite});
         setError(null);
         setEditStatus(false);
-
-
     }
 
     const handleLocationTypeChange = (e) => {
         e.preventDefault();
-        setEvent({...event, locationType: e.target.value});
+        if (e.target.value === "offline") {
+            setEvent({...event, locationType: e.target.value});
+        } else {
+            setEvent({...event, locationType: e.target.value, location: ""});
+        }
     }
 
     return (
@@ -137,7 +138,7 @@ const SingleEvent = () => {
                             ? 
                             <Address from={"singleEvent"} /> 
                             : 
-                            <input type="text" id="editLocation" name="editLocation" defaultValue={event.locationType === "offline" ? "" : event.location} />)
+                            <input type="text" id="editLocation" name="editLocation" defaultValue={event.location} required />)
                         :
                         (event.locationType === "offline" ?
                              <span>{event.location.country}, {event.location.city}, {event.location.street}</span>
@@ -168,8 +169,22 @@ const SingleEvent = () => {
                     }
                 </p>
 
-                {editStatus && <button type="submit" className="form-button">Save</button>}
-                {!editStatus && <button onClick={() => setEditStatus(true)} className="form-button">Edit</button>}
+                {isLoggedIn.user === event.author &&
+                    <span className="edit-buttons">
+                        {!editStatus && <button onClick={() => setEditStatus(true)} className="form-button">Edit</button>}
+                        {editStatus && 
+                            (event.repeat !== "single" ? 
+                                <span>
+                                    <button onClick={() => setEditStatus(false)} className="form-button delete-button">Delete series</button>
+                                    <button onClick={() => setEditStatus(false)} className="form-button delete-button">Delete event</button>
+                                </span>
+                            :
+                            <button onClick={() => setEditStatus(false)} className="form-button delete-button">Delete</button>
+                            )
+                        }
+                        {editStatus && <button type="submit" className="form-button">Save</button>}
+                    </span>
+                }
                 {error && <p className="error-message">{error}</p>}
             </form>
             }

@@ -115,6 +115,12 @@
   color: rgb(44, 176, 44);
 }
 
+.edit-buttons {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
 .form-button {
   background-color: #4b77dc;
   border: none;          
@@ -130,3 +136,11 @@
 .form-button:hover {
   background-color: #45a049;
 }
+
+.delete-button {
+  background-color: #dc4b4b;
+}
+
+
+
+
