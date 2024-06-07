@@ -169,8 +169,22 @@ const SingleEvent = () => {
                     }
                 </p>
 
-                {editStatus && <button type="submit" className="form-button">Save</button>}
-                {!editStatus && <button onClick={() => setEditStatus(true)} className="form-button">Edit</button>}
+                {isLoggedIn.user === event.author &&
+                    <span className="edit-buttons">
+                        {!editStatus && <button onClick={() => setEditStatus(true)} className="form-button">Edit</button>}
+                        {editStatus && 
+                            (event.repeat !== "single" ? 
+                                <span>
+                                    <button onClick={() => setEditStatus(false)} className="form-button delete-button">Delete series</button>
+                                    <button onClick={() => setEditStatus(false)} className="form-button delete-button">Delete event</button>
+                                </span>
+                            :
+                            <button onClick={() => setEditStatus(false)} className="form-button delete-button">Delete</button>
+                            )
+                        }
+                        {editStatus && <button type="submit" className="form-button">Save</button>}
+                    </span>
+                }
                 {error && <p className="error-message">{error}</p>}
             </form>
             }
