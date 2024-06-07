@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { getEventById, getUserDetails, updateEvent } from '../../service/database-service';
+import { deleteEvent, getEventById, getUserDetails, updateEvent } from '../../service/database-service';
 import  AuthContext  from '../../context/AuthContext';
 import Address from '../Address/Address';
 import "./SingleEvent.css";
@@ -80,6 +80,17 @@ const SingleEvent = () => {
             setEvent({...event, locationType: e.target.value});
         } else {
             setEvent({...event, locationType: e.target.value, location: ""});
+        }
+    }
+
+    const handleDelete = async (flag) => {
+        setEditStatus(false);
+        if (flag === "single") {
+            await deleteEvent(id, flag);
+        } 
+        
+        if (flag === "series") {
+            await deleteEvent(event.id, flag);
         }
     }
 
@@ -175,11 +186,11 @@ const SingleEvent = () => {
                         {editStatus && 
                             (event.repeat !== "single" ? 
                                 <span>
-                                    <button onClick={() => setEditStatus(false)} className="form-button delete-button">Delete series</button>
-                                    <button onClick={() => setEditStatus(false)} className="form-button delete-button">Delete event</button>
+                                    <button onClick={() => handleDelete("series")} className="form-button delete-button">Delete series</button>
+                                    <button onClick={() => handleDelete("single")} className="form-button delete-button">Delete event</button>
                                 </span>
                             :
-                            <button onClick={() => setEditStatus(false)} className="form-button delete-button">Delete</button>
+                            <button onClick={() => handleDelete("single")} className="form-button delete-button">Delete event</button>
                             )
                         }
                         {editStatus && <button type="submit" className="form-button">Save</button>}

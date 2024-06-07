@@ -110,6 +110,29 @@ export const getEventById = async (eventId) => {
   }
 }
 
+export const deleteEvent = async (eventId, flag) => {
+    try {
+      if (flag === 'single') {
+        return await set(ref(database, `events/${eventId}`), null);
+      }
+
+      if (flag === 'series') {
+        const snapshot = await get(query(ref(database, "events"), orderByChild("seriesId"), equalTo(eventId)));
+        if (snapshot.exists()) {
+          const eventsToDelete = snapshot.val();
+          eventsToDelete[eventId] = null;
+          Object.keys(eventsToDelete).map(async (eventId) => {
+            await set(ref(database, `events/${eventId}`), null);
+          });
+        } else {
+          throw new Error("Event not found!");
+        }
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+}
+
 export const getUsers = async () => {
   try {
     const snapshot = await get(ref(database, "users"));
