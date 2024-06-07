@@ -47,7 +47,6 @@ const AllEvents = () => {
             if (filter === "top") {
                 const topEvents = events.sort((a, b) => b[1].invited.length - a[1].invited.length);
                 setEventsToShow([...topEvents]);
-                console.log(topEvents);
                 setShowedEvents("Top events")
             } else if (filter === "today") {
                 const todayEvents = events.filter(event => event[1].startDate === new Date().toISOString().split('T')[0]);
@@ -158,20 +157,8 @@ const AllEvents = () => {
             </div>
             {eventsToShow && eventsToShow.length > numToShow && (
                     <button className="cta" onClick={handleShowMore}>  <span className="hover-underline-animation"> Show more </span>
-                        <svg
-                            id="arrow-horizontal"
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="30"
-                            height="10"
-                            viewBox="0 0 46 16"
-                        >
-                            <path
-                                id="Path_10"
-                                data-name="Path 10"
-                                d="M8,0,6.545,1.455l5.506,5.506H-30V9.039H12.052L6.545,14.545,8,16l8-8Z"
-                                transform="translate(30)"
-                            ></path>
-                        </svg></button>
+                    <i className="fa-solid fa-arrow-right-long fa-lg"></i>
+                    </button>
                 )}
         </div>
     )

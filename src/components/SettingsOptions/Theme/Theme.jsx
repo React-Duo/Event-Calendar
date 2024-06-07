@@ -1,12 +1,18 @@
 import "./Theme.css"
-import { useState } from "react"
+import "./Dark-Light-Themes.css"
+import { useContext } from "react"
+import AuthContext from "../../../context/AuthContext";
 
 const Theme = () => {
-    const [isDarkTheme, setIsDarkTheme] = useState(false);
+    const {theme} = useContext(AuthContext);
+    const {setTheme} = useContext(AuthContext);
 
     const handleThemeChange = () => {
-        setIsDarkTheme(!isDarkTheme);
+        const newTheme = !theme;
+        setTheme(newTheme);
+        localStorage.setItem('theme', newTheme ? 'dark' : 'light');
     };
+
     return (
         <div className="theme-container">
             <h2>Appearance</h2>
@@ -14,7 +20,7 @@ const Theme = () => {
             <p>Change the appearance of the site</p>
             <div className="theme-change">
                 <label id="theme-toggle-button">
-                    <input type="checkbox" id="toggle"  onClick={handleThemeChange} />
+                    <input type="checkbox" id="toggle"  onChange={handleThemeChange} checked={theme}/>
                     <svg viewBox="0 0 69.667 44" xmlnsXlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
                         <g transform="translate(3.5 3.5)" data-name="Component 15 – 1" id="Component_15_1">
                             <g filter="url(#container)" transform="matrix(1, 0, 0, 1, -3.5, -3.5)">

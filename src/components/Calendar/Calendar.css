@@ -36,15 +36,16 @@
     height: 45px;
     display: flex;
     align-items: center;
+    background-color: transparent;
+    border: none;
+    font-size: 18px;
 }
 .calendar-header button:hover{
-    background-color: rgba(32, 84, 180, 0.778);
-    transition: background-color 0.3s ease;
+    color: rgb(40,90,255);
 }
 
 .selected{
-    background-color: rgba(32, 84, 180, 0.778);
-    color: white;
+    color: rgb(40,90,255);
 }
 
 /* day */
@@ -69,7 +70,6 @@
     background-color: rgba(32, 84, 180, 0.778);
     color: white;
     border-radius: 50%;
-    
 }
 .calendar-event-title{
 

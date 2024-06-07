@@ -8,6 +8,8 @@
     margin: 0 auto;
 }
 
+
+
 .fa-location-dot {
     margin-right: 5px;
 }
@@ -187,23 +189,14 @@
     text-transform: uppercase;
 }
 
-.cta svg {
+.cta i {
     transform: translateX(-8px);
-    transform: translateY(2px);
+    transform: translateY(7px);
     transition: all 0.3s ease;
-}
-
-.cta:hover svg {
-    transform: translateX(0);
-}
-
-.cta:active svg {
-    transform: scale(0.9);
 }
 
 .hover-underline-animation {
     position: relative;
-    color: black;
     padding-bottom: 20px;
 }
 
@@ -215,7 +208,7 @@
     height: 2px;
     bottom: 0;
     left: 0;
-    background-color: #000000;
+    background-color: #5a5858;
     transform-origin: bottom right;
     transition: transform 0.25s ease-out;
 }
