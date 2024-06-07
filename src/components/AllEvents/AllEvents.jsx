@@ -40,13 +40,14 @@ const AllEvents = () => {
 
     useEffect(() => {
         fetchAndSetEvents();
-    });
+    }, []);
 
     useEffect(() => {
         const filterEvents = (filter) => {
             if (filter === "top") {
                 const topEvents = events.sort((a, b) => b[1].invited.length - a[1].invited.length);
                 setEventsToShow([...topEvents]);
+                console.log(topEvents);
                 setShowedEvents("Top events")
             } else if (filter === "today") {
                 const todayEvents = events.filter(event => event[1].startDate === new Date().toISOString().split('T')[0]);
@@ -77,7 +78,7 @@ const AllEvents = () => {
             }
         }
         filterEvents(filter);
-    }, [filter, events, isLoggedIn.user]);
+    }, [filter,events, isLoggedIn.user]);
 
     const fetchAddUserToEvent = async (eventId, seriesId) => {
         let events = await getAllEvents();
