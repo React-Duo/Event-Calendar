@@ -5,6 +5,7 @@ import  AuthContext  from '../../context/AuthContext';
 import Address from '../Address/Address';
 import "./SingleEvent.css";
 import { isAddressValid } from '../../service/utils';
+import InviteUsers from '../InviteUsers/InviteUsers';
 
 const SingleEvent = () => {
     const { isLoggedIn } = useContext(AuthContext);
@@ -13,7 +14,10 @@ const SingleEvent = () => {
     const [author, setAuthor] = useState(null);
     const [editStatus, setEditStatus] = useState(false);
     const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(false);
     const [updatedEvent, setUpdatedEvent] = useState(null);
+    const [suggestions, setSuggestions] = useState([]);
+    const [invitedUsers, setInvitedUsers] = useState([]);
 
     useEffect(() => {
         const fetchEvent = async () => {
@@ -56,6 +60,7 @@ const SingleEvent = () => {
         e.preventDefault();
         const title = e.target.editTitle.value || event.title;
         const description = e.target.editDescription.value || event.description;
+        const invited = invitedUsers.map(user => user.email);
         const locationType = e.target.editLocationType.value || event.locationType;
         const location = locationType === "offline" 
                             ? {country: e.target.country.value, city: e.target.city.value, street: e.target.street.value}
@@ -68,8 +73,8 @@ const SingleEvent = () => {
         const visibility = e.target.editVisibility.value || event.visibility;
         const canInvite = e.target.editCanInvite.checked;
 
-        setEvent({...event, title, description, locationType, location, visibility, canInvite});
-        setUpdatedEvent({...event, title, description, locationType, location, visibility, canInvite});
+        setEvent({...event, title, description, invited, locationType, location, visibility, canInvite});
+        setUpdatedEvent({...event, title, description, invited, locationType, location, visibility, canInvite});
         setError(null);
         setEditStatus(false);
     }
@@ -94,10 +99,16 @@ const SingleEvent = () => {
         }
     }
 
+    if (loading) {
+        return (
+            <div className='spinner'></div>
+        )
+    }
+
     return (
         <div className="single-event-info">
             {event && 
-            <form onSubmit={handleEdit}>
+            <form onSubmit={handleEdit} onClick={() => setSuggestions([])}>
                 <h1>{editStatus ? <input type="text" id="editTitle" name="editTitle" defaultValue={event.title} /> : event.title }</h1>
 
                 <img src={event.photo} alt="" />
@@ -170,6 +181,11 @@ const SingleEvent = () => {
                     event.visibility
                     }
                 </p>
+        
+                <InviteUsers editStatus={editStatus} suggestions={suggestions} setSuggestions={setSuggestions} 
+                    error={error} setError={setError} event={event} invited={event.invited} 
+                    invitedUsers={invitedUsers} setInvitedUsers={setInvitedUsers}
+                />
 
                 <p>
                     <span>Allow invited users to invite others:</span> 
