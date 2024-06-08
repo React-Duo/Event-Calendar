@@ -47,7 +47,6 @@
 
 .bell {
   font-size: 26px;
-  color: #0000009b;
   transition: 0.3s;
 }
 
@@ -109,8 +108,6 @@
   position: absolute;
   top: 52px;
   right: 10px;
-  /* display: flex;
-  flex-direction: column; */
   width: 200px;
   background-color: #1d2d46;
   justify-content: center;

@@ -41,6 +41,9 @@
 .user-message p{
     background-color: rgb(19,88,181) !important;
 }
+.user-message h4 {
+    text-align: right;
+}
 
 .message p {
     background-color: rgba(111, 109, 107, 0.961);

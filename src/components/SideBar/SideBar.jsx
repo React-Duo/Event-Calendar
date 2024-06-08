@@ -1,15 +1,17 @@
 import "./SideBar.css"
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
 import { assets } from "../../assets/assets";
+import AuthContext from "../../context/AuthContext";
 
 const SideBar = () => {
   const navigate = useNavigate();
-
+ const {theme} = useContext(AuthContext);
 
   const currentPath = window.location.pathname;
 
   return (
-    <div className="side-bar-container">
+    <div className={`side-bar-container ${theme? "dark-theme-sideBar" : "light-theme-sideBar"}`}>
       <ul className="side-bar-tags">
         <img src={assets.logo}></img>
         <li className={currentPath === "/home" ? "activePath" : ""} onClick={() => navigate("/home")}><i className="fa-solid fa-house fa-xl"></i>Home</li>

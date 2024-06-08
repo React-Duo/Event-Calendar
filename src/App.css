@@ -1,7 +1,6 @@
 .container-content {
   margin-left: 170px;
   padding: 10px 16px;
-  background-color: rgba(222, 221, 219, 0.674);
   min-height: 100vh;
 
   background: rgb(197, 239, 255);
@@ -65,6 +64,22 @@ html {
     -13px -13px 100px #ffffff;
 }
 
+
+::-webkit-scrollbar {
+  width: 10px;  
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;  
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;  
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
 
 @media screen and (max-width: 800px) {
   .container-content {

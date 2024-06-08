@@ -25,9 +25,11 @@ const App = () => {
     user: ''
   });
 
+  const [theme, setTheme] = useState(localStorage.getItem('theme') === 'dark');
+
   return (
     <BrowserRouter>
-      <AuthContext.Provider value={{isLoggedIn: authValue, setLoginState: setAuthValue}}>
+      <AuthContext.Provider value={{isLoggedIn: authValue, setLoginState: setAuthValue,theme, setTheme}}>
         <Header />
         {authValue.status && <SideBar />}
         <Routes>
@@ -44,7 +46,8 @@ const App = () => {
             <Route path="/settings" element=<Settings /> />
             <Route path="/event/:id" element={<SingleEvent />} />
       </Routes>
-        {authValue.status &&  <Footer />}
+      <hr />
+    <Footer />
       </AuthContext.Provider>
     </BrowserRouter>
   )

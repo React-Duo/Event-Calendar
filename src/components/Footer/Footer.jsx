@@ -1,8 +1,12 @@
 import "./Footer.css"
+import AuthContext from "../../context/AuthContext"
+import { useContext } from "react"
 
 const Footer = () => {
+  const {theme} = useContext(AuthContext);
+
   return (
-    <footer className="container-footer">
+    <footer className={`container-footer ${theme? "dark-theme-footer" : "light-theme-footer"}`}>
       <div> <p>Copyright Calendo 2024</p></div>
       <div>
         <ul className="wrapper">

@@ -14,6 +14,7 @@ const Header = () => {
   const { isLoggedIn } = useContext(AuthContext);
   const [showNotifications, setShowNotifications] = useState(false);
   const [alerts, setAlerts] = useState([])
+  const { theme } = useContext(AuthContext);
 
   const handleNotifications = () => {
     setShowNotifications(!showNotifications);
@@ -78,7 +79,7 @@ const Header = () => {
 
   return (
     <>
-      <div className="header">
+      <div className={`header ${isLoggedIn.status && theme ? "dark-theme-header" : "light-theme-header"}`}>
 
         {!isLoggedIn.status ? (
           <>
