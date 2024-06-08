@@ -118,7 +118,7 @@ h1 {
   display: grid;
   grid-template-columns: auto auto;
   border: 1px solid #ccc;
-  width: 90%;
+  width: 100%;
   margin: 5px;
   padding: 5px;
 }
@@ -139,8 +139,6 @@ h1 {
 }
 
 
-
-
 .event-form label {
   font-family: Arial, sans-serif; 
   font-size: 14px;                
@@ -150,13 +148,12 @@ h1 {
   border: 1px solid #ccc;        
   display: inline-block;         
   margin: 5px;    
-  padding: 5px 10px;         
+  padding: 5px 10px;  
+  font-weight: bold;   
 }
 
 label.required {
   padding: 5px;
-  margin: 5px;
-  font-weight: bold;
 }
 
 
