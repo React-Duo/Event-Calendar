@@ -1,19 +1,18 @@
 import { useContext, useEffect, useState } from 'react';
 import AuthContext from '../../context/AuthContext';
-import { addEvent, addIdToEvent, getUserContactLists, getUserDetails } from '../../service/database-service';
+import { addEvent, addIdToEvent } from '../../service/database-service';
 import { getMonthDays, getWeekDay, isAddressValid } from '../../service/utils';
 import { DEFAULT_EVENT_IMAGE, MAX_YEAR_SPAN } from '../../common/constants';
 import { getImageURL, uploadEventImage } from '../../service/storage';
 import Address from '../Address/Address';
 import Weekdays from './Weekdays';
 import './AddEvent.css';
+import InviteUsers from '../InviteUsers/InviteUsers';
 
 const AddEvent = () => {
     const { isLoggedIn } = useContext(AuthContext);
-    const [contactsWithPhoto, setContactsWithPhoto] = useState([]);
     const [suggestions, setSuggestions] = useState([]);
     const [invitedUsers, setInvitedUsers] = useState([]);
-    const [inputValue, setInputValue] = useState('');
     const [events, setEvents] = useState([]);
     const [isFormSubmitted, setIsFormSubmitted] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -21,39 +20,6 @@ const AddEvent = () => {
     const [weeklySchedule, setWeeklySchedule] = useState(false);
     const [image, setImage] = useState(null);
     const [isOffline, setIsOffline] = useState(false);
-
-    useEffect(() => {
-        const getContacts = async () => {
-            try {
-                setLoading(true);
-                const contactLists = await getUserContactLists(isLoggedIn.user);
-                const allContacts = Object.values(contactLists)
-                                .map(contactList => contactList.contacts)
-                                .flat()
-                                .filter(contact => contact !== undefined);
-
-                const usersWithPhotos = allContacts.map(async contact => {
-                    const usersWithThisEmail = await getUserDetails(contact);
-                    if (usersWithThisEmail[0].photo) {
-                        return { email: contact, photo: usersWithThisEmail[0].photo };
-                    } else {
-                        return { email: contact, photo: '' };
-                    }
-                });
-
-                const contactsWithPhotos = await Promise.all(usersWithPhotos);
-                setContactsWithPhoto(contactsWithPhotos);
-
-                const currentUserDetails = await getUserDetails(isLoggedIn.user);
-                setInvitedUsers([...invitedUsers, {email: isLoggedIn.user, photo: currentUserDetails[0].photo}]);
-                setLoading(false);
-            } catch (error) {
-                setLoading(false);
-                setError(error.message);
-            }
-        }
-        if (!contactsWithPhoto.length) getContacts();
-    }, []);
 
     useEffect(() => {
         const handleAddEvent = async () => {
@@ -329,26 +295,6 @@ const AddEvent = () => {
         if (image) setImage(image);
     }
 
-    const handleInviteChange = (event) => {
-        setInputValue(event.target.value);
-        const emailInput = event.target.value;
-        const filteredContacts = contactsWithPhoto.filter(contact => contact.email.includes(emailInput));        
-        if (filteredContacts.length === 0 || emailInput === '') {
-            setSuggestions([]);
-        } else {
-            setSuggestions(filteredContacts);
-        }
-    }
-
-    const handleSuggestionClick = (suggestion) => {
-        const isUserAlreadyInvited = invitedUsers.find(user => user.email === suggestion.email);
-        if (!isUserAlreadyInvited) {
-            setInvitedUsers([...invitedUsers, suggestion]);
-        }
-        setInputValue('');
-        setSuggestions([]);
-    }
-
     const handleRepeatChange = (event) => {
         if (event.target.value === "weekly") {
             setWeeklySchedule(true);
@@ -427,41 +373,11 @@ const AddEvent = () => {
                 </span>
                 <br />
                 <br />
-
-                <div className="email-suggestion-container">
-                    <label htmlFor="invitedUsers"> Invited Users </label>
-                    <input type="text" 
-                        id="invitedUsers" 
-                        name="invitedUsers" 
-                        value={inputValue}
-                        placeholder="Type an email address" 
-                        onChange={handleInviteChange} 
-                        className="common"
-                    />
-                    {suggestions.length ? 
-                        <div className="suggestions">
-                            {suggestions.map((suggestion, index) => (
-                                <div key={index} 
-                                    className="suggestion-item" 
-                                    onClick={() => handleSuggestionClick(suggestion)}>
-                                    <img src={suggestion.photo} alt="" /> <span>{suggestion.email}</span>
-                                </div>
-                            ))}
-                        </div>
-                        : null
-                    }
-                </div>
-                {invitedUsers.length ?  
-                    <div className="invited-users">
-                        {invitedUsers.map((user, index) => (
-                            <div key={index} className="invited-user">
-                                <img src={user.photo} alt="" /> <span>{user.email}</span>
-                            </div>
-                        ))}
-                    </div>
-                    : null
-                }
-                <br />
+                
+               <InviteUsers suggestions={suggestions} setSuggestions={setSuggestions} 
+                            invitedUsers={invitedUsers} setInvitedUsers={setInvitedUsers} 
+                            error={error} setError={setError} editStatus="true"
+                />
 
                 <label htmlFor="locationType" className="required"> Location Type </label>
                 <select name="locationType" id="locationType" onChange={handleLocationTypeChange} className="common" required >
