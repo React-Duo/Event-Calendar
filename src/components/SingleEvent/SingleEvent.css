@@ -28,8 +28,8 @@
 }
 
 .single-event-info img {
-  width: 250px;
-  height: 250px;
+  width: 140px;
+  height: 140px;
   margin: 12px 0;
   border-radius: 8px;
 }
@@ -115,6 +115,7 @@
   color: rgb(44, 176, 44);
 }
 
+/* Buttons - Edit/Save/Delete */
 .edit-buttons {
   display: flex;
   justify-content: space-between;
@@ -141,6 +142,101 @@
   background-color: #dc4b4b;
 }
 
+/* Styling for the Invite Users component which is being loaded by Single Event */
 
+.common {
+  padding: 12px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #dde3ec;
+  background: #ffffff;
+  color: #536387;
+  resize: none;
+}
 
+.suggestions {
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  width: 50%;
+  max-height: 10%;
+  overflow-y: auto;
+  transition: max-height 0.3s ease-out;
+}
 
+.suggestion-item {
+  display: grid;
+  grid-template-columns: auto auto; 
+  border: 1px solid #ccc;
+  margin: 1px;
+  cursor: pointer;
+}
+
+.suggestion-item:hover {
+  background-color: #eab7b7;
+}
+
+.suggestion-item img {
+  grid-column: 1 / 2;
+  width: 40px; 
+  height: 40px;
+  border-radius: 15%;
+}
+
+.suggestion-item span {
+  grid-column: 2 / 2; 
+  align-self: center;
+} 
+
+.invited-users {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  align-items: center;
+  margin: 2px auto;
+  padding: 2px;
+}
+
+.invited-user {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  border: 1px solid #ccc;
+  margin: 1px;
+  padding: 1px;
+}
+
+.invited-user img {
+  grid-column: 1 / 2; 
+  width: 30px; 
+  height: 30px;
+  border-radius: 50%;
+  padding: 1px;
+}
+
+.invited-user span {
+  grid-column: 2 / 2;
+  font-size: 14px;
+  align-self: center; 
+  padding: 1px;
+}
+
+.invited-user button {
+  grid-column: 3 / 3;
+  align-self: center; 
+  padding: 2px;
+  margin: 2px;
+  color: rgb(186, 8, 8);
+  font-weight: bold;
+  border: 1px solid #ccc; 
+  cursor: pointer; 
+}
+
+.invited-user button:hover {
+  background-color: #e0e0e0; 
+}
+
+#invitedUsers {
+  width: 75%;
+  background-color: #f9f9f9;
+}
