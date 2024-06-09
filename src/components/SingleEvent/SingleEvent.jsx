@@ -72,7 +72,10 @@ const SingleEvent = () => {
         }
 
         const visibility = e.target.editVisibility?.value || event.visibility;
-        const canInvite = e.target.editCanInvite?.checked || event.canInvite;
+
+        const canInvite = (isLoggedIn.user !== event.author) ? event.canInvite : e.target.editCanInvite?.checked;
+
+        console.log(canInvite);
 
         setEvent({...event, title, description, invited, locationType, location, visibility, canInvite});
         setUpdatedEvent({...event, title, description, invited, locationType, location, visibility, canInvite});
@@ -217,10 +220,12 @@ const SingleEvent = () => {
                 }
                     
                 {isLoggedIn.user !== event.author && 
-                    <span className="edit-buttons">
-                        {inviteStatus && <button type="submit" className="form-button">Save</button>}
-                        {!inviteStatus && <button onClick={() => setInviteStatus(true)} className="form-button">Invite</button>}
-                    </span>
+                    (event.canInvite && 
+                        <span className="edit-buttons">
+                            {inviteStatus && <button type="submit" className="form-button">Save</button>}
+                            {!inviteStatus && <button onClick={() => setInviteStatus(true)} className="form-button">Invite</button>}
+                        </span>
+                    )
                 }
 
                 {error && <p className="error-message">{error}</p>}
