@@ -59,25 +59,26 @@ const SingleEvent = () => {
   
     const handleEdit = (e) => {
         e.preventDefault();
-        const title = e.target.editTitle.value || event.title;
-        const description = e.target.editDescription.value || event.description;
+        const title = e.target.editTitle?.value || event.title;        
+        const description = e.target.editDescription?.value || event.description;
         const invited = invitedUsers.map(user => user.email);
-        const locationType = e.target.editLocationType.value || event.locationType;
+        const locationType = e.target.editLocationType?.value || event.locationType;
         const location = locationType === "offline" 
                             ? {country: e.target.country.value, city: e.target.city.value, street: e.target.street.value}
-                            : e.target.editLocation.value;
+                            : (e.target.editLocation?.value || event.location);
 
         if (locationType === "offline") {
             if (isAddressValid(location, setError) === 'Address is invalid') return;
         }
 
-        const visibility = e.target.editVisibility.value || event.visibility;
-        const canInvite = e.target.editCanInvite.checked;
+        const visibility = e.target.editVisibility?.value || event.visibility;
+        const canInvite = e.target.editCanInvite?.checked || event.canInvite;
 
         setEvent({...event, title, description, invited, locationType, location, visibility, canInvite});
         setUpdatedEvent({...event, title, description, invited, locationType, location, visibility, canInvite});
         setError(null);
         setEditStatus(false);
+        setInviteStatus(false);
     }
 
     const handleLocationTypeChange = (e) => {
@@ -198,7 +199,7 @@ const SingleEvent = () => {
                     }
                 </p>
 
-                {isLoggedIn.user === event.author ?
+                {isLoggedIn.user === event.author &&
                     <span className="edit-buttons">
                         {!editStatus && <button onClick={() => setEditStatus(true)} className="form-button">Edit</button>}
                         {editStatus && 
@@ -213,13 +214,15 @@ const SingleEvent = () => {
                         }
                         {editStatus && <button type="submit" className="form-button">Save</button>}
                     </span>
-                    :
-                    (inviteStatus ? 
-                        <button type="submit" className="form-button">Save</button>
-                        :
-                        <button onClick={() => setInviteStatus(true)} className="form-button">Invite</button>
-                    )
                 }
+                    
+                {isLoggedIn.user !== event.author && 
+                    <span className="edit-buttons">
+                        {inviteStatus && <button type="submit" className="form-button">Save</button>}
+                        {!inviteStatus && <button onClick={() => setInviteStatus(true)} className="form-button">Invite</button>}
+                    </span>
+                }
+
                 {error && <p className="error-message">{error}</p>}
             </form>
             }
