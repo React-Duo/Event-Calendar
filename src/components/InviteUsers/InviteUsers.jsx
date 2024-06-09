@@ -11,22 +11,24 @@ const InviteUsers = (props) => {
         const getContacts = async () => {
             try {
                 const contactLists = await getUserContactLists(isLoggedIn.user);
-                const allContacts = Object.values(contactLists)
-                                .map(contactList => contactList.contacts)
-                                .flat()
-                                .filter(contact => contact !== undefined);
+                if (contactLists) {
+                    const allContacts = Object.values(contactLists)
+                                    .map(contactList => contactList.contacts)
+                                    .flat()
+                                    .filter(contact => contact !== undefined);
 
-                const usersWithPhotos = allContacts.map(async contact => {
-                    const usersWithThisEmail = await getUserDetails(contact);
-                    if (usersWithThisEmail[0].photo) {
-                        return { email: contact, photo: usersWithThisEmail[0].photo };
-                    } else {
-                        return { email: contact, photo: '' };
-                    }
-                });
+                    const usersWithPhotos = allContacts.map(async contact => {
+                        const usersWithThisEmail = await getUserDetails(contact);
+                        if (usersWithThisEmail[0].photo) {
+                            return { email: contact, photo: usersWithThisEmail[0].photo };
+                        } else {
+                            return { email: contact, photo: '' };
+                        }
+                    });
 
-                const contactsWithPhotos = await Promise.all(usersWithPhotos);
-                setContactsWithPhoto(contactsWithPhotos);
+                    const contactsWithPhotos = await Promise.all(usersWithPhotos);
+                    setContactsWithPhoto(contactsWithPhotos);
+                }
 
                 if (props.invited) {
                     const invited = props.invited.map(async user => {
@@ -42,7 +44,6 @@ const InviteUsers = (props) => {
                         props.setInvitedUsers([...props.invitedUsers, {email: isLoggedIn.user, photo: currentUserDetails[0].photo}]);
                     }
                 }
-
             } catch (error) {
                 props.setError(error.message);
             }
