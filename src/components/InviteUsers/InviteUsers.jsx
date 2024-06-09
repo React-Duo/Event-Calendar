@@ -92,11 +92,15 @@ const InviteUsers = (props) => {
                     </p>
                     {props.suggestions.length !== 0 && 
                         <div className="suggestions">
-                            {props.suggestions.map(suggestion => (
-                                <div key={suggestion.email} className="suggestion-item" onClick={() => handleSuggestionClick(suggestion)}>
-                                    <img src={suggestion.photo} alt="" /> <span>{suggestion.email}</span>
-                                </div>
-                            ))}
+                            {props.suggestions.filter((contact, index, array) => {
+                                return index === array.findIndex(c => c.email === contact.email);
+                                })
+                                .map((suggestion) => (
+                                    <div key={suggestion.email} className="suggestion-item" onClick={() => handleSuggestionClick(suggestion)}>
+                                        <img src={suggestion.photo} alt="" /> <span>{suggestion.email}</span>
+                                    </div>
+                                ))
+                            }
                         </div>
                     }
                 {props.invitedUsers.length &&
