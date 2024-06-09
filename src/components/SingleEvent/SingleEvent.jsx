@@ -158,11 +158,11 @@ const SingleEvent = () => {
                 <p>
                     <span>Location:</span>
                     {editStatus ? 
-                        (event.locationType === "offline" 
-                            ? 
-                            <Address from={"singleEvent"} /> 
+                        (event.locationType === "offline" ? 
+                            <Address /> 
                             : 
-                            <input type="text" id="editLocation" name="editLocation" defaultValue={event.location} required />)
+                            <input type="text" id="editLocation" name="editLocation" defaultValue={event.location} required />
+                        )
                         :
                         (event.locationType === "offline" ?
                              <span>{event.location.country}, {event.location.city}, {event.location.street}</span>

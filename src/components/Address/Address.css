@@ -17,7 +17,9 @@
     align-self: flex-end; 
 }
 
-.address h5  {
+.address > span {
     align-self: flex-end;
+    font-size: 0.8em; 
+    color: #097d64; 
 }
 
