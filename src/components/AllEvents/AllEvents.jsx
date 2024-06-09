@@ -77,7 +77,7 @@ const AllEvents = () => {
             }
         }
         filterEvents(filter);
-    }, [filter,events, isLoggedIn.user]);
+    }, [filter, events, isLoggedIn.user]);
 
     const fetchAddUserToEvent = async (eventId, seriesId) => {
         let events = await getAllEvents();
@@ -128,7 +128,7 @@ const AllEvents = () => {
                                 <p id="single-event-location">
                                     <i className="fa-solid fa-location-dot fa-lg"></i>
                                     {typeof event[1].location === 'string'
-                                        ? event[1].location
+                                        ? `Online: ${event[1].location}`
                                         : `${event[1].location.street}, ${event[1].location.city}`}
                                 </p>
                                 <div className="people-going">
@@ -156,10 +156,10 @@ const AllEvents = () => {
                 )}
             </div>
             {eventsToShow && eventsToShow.length > numToShow && (
-                    <button className="cta" onClick={handleShowMore}>  <span className="hover-underline-animation"> Show more </span>
+                <button className="cta" onClick={handleShowMore}>  <span className="hover-underline-animation"> Show more </span>
                     <i className="fa-solid fa-arrow-right-long fa-lg"></i>
-                    </button>
-                )}
+                </button>
+            )}
         </div>
     )
 }
