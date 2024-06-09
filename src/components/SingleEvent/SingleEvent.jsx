@@ -13,6 +13,7 @@ const SingleEvent = () => {
     const [event, setEvent] = useState(null);
     const [author, setAuthor] = useState(null);
     const [editStatus, setEditStatus] = useState(false);
+    const [inviteStatus, setInviteStatus] = useState(false);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
     const [updatedEvent, setUpdatedEvent] = useState(null);
@@ -182,9 +183,10 @@ const SingleEvent = () => {
                     }
                 </p>
         
-                <InviteUsers editStatus={editStatus} suggestions={suggestions} setSuggestions={setSuggestions} 
-                    error={error} setError={setError} event={event} invited={event.invited} 
-                    invitedUsers={invitedUsers} setInvitedUsers={setInvitedUsers}
+                <InviteUsers editStatus={editStatus} inviteStatus={inviteStatus}
+                            suggestions={suggestions} setSuggestions={setSuggestions} 
+                            invitedUsers={invitedUsers} setInvitedUsers={setInvitedUsers}
+                            error={error} setError={setError} event={event} invited={event.invited} 
                 />
 
                 <p>
@@ -196,7 +198,7 @@ const SingleEvent = () => {
                     }
                 </p>
 
-                {isLoggedIn.user === event.author &&
+                {isLoggedIn.user === event.author ?
                     <span className="edit-buttons">
                         {!editStatus && <button onClick={() => setEditStatus(true)} className="form-button">Edit</button>}
                         {editStatus && 
@@ -211,6 +213,12 @@ const SingleEvent = () => {
                         }
                         {editStatus && <button type="submit" className="form-button">Save</button>}
                     </span>
+                    :
+                    (inviteStatus ? 
+                        <button type="submit" className="form-button">Save</button>
+                        :
+                        <button onClick={() => setInviteStatus(true)} className="form-button">Invite</button>
+                    )
                 }
                 {error && <p className="error-message">{error}</p>}
             </form>

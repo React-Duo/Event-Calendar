@@ -373,7 +373,7 @@ const AddEvent = () => {
                 </span>
                 <br />
                 <br />
-                
+
                <InviteUsers suggestions={suggestions} setSuggestions={setSuggestions} 
                             invitedUsers={invitedUsers} setInvitedUsers={setInvitedUsers} 
                             error={error} setError={setError} editStatus="true"

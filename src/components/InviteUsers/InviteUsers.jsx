@@ -6,12 +6,10 @@ const InviteUsers = (props) => {
     const { isLoggedIn } = useContext(AuthContext);
     const [contactsWithPhoto, setContactsWithPhoto] = useState([]);
     const [inputValue, setInputValue] = useState('');
-    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const getContacts = async () => {
             try {
-                setLoading(true);
                 const contactLists = await getUserContactLists(isLoggedIn.user);
                 const allContacts = Object.values(contactLists)
                                 .map(contactList => contactList.contacts)
@@ -38,13 +36,14 @@ const InviteUsers = (props) => {
                     const invitedUsersWithPhotos = await Promise.all(invited);
                     props.setInvitedUsers(invitedUsersWithPhotos);
                 } else {
-                    const currentUserDetails = await getUserDetails(isLoggedIn.user);
-                    props.setInvitedUsers([...props.invitedUsers, {email: isLoggedIn.user, photo: currentUserDetails[0].photo}]);
+                    const isCurrentUserInvited = props.invitedUsers.find(user => user.email === isLoggedIn.user);
+                    if (!isCurrentUserInvited) {
+                        const currentUserDetails = await getUserDetails(isLoggedIn.user);
+                        props.setInvitedUsers([...props.invitedUsers, {email: isLoggedIn.user, photo: currentUserDetails[0].photo}]);
+                    }
                 }
 
-                setLoading(false);
             } catch (error) {
-                setLoading(false);
                 props.setError(error.message);
             }
         }
@@ -77,7 +76,7 @@ const InviteUsers = (props) => {
     }
 
     return (
-        props.editStatus ?
+        (props.editStatus || props.inviteStatus) ?
         <>
                     <p> 
                         <span>Invite: </span> 
