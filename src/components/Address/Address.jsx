@@ -12,7 +12,7 @@ const Address = () => {
                 <input type="text" name="city" id="city" placeholder="City" required />
                 <span><i>{CITY_MIN_CHARS}-{CITY_MAX_CHARS} chars | upper-/lowercase | space</i></span>
 
-                <input type="text" name="street" id="street" placeholder="Street" />
+                <input type="text" name="street" id="street" placeholder="Street" required/>
                 <span><i>{STREET_MIN_CHARS}-{STREET_MAX_CHARS} chars | upper-/lowercase | digits | space | dot</i></span>
             </span>
         </>
