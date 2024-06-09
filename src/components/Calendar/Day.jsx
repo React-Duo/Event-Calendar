@@ -32,6 +32,7 @@ const Day = ({ day, rowIdx }) => {
 
 
     }, [isLoggedIn.user, view]);
+
     useEffect(() => {
         if (view === "month") {
             const dayEvents = events.filter(event => {
@@ -47,6 +48,7 @@ const Day = ({ day, rowIdx }) => {
             const dayEvents = events.filter(event => {
                 return day.map(d => dayjs(d.format("MM-DD-YYYY")).isBetween(event[1].startDate, event[1].endDate, "day", '[]'))
             })
+
             setDayEvents(dayEvents)
         } 
         else if (view === "workWeek") {
@@ -75,10 +77,10 @@ const Day = ({ day, rowIdx }) => {
                 {dayEvents !== undefined && dayEvents.length > 0 && (
                     <div className="calendar-event-title">
                         {dayEvents.length === 1 ? (
-                            <div className="single-event-title">{dayEvents[0][1].title}</div>
+                            <div onClick={()=> navigate(`/event/${dayEvents[0][1].id}`)} className="single-event-title">{dayEvents[0][1].title}</div>
                         ) : (
                             dayEvents.map((event, index) => (
-                                <div onClick={()=> navigate(`/event/${event[0]}`)} className="single-event-title" key={index}>{event[1].title}</div>
+                                <div onClick={()=> navigate(`/event/${event[1].id}`)} className="single-event-title" key={index}>{event[1].title}</div>
                             ))
                         )}
                     </div>
@@ -97,7 +99,7 @@ const Day = ({ day, rowIdx }) => {
                         <div className='hour-container'>
                         {dayEvents.map((event, eventIndex) => (
                             <div key={eventIndex}>
-                                <div >{dayjs(hour.format("YYYY-MM-DDTHH:mm")).isBetween((dayjs(`${event[1].startDate}T${event[1].startTime}`)), dayjs(`${event[1].endDate}T${event[1].endTime}`), "hour", '[]') && <div ><p onClick={()=> navigate("/settings")} className="single-event-title">{event[1].title}</p></div>}</div>                            
+                                <div >{dayjs(hour.format("YYYY-MM-DDTHH:mm")).isBetween((dayjs(`${event[1].startDate}T${event[1].startTime}`)), dayjs(`${event[1].endDate}T${event[1].endTime}`), "hour", '[]') && <div ><p onClick={()=> navigate(`/event/${event[1].id}`)} className="single-event-title">{event[1].title}</p></div>}</div>                            
                             </div>
                         ))}
                         </div>
@@ -116,7 +118,7 @@ const Day = ({ day, rowIdx }) => {
                         <div className='hour-day-container-event'>
                         {dayEvents.map((event, eventIndex) => (
                             <div key={eventIndex}>
-                                <div >{dayjs(hour.format("YYYY-MM-DDTHH:mm")).isBetween((dayjs(`${event[1].startDate}T${event[1].startTime}`)), dayjs(`${event[1].endDate}T${event[1].endTime}`), "hour", '[]') && <div ><p onClick={()=> navigate("/settings")} className="single-event-title">{event[1].title}</p></div>}</div>                            
+                                <div >{dayjs(hour.format("YYYY-MM-DDTHH:mm")).isBetween((dayjs(`${event[1].startDate}T${event[1].startTime}`)), dayjs(`${event[1].endDate}T${event[1].endTime}`), "hour", '[]') && <div ><p onClick={()=> navigate(`/event/${event[1].id}`)} className="single-event-title">{event[1].title}</p></div>}</div>                            
                             </div>
                         ))}
                         </div>
@@ -136,7 +138,7 @@ const Day = ({ day, rowIdx }) => {
                         <div className='hour-container'>
                         {dayEvents.map((event, eventIndex) => (
                             <div key={eventIndex}>
-                                <div >{dayjs(hour.format("YYYY-MM-DDTHH:mm")).isBetween((dayjs(`${event[1].startDate}T${event[1].startTime}`)), dayjs(`${event[1].endDate}T${event[1].endTime}`), "hour", '[]') && <div ><p onClick={()=> navigate("/settings")} className="single-event-title">{event[1].title}</p></div>}</div>                            
+                                <div >{dayjs(hour.format("YYYY-MM-DDTHH:mm")).isBetween((dayjs(`${event[1].startDate}T${event[1].startTime}`)), dayjs(`${event[1].endDate}T${event[1].endTime}`), "hour", '[]') && <div ><p onClick={()=> navigate(`/event/${event[1].id}`)} className="single-event-title">{event[1].id}</p></div>}</div>                            
                             </div>
                         ))}
                         </div>
