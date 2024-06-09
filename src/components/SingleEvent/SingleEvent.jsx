@@ -72,10 +72,7 @@ const SingleEvent = () => {
         }
 
         const visibility = e.target.editVisibility?.value || event.visibility;
-
         const canInvite = (isLoggedIn.user !== event.author) ? event.canInvite : e.target.editCanInvite?.checked;
-
-        console.log(canInvite);
 
         setEvent({...event, title, description, invited, locationType, location, visibility, canInvite});
         setUpdatedEvent({...event, title, description, invited, locationType, location, visibility, canInvite});
