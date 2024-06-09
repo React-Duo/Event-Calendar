@@ -11,8 +11,13 @@ import company7 from "./company7.png";
 import company8 from "./company8.png";
 import company9 from "./company9.png";
 import company10 from "./company10.png";
-
-
+import company11 from "./company11.png";
+import company12 from "./company12.png";
+import company13 from "./company13.png";
+import company14 from "./company14.png";
+import company15 from "./company15.png";
+import company16 from "./company16.png";
+import company17 from "./company17.png";
 
 export const assets = {
     logo,
@@ -28,5 +33,12 @@ export const assets = {
     company8,
     company9,
     company10,
+    company11,
+    company12,
+    company13,
+    company14,
+    company15,
+    company16,
+    company17
 };
 

@@ -75,6 +75,13 @@ const ContentPublic = () => {
             <div className='item'><img src={assets.company8}></img></div>
             <div className='item'><img src={assets.company9}></img></div>
             <div className='item'><img src={assets.company10}></img></div>
+            <div className='item'><img src={assets.company11}></img></div>
+            <div className='item'><img src={assets.company12}></img></div>
+            <div className='item'><img src={assets.company13}></img></div>
+            <div className='item'><img src={assets.company14}></img></div>
+            <div className='item'><img src={assets.company15}></img></div>
+            <div className='item'><img src={assets.company16}></img></div>
+            <div className='item'><img src={assets.company17}></img></div>
           </div>
         </div>
       </div>
