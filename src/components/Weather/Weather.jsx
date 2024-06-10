@@ -14,12 +14,12 @@ const Weather = ({ city }) => {
             const response = await fetch(url);
             const data = await response.json();
             setWeatherData(data);
-            setIsLoading(false); // Set loading to false after data is fetched
+            setIsLoading(false); 
         }
         getData();
     }, []);
     if (isLoading) {
-        return <div>Loading...</div>; // Render some loading text or a spinner
+        return <div>Loading...</div>; 
     }
 
     return (
@@ -34,6 +34,7 @@ const Weather = ({ city }) => {
                     <span>{new Date().toLocaleString('default', { month: 'long' })} {new Date().getDate()}</span>
                 </div>
                 <div className="card-middle">
+                    <p id="card-middle-description">{weatherData.weather[0].description}</p>
                     <p>Max Temp: <span>{weatherData.main.temp_max}</span></p>
                     <p>Min Temp: <span>{weatherData.main.temp_min}</span></p>
                 </div>
