@@ -6,12 +6,13 @@ const libraries = ["places"];
 const mapContainerStyle = {
     width: "350px",
     height: "350px"
-
 };
 
 const GoogleMaps = ({city, street}) => {
-    const mapsApiKey = "AIzaSyAu1n1GGluV4924kBUFzl8hgm9s-2JUJF4";
+    const mapsApiKey = import.meta.env.VITE_GOOGLE_KEY;
+
     const [coords, setCoords] = useState(null);
+
 
     const { isLoaded, loadError } = useLoadScript({
         googleMapsApiKey: mapsApiKey,

@@ -21,7 +21,7 @@ const Header = () => {
     setShowNotifications(!showNotifications);
   };
 
-  //Todo: Change the photo dinamically when the user changes it form profile
+
   useEffect(() => {
     if (isLoggedIn.status) {
       const fetchUserDetails = async () => {
