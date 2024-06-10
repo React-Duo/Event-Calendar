@@ -20,6 +20,22 @@ Some of the standout features of the website include:
 
 Explore the website to discover more features!
 
+## Technologies Used
+
+- **Frontend**: 
+  - React
+  - JavaScript
+  - HTML
+  - CSS
+
+- **Backend**: 
+  - Firebase
+
+- **APIs**:
+  - OpenWeather API
+  - Google Maps API
+
+
 ## Local Setup
 
 To set up the project locally, follow these steps:
@@ -47,8 +63,89 @@ For a more direct line of communication, we have a feedback section in the websi
 
 Petko Petkov - petkozlatilov1234@gmail.com
 
-Todor Savov - 
+Todor Savov - todor.savov.a58@learn.telerikacademy.com
 
 Project Link: [https://github.com/React-Duo/Event-Calendar](https://github.com/React-Duo/Event-Calendar)
 
 ## Scheme of the database
+```
+{
+  "contactLists": {
+    "-NzmxM_ygWi2d6ak8WNE": {
+      "color": "#dddddd",
+      "contacts": ["nasko@abv.bg", "miki1234@abv.bg", "miki@abv.bg"],
+      "messages": [
+        {
+          "message": "Welcome to the chat",
+          "name": "todor.savov@abv.bg"
+        }
+      ],
+      "name": "Personal",
+      "owner": "todor.savov@abv.bg"
+    }
+  },
+  "events": {
+    "-NzyHqzsBsrYqmo3G2Z8": {
+      "author": "petkozlatilov1234@gmail.com",
+      "canInvite": true,
+      "description": "aw",
+      "endDate": "2024-06-13",
+      "endTime": "23:40",
+      "id": "-NzyHqzsBsrYqmo3G2Z8",
+      "invited": [
+        "petkozlatilov1234@gmail.com",
+        "miki1234@abv.bg",
+        "bil@abv.bg"
+      ],
+      "location": {
+        "city": "Varna",
+        "country": "Bulgaria",
+        "street": "Evlogigeorgiev14"
+      },
+      "locationType": "offline",
+      "photo": "https://leekduck.com/assets/img/events/events-default.jpg",
+      "repeat": {
+        "schedule": "daily"
+      },
+      "startDate": "2024-06-11",
+      "startTime": "21:38",
+      "title": "test1",
+      "visibility": "public"
+    }
+  },
+  "users": {
+    "PetkoZlatilov1": {
+      "address": {
+        "city": "Varna",
+        "country": "Bulgaria",
+        "street": "Evlogigeorgiev14"
+      },
+      "email": "petkozlatilov1234@gmail.com",
+      "firstName": "Petko",
+      "isBlocked": false,
+      "lastName": "Petkov",
+      "phone": "5555555555",
+      "photo": "https://firebasestorage.googleapis.com/v0/b/event-calendar-c74a9.appspot.com/o/users%2Fpetkozlatilov1234%40gmail.com%2Fphoto?alt=media&token=f1b029d7-f692-43f2-8979-d251c0267613",
+      "role": "admin",
+      "username": "PetkoZlatilov1"
+    },
+    "todor123": {
+      "address": {
+        "city": "Plovdiv",
+        "country": "Bulgaria",
+        "street": "Bratia Sh"
+      },
+      "email": "todor.savov@abv.bg",
+      "firstName": "Todor",
+      "isBlocked": false,
+      "lastName": "Savov",
+      "phone": "1123112345",
+      "photo": "https://firebasestorage.googleapis.com/v0/b/event-calendar-c74a9.appspot.com/o/users%2Ftodor.savov%40abv.bg%2Fphoto?alt=media&token=963ee04f-b994-470b-a54e-50daacea609f",
+      "role": "admin",
+      "username": "todor123"
+    }
+  }
+}
+
+
+```
