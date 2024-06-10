@@ -19,6 +19,7 @@ const SingleEvent = () => {
     const [updatedEvent, setUpdatedEvent] = useState(null);
     const [suggestions, setSuggestions] = useState([]);
     const [invitedUsers, setInvitedUsers] = useState([]);
+    const [user, setUser] = useState(null);
 
     useEffect(() => {
         const fetchEvent = async () => {
@@ -56,7 +57,21 @@ const SingleEvent = () => {
             }
         }
     }, [updatedEvent]);
-  
+
+    useEffect(() => {
+        const getUser = async () => {
+            try {
+                const userData = await getUserDetails(isLoggedIn.user);
+
+                console.log(userData);
+                setUser(userData[0]);
+            } catch (error) {
+                console.log(error.message);
+            }
+        }
+        getUser();
+    }, []);
+
     const handleEdit = (e) => {
         e.preventDefault();
         const title = e.target.editTitle?.value || event.title;        
@@ -203,7 +218,9 @@ const SingleEvent = () => {
                     }
                 </p>
 
-                {isLoggedIn.user === event.author &&
+                {console.log(user)}
+
+                {(isLoggedIn.user === event.author || user && user.role === "admin") &&
                     <span className="edit-buttons">
                         {!editStatus && <button onClick={() => setEditStatus(true)} className="form-button">Edit</button>}
                         {editStatus && 
@@ -220,7 +237,7 @@ const SingleEvent = () => {
                     </span>
                 }
                     
-                {isLoggedIn.user !== event.author && 
+                {(isLoggedIn.user !== event.author && (user && user.role !== "admin")) && 
                     (event.canInvite && 
                         <span className="edit-buttons">
                             {inviteStatus && <button type="submit" className="form-button">Save</button>}
