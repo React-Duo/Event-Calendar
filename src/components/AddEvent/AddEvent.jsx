@@ -20,6 +20,7 @@ const AddEvent = () => {
     const [weeklySchedule, setWeeklySchedule] = useState(false);
     const [image, setImage] = useState(null);
     const [isOffline, setIsOffline] = useState(false);
+    const { theme } = useContext(AuthContext);
 
     useEffect(() => {
         const handleAddEvent = async () => {
@@ -319,7 +320,7 @@ const AddEvent = () => {
     }
 
     return (
-        <>  
+        <div className={`container-content ${theme && "dark-theme-add-event" }`}> 
             <h1>Add Event</h1>
             <form onSubmit={formSubmit} onClick={() => setSuggestions([])} className="event-form">
                 <label htmlFor="title" className="required"> Title </label>
@@ -400,7 +401,7 @@ const AddEvent = () => {
                 {error && <p className="error">{error}</p>}
                 <button type="submit" className="formbold-btn">Add event</button>
             </form>
-        </>
+        </div>
        
     )
 }

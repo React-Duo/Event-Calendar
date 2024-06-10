@@ -24,6 +24,7 @@ const ListById = () => {
   const [showEvents, setShowEvents] = useState(false);
   const [userToAdd, setUserToAdd] = useState("")
   const [preferencesMessage, setPreferencesMessage] = useState(false)
+  const {theme} = useContext(AuthContext)
 
 
   const handleShowSearch = () => {
@@ -96,7 +97,7 @@ const ListById = () => {
       }
     };
     fetchList();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    console.log("Awe");
   }, [listId, isLoggedIn.user]);
 
   const handleRemoveFromList = async (user) => {
@@ -138,7 +139,7 @@ const ListById = () => {
     <div className="list-by-id">
       <div className="list-by-is-title">
         <h1>{list.name}</h1>
-        {list.owner === isLoggedIn.user ? (<button onClick={async () => { await deleteList(listId); navigate("/contacts") }} className="table-btn" id="table-btn-remove">delete list</button>) : (<button onClick={() => handleRemoveFromList(isLoggedIn.user)} className="table-btn" id="table-btn-remove">Leave</button>)}
+        {list.owner === isLoggedIn.user ? (<button onClick={async () => { await deleteList(listId); navigate("/contacts") }} className="table-btn" id="table-btn-remove">delete list</button>) : (<button onClick={() => {handleRemoveFromList(isLoggedIn.user);  navigate("/contacts")}} className="table-btn" id="table-btn-remove">Leave</button>)}
         <div className="list-by-is-title-right">
           {list.owner === isLoggedIn.user && <i onClick={() => { handleShowSearch(); setShowError(false); setMembers([]) }} className="fa-solid fa-user-plus fa-xl"></i>}
           <button onClick={() => navigate("/contacts")} className="button--icon">x</button>
@@ -154,7 +155,7 @@ const ListById = () => {
       {showSearch && <>
         <SearchUsers members={members} setMembers={setMembers} />
         {showError && <div className="errorMessage">List is empty</div>}
-        <button onClick={() => handleAddToList(members)} className="btn">Add members</button>
+        <button onClick={() => handleAddToList(members)} className={`btn ${theme && "btn-dark"}`}>Add members</button>
       </>}
 
       <div>

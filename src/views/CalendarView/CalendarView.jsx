@@ -9,7 +9,7 @@ const CalendarView = () => {
 
   return (
     <ContextWrapper>
-      <div className={`container-content ${theme? "dark-theme" : "light-theme"}`}>
+      <div className={`container-content ${theme && "dark-theme" }`}>
         <Calendar />
       </div>
     </ContextWrapper>

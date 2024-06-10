@@ -21,7 +21,7 @@ const Header = () => {
     setShowNotifications(!showNotifications);
   };
 
-  //Todo: Change the photo dinamically when the user changes it form profile
+
   useEffect(() => {
     if (isLoggedIn.status) {
       const fetchUserDetails = async () => {
@@ -81,7 +81,7 @@ const Header = () => {
 
   return (
     <>
-      <div className={`header ${isLoggedIn.status && theme ? "dark-theme-header" : "light-theme-header"}`}>
+      <div className={`header ${isLoggedIn.status && theme && "dark-theme-header" }`}>
 
         {!isLoggedIn.status ? (
           <>

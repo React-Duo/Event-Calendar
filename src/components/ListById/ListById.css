@@ -5,6 +5,7 @@
   align-items: center;
 }
 
+
 .list-by-id ul li {
   list-style: none;
   font-size: 25px;
@@ -44,8 +45,6 @@ table {
   border-radius: 15px;
   margin-top: 15px;
 }
-
-
 
 tr {
   display: table-row;

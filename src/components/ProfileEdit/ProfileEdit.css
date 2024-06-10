@@ -58,6 +58,7 @@
     transition: all 0.3s ease;
     cursor: pointer;
     margin: 0px 10px;
+    margin-top: 5px;
 }
 
 .delete-btn:hover {
@@ -85,7 +86,6 @@
     color: red;
     font-weight: bold;
     margin-top: 10px;
-    background-color: rgb(255, 255, 255);
     padding: 10px;
     border-radius: 15px;
 }

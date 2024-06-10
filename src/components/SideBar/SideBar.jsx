@@ -11,7 +11,7 @@ const SideBar = () => {
   const currentPath = window.location.pathname;
 
   return (
-    <div className={`side-bar-container ${theme? "dark-theme-sideBar" : "light-theme-sideBar"}`}>
+    <div className={`side-bar-container ${theme && "dark-theme-sideBar" }`}>
       <ul className="side-bar-tags">
         <img src={assets.logo}></img>
         <li className={currentPath === "/home" ? "activePath" : ""} onClick={() => navigate("/home")}><i className="fa-solid fa-house fa-xl"></i>Home</li>

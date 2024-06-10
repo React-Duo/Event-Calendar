@@ -138,7 +138,7 @@ const Day = ({ day, rowIdx }) => {
                         <div className='hour-container'>
                         {dayEvents.map((event, eventIndex) => (
                             <div key={eventIndex}>
-                                <div >{dayjs(hour.format("YYYY-MM-DDTHH:mm")).isBetween((dayjs(`${event[1].startDate}T${event[1].startTime}`)), dayjs(`${event[1].endDate}T${event[1].endTime}`), "hour", '[]') && <div ><p onClick={()=> navigate(`/event/${event[1].id}`)} className="single-event-title">{event[1].id}</p></div>}</div>                            
+                                <div >{dayjs(hour.format("YYYY-MM-DDTHH:mm")).isBetween((dayjs(`${event[1].startDate}T${event[1].startTime}`)), dayjs(`${event[1].endDate}T${event[1].endTime}`), "hour", '[]') && <div ><p onClick={()=> navigate(`/event/${event[1].id}`)} className="single-event-title">{event[1].title}</p></div>}</div>                            
                             </div>
                         ))}
                         </div>
