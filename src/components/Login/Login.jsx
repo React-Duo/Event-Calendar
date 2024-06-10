@@ -4,6 +4,7 @@ import { signInUser } from '../../service/authentication-service.js';
 import AuthContext from '../../context/AuthContext.jsx';
 import { EMAIL_REGEX } from '../../common/constants.js';
 import './Login.css';
+import { getUserDetails } from '../../service/database-service.js';
 
 const Login = () => {
     const { setLoginState } = useContext(AuthContext);
@@ -24,6 +25,8 @@ const Login = () => {
                     setLoading(true);                    
                     const userCredentials = await signInUser(form.emailAddress, form.password);
                     if (!userCredentials) throw new Error(`Incorrect login credentials.`);
+                    const userDetails = await getUserDetails(form.emailAddress);
+                    if (userDetails[0].isBlocked) throw new Error(`Your account has been blocked. Please contact the administrator.`);
                     setIsLoginSuccessful(true);
                 } catch (error) {
                     setError(error.message);
@@ -42,10 +45,10 @@ const Login = () => {
         }
     }, [isLoginSuccessful]);
 
-    const loginUser = (event) => {        
-        event.preventDefault();
-        const emailAddress = event.target.email.value;
-        const password = event.target.password.value;
+    const loginUser = (e) => {        
+        e.preventDefault();
+        const emailAddress = e.target.email.value;
+        const password = e.target.password.value;
         if (!EMAIL_REGEX.test(emailAddress)) {
             setError(`${emailAddress} is not a valid email address.`);
             return;
@@ -66,7 +69,7 @@ const Login = () => {
         <form onSubmit={loginUser} className="login-form">
         <p>Welcome back <br/> to <span id='span-name'>Calendo</span></p>
 
-            {error && <div>{error}</div>} <br />
+            {error && <div>{error}</div>}<br />
             <span className='login-span'><label htmlFor="email">Email address </label>
             <input className='input__field' type="email" name="email" id="email" required /></span> 
             <br />
