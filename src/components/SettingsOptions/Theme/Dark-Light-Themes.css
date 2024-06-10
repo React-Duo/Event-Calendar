@@ -3,7 +3,7 @@
 /* container-content */
 .dark-theme {
   color: #cac9c9;
-  background-image: linear-gradient( 109.6deg,  rgba(15,2,2,1) 11.2%, rgb(34, 90, 102) 91.1% );
+  background-image: linear-gradient(109.6deg, rgba(15, 2, 2, 1) 11.2%, rgb(34, 90, 102) 91.1%);
 }
 
 
@@ -26,14 +26,15 @@
   background-color: #201e1e;
   color: #fff;
 }
+
 .dark-theme-sideBar li {
-  color: rgb(226, 226, 226) ;
+  color: rgb(226, 226, 226);
 }
 
 
 /* footer */
 .dark-theme-footer {
-  background-image: linear-gradient( 109.6deg,  rgba(15,2,2,1) 11.2%, rgb(34, 90, 102) 91.1% );
+  background-image: linear-gradient(109.6deg, rgba(15, 2, 2, 1) 11.2%, rgb(34, 90, 102) 91.1%);
   color: #fff;
 }
 
@@ -44,10 +45,12 @@
     -10px -10px 21px #464242;
   color: rgb(255, 255, 255);
 }
-.dark-theme-single-event button{
+
+.dark-theme-single-event button {
   color: #606060;
 }
-.dark-theme-single-event .hours-event-left{
+
+.dark-theme-single-event .hours-event-left {
   background-color: #464242;
 }
 
@@ -55,32 +58,43 @@
 
 .dark-theme-contacts {
   color: #f8f7ff;
-  background-image: linear-gradient( 109.6deg,  rgba(15,2,2,1) 11.2%, rgb(34, 90, 102) 91.1% );
+  background-image: linear-gradient(109.6deg, rgba(15, 2, 2, 1) 11.2%, rgb(34, 90, 102) 91.1%);
 }
 
-.btn-dark{
+.btn-dark {
   color: black !important;
 }
 
 /* profile edit */
 
-.dark-theme-profile{
-  background-image: linear-gradient( 109.6deg,  rgba(15,2,2,1) 11.2%, rgb(34, 90, 102) 91.1% );
+.dark-theme-profile {
+  background-image: linear-gradient(109.6deg, rgba(15, 2, 2, 1) 11.2%, rgb(34, 90, 102) 91.1%);
   color: #6b6767;
 }
+
 .dark-theme-profile .input {
   background-color: rgba(53, 53, 60, 0.781);
 }
+
 .dark-theme-profile .address-change {
   background-color: rgba(53, 53, 60, 0.781);
 }
 
 
 /* single event view */
-
-
-
- .dark-single-event {
+.dark-single-event {
   color: #cac9c9;
-  background-image: linear-gradient( 109.6deg,  rgba(15,2,2,1) 11.2%, rgb(34, 90, 102) 91.1% ) !important;
-} 
+  background-image: linear-gradient(109.6deg, rgba(15, 2, 2, 1) 11.2%, rgb(34, 90, 102) 91.1%) !important;
+}
+
+/* add event */
+
+.dark-theme-add-event {
+  color: #cac9c9;
+  background-image: linear-gradient(109.6deg, rgba(15, 2, 2, 1) 11.2%, rgb(34, 90, 102) 91.1%);
+}
+
+.dark-theme-add-event form{
+  background-image: linear-gradient( 76.3deg,  rgba(44,62,78,1) 12.6%, rgba(69,103,131,1) 82.8% );
+  color: #ffffff;
+}

@@ -1,6 +1,6 @@
 .event-form {
     display: block;
-    width: 50%;
+    width: 600px;
     background-color: #f9f9f9;
     border: 1px solid #ccc;
     border-radius: 2%;
@@ -206,3 +206,13 @@ input[type="checkbox"] {
   margin-top: 25px;
 }
 
+@media screen and (max-width: 840px) {
+  .event-form {
+    width: 500px;
+}
+}
+@media screen and (max-width: 560px) {
+  .event-form {
+    width: 360px;
+}
+}
