@@ -10,6 +10,7 @@ import dayjs from "dayjs"
 
 const Header = () => {
   const [photo, setPhoto] = useState("");
+  const [admin, setAdmin] = useState(""); 
   const navigate = useNavigate();
   const { isLoggedIn } = useContext(AuthContext);
   const [showNotifications, setShowNotifications] = useState(false);
@@ -27,6 +28,7 @@ const Header = () => {
         try {
           const userDetails = await getUserDetails(isLoggedIn.user);
           setPhoto(userDetails[0].photo);
+          setAdmin(userDetails[0].role);
         } catch (error) {
           console.error(error);
         }
@@ -114,6 +116,7 @@ const Header = () => {
               <div className="options">
                 <button onClick={() => navigate("/profile")} className="value"><i className="fa-regular fa-user fa-sm"></i>Public profile</button>
                 <button onClick={() => navigate("/settings")} className="value"><i className="fa-solid fa-gear fa-sm"></i>Settings</button>
+                {admin === "admin" && <button onClick={() => navigate("/admin")} className="value"><i className="fa-solid fa-lock fa-sm"></i>Admin</button>}
                 <button className="value" onClick={handleLogoutClick}><i className="fa-solid fa-arrow-right-from-bracket fa-sm"></i>Log out</button>
               </div>
             </div>
