@@ -63,8 +63,12 @@ const SingleEvent = () => {
         const description = e.target.editDescription?.value || event.description;
         const invited = invitedUsers.map(user => user.email);
         const locationType = e.target.editLocationType?.value || event.locationType;
-        const location = locationType === "offline" 
-                            ? {country: e.target.country.value, city: e.target.city.value, street: e.target.street.value}
+        const location = locationType === "offline" ? 
+                            (isLoggedIn.user === event.author ?
+                                {country: e.target.country.value, city: e.target.city.value, street: e.target.street.value}
+                                : 
+                                {country: event.location.country, city: event.location.city, street: event.location.street}
+                            )
                             : (e.target.editLocation?.value || event.location);
 
         if (locationType === "offline") {
@@ -158,11 +162,11 @@ const SingleEvent = () => {
                 <p>
                     <span>Location:</span>
                     {editStatus ? 
-                        (event.locationType === "offline" 
-                            ? 
-                            <Address from={"singleEvent"} /> 
+                        (event.locationType === "offline" ? 
+                            <Address /> 
                             : 
-                            <input type="text" id="editLocation" name="editLocation" defaultValue={event.location} required />)
+                            <input type="text" id="editLocation" name="editLocation" defaultValue={event.location} required />
+                        )
                         :
                         (event.locationType === "offline" ?
                              <span>{event.location.country}, {event.location.city}, {event.location.street}</span>
