@@ -1,7 +1,7 @@
 .login-form {
     display: flex;
     flex-direction: column;
-    width: 400px;
+    width: 450px;
     margin: 0 auto;
     margin-top: 70px;
     --input-focus: #2d8cf0;
@@ -10,7 +10,7 @@
   --bg-color: beige;
   --main-color: black;
   padding: 40px;
-  background: rgb(60,215,248);
+  background: rgb(239,239,239);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -25,14 +25,33 @@
     height: 100vh;
 }
 
-.login-form h2{
+
+.login-form p {
     font-family: "Poetsen One", sans-serif;
-    font-size: 27px;
+    font-size: 36px;
+    font-weight: 600;
 }
 
-.login-form span {
+.login-form h5 {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--font-color-sub);
+    margin-top: 15px;
+
+}
+
+.login-span {
     display: block;
     margin-bottom: 10px;
+}
+
+#span-name{
+   color: rgb(67,67,255);
+}
+
+#span-sign-up{
+    color: rgb(67,67,255);
+    cursor: pointer;
 }
 
 .login-form label {
@@ -42,44 +61,6 @@
     width: 120px; 
 }
 
-.login-form input {
-    width: 250px;
-    height: 40px;
-    border-radius: 5px;
-    border: 2px solid var(--main-color);
-    background-color: var(--bg-color);
-    box-shadow: 4px 4px var(--main-color);
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--font-color);
-    padding: 5px 10px;
-    outline: none;
-}
-
-.login-form input:hover {
-    background-color: orange; 
-    transition: background-color 0.3s ease; 
-}
-
-.login-form button {
-    cursor: pointer;
-    width: 100px;
-    height: 40px;
-    border: 2px solid var(--main-color);
-    background-color: var(--bg-color);
-    box-shadow: 4px 4px var(--main-color);
-    color: var(--font-color);
-    font-size: 25px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 5px;
-}
-
-.login-form button:active {
-    transform: translateY(7px);
-    transition: transform 0.2s ease; 
-}
 
 .login-form div {
     color: rgb(212, 12, 12);
@@ -112,7 +93,7 @@
     }
 }
 
-@media  (max-width: 420px) {
+@media  (max-width: 500px) {
     .login-form {
         width: 350px;
     }

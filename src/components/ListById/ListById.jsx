@@ -6,7 +6,7 @@ import AuthContext from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import SearchUsers from "../SearchUsers/SearchUsers";
 import Chat from "../Chat/Chat";
-import VideoRoom from "../VideoRoom/VideoRoom";
+
 
 
 const ListById = () => {
@@ -148,7 +148,6 @@ const ListById = () => {
       <div>
         <ul>
           <li onClick={() => setContentIn("members")}>Members</li>
-          <li onClick={() => setContentIn("video")}>Video</li>
           <li onClick={() => setContentIn("chat")}>Chat</li>
         </ul>
       </div>
@@ -226,11 +225,6 @@ const ListById = () => {
         {contentIn === "chat" && (
           <div>
             <Chat listId={listId} setContentIn={setContentIn}/>
-          </div>
-        )}
-        {contentIn === "video" && (
-          <div>
-            <VideoRoom />
           </div>
         )}
       </div>

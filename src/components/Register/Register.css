@@ -1,7 +1,7 @@
 .register-form {
     display: flex;
     flex-direction: column;
-    width: 35%;
+    width: 700px;
     margin: 0 auto;
     margin-top: 30px;
     margin-bottom: 30px;
@@ -11,7 +11,7 @@
   --bg-color: beige;
   --main-color: black;
   padding: 40px;
-  background: rgb(60,215,248);
+  background: rgb(239,239,239);
   justify-content: center;
   border-radius: 5px;
   border: 2px solid var(--main-color);
@@ -26,24 +26,12 @@
     font-weight: bold;
 }
 
-.register-form h2 {
+.register-form p {
     font-family: "Poetsen One", sans-serif;
-    font-size: 27px;
+    font-size: 46px;
+    font-weight: 600;
 }
 
-.register-form input {
-    width: 100%;
-    height: 40px;
-    border-radius: 5px;
-    border: 2px solid var(--main-color);
-    background-color: var(--bg-color);
-    box-shadow: 4px 4px var(--main-color);
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--font-color);
-    padding: 0px 10px;
-    outline: none;
-}
 
 .input-container {
     display: flex;
@@ -58,30 +46,7 @@
     color: #666;
 }
 
-.register-form input:hover {
-    background-color: orange; 
-    transition: background-color 0.3s ease; 
-}
 
-.register-form button {
-    cursor: pointer;
-    width: 120px;
-    height: 40px;
-    border: 2px solid var(--main-color);
-    background-color: var(--bg-color);
-    box-shadow: 4px 4px var(--main-color);
-    color: var(--font-color);
-    font-size: 25px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 5px;
-}
-
-.register-form button:active {
-    transform: translateY(7px);
-    transition: transform 0.2s ease; 
-}
 
 .register-form div {
     color: rgb(212, 12, 12);
@@ -123,33 +88,16 @@
     }
 }
 
-/* CSS */
-.button-43 {
-  background-image: linear-gradient(-180deg, #37AEE2 0%, #1E96C8 100%);
-  border-radius: .5rem;
-  box-sizing: border-box;
-  color: #FFFFFF;
-  display: flex;
-  font-size: 16px;
-  justify-content: center;
-  padding: 1rem 1.75rem;
-  text-decoration: none;
-  width: 100%;
-  border: 0;
-  cursor: pointer;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
-}
 
-.button-43:hover {
-  background-image: linear-gradient(-180deg, #1D95C9 0%, #17759C 100%);
+@media (max-width: 768px) {
+    .register-form {
+        width: 600px;
+    }
 }
-
-@media (min-width: 768px) {
-  .button-43 {
-    padding: 1rem 2rem;
-  }
+@media (max-width: 630px) {
+    .register-form {
+        width: 500px;
+    }
 }
 
 @media (max-width: 550px) {
