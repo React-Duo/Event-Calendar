@@ -64,15 +64,17 @@ const Login = () => {
     return (
         <div className='loginContainer'>
         <form onSubmit={loginUser} className="login-form">
-        <h2>Login</h2>
+        <p>Welcome back <br/> to <span id='span-name'>Calendo</span></p>
+
             {error && <div>{error}</div>} <br />
-            <span><label htmlFor="email">Email address </label>
-            <input type="email" name="email" id="email" required /></span> 
+            <span className='login-span'><label htmlFor="email">Email address </label>
+            <input className='input__field' type="email" name="email" id="email" required /></span> 
             <br />
-            <span><label htmlFor="password">Password </label>
-            <input type="password" name="password" id='password' required /></span>
+            <span className='login-span'><label htmlFor="password">Password </label>
+            <input className='input__field' type="password" name="password" id='password' required /></span>
             <br />
-            <button type="submit">Login</button>
+            <button className='btn' type="submit">Login</button>
+            <h5>Don&apos;t have an account?<span onClick={()=> navigate("/register")} id='span-sign-up'> Sign Up</span></h5>
         </form>
         </div>
     )

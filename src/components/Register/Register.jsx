@@ -169,53 +169,53 @@ const Register = () => {
     return (
         <div className='registerContainer'>
         <form onSubmit={register} className="register-form">
-            <h2>Register</h2>
+        <p>Create your <br/><span id='span-name'>free</span> account</p>
             {error && <div>{error}</div>} <br />
             <span className="input-container">
                 <label htmlFor="firstName" className="required">First Name </label>
-                <input type="text" name="firstName" id='firstName' required />
+                <input className='input__field ' type="text" name="firstName" id='firstName' required />
                 <h5><i>/{NAME_MIN_CHARS}-{NAME_MAX_CHARS} chars/</i></h5>
             </span>
             <br />
 
             <span className="input-container">
                 <label htmlFor="lastName" className="required">Last Name </label>
-                <input type="text" name="lastName" id='lastName' required />
+                <input className='input__field ' type="text" name="lastName" id='lastName' required />
                 <h5><i>/{NAME_MIN_CHARS}-{NAME_MAX_CHARS} chars/</i></h5>
             </span>
             <br />
 
             <span className="input-container">
                 <label htmlFor="email" className="required">Email address </label>
-                <input type="email" name="email" id='email' required />
+                <input className='input__field ' type="email" name="email" id='email' required />
             </span>
             <br />
 
             <span className="input-container">
                 <label htmlFor="phone" className="required">Phone </label>
-                <input type="text" name="phone" id='phone' required />
+                <input className='input__field ' type="text" name="phone" id='phone' required />
                 <h5><i>/{PHONE_DIGITS} digits exactly/</i></h5>
             </span>
             <br />
-
+            <label htmlFor="phone" className="required">Address</label>
             <Address />
             <br />
 
             <span className="input-container">
                 <label htmlFor="username" className="required">Username </label>
-                <input type="text" name="username" id='username' required />
+                <input className='input__field ' type="text" name="username" id='username' required />
                 <h5><i>/{USERNAME_MIN_LENGTH}-{USERNAME_MAX_LENGTH} chars, upper-/lowercase, digits/</i></h5>
             </span>
             <br />
 
             <span className="input-container">
                 <label htmlFor="password" className="required">Password </label>
-                <input type="password" name="password" id='password' required />
+                <input className='input__field ' type="password" name="password" id='password' required />
                 <h5><i>/{PASSWORD_MIN_CHARS}-{PASSWORD_MAX_CHARS} chars, at least ONE digit, letter and special char/</i></h5>
             </span>
             <br />
 
-            <button type="submit">Register</button>
+            <button className='btn' type="submit">Register</button>
         </form>
         </div>
     )
