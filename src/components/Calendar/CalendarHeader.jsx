@@ -30,7 +30,7 @@ const CalendarHeader = () => {
   const handleResetWeek = () => {
     setNextWeek(0);
     setPrevWeek(0);
-    setWeekOffset(dayjs().week() - dayjs(new Date(dayjs().year(), monthIndex - 1, 1)).week() + 2) //! change 2 for the next week?
+    setWeekOffset(dayjs().week() - dayjs(new Date(dayjs().year(), monthIndex - 1, 1)).week() + 3) //! change 2 for the next week?
 
   }
   // month
@@ -101,8 +101,8 @@ const CalendarHeader = () => {
       </button>
       <h2>
         {view === "month" && dayjs(new Date(dayjs().year(), monthIndex)).format("MMMM YYYY")}
-        {view === "week" && `${dayjs().startOf('week').subtract(6, 'day').add(nextWeek - prevWeek, 'week').format("DD")} - ${dayjs().endOf('week').subtract(6, 'day').add(nextWeek - prevWeek, 'week').format("DD")}`} 
-        {view === "workWeek" && `${dayjs().startOf('week').add((nextWeek - prevWeek) * 7 + 1, 'day').format("DD")} - ${dayjs().day(5).add((nextWeek - prevWeek) * 7 + 1, 'day').format("DD")}`}
+        {view === "week" && `${dayjs().isoWeekday(1).add(nextWeek - prevWeek, 'week').format("DD")} - ${dayjs().isoWeekday(7).add(nextWeek - prevWeek, 'week').format("DD")}`}       
+        {view === "workWeek" && `${dayjs().isoWeekday(1).add((nextWeek - prevWeek) * 7, 'day').format("DD")} - ${dayjs().isoWeekday(5).add((nextWeek - prevWeek) * 7, 'day').format("DD")}`}
         {view === "day" && dayjs().add(dayOffset, 'day').format("DD MMMM")}
         </h2>
       <button onClick={() => {
