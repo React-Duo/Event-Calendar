@@ -308,3 +308,16 @@ export const listenForChatMessages = (listId, callback) => {
     console.log(error.message);
   });
 }
+
+export const getPublicEvents = async () => {
+  try {
+    const snapshot = await get(query(ref(database, "events"), orderByChild("visibility"), equalTo("public")));
+    if (snapshot.exists()) {
+      return Object.entries(snapshot.val());
+    } else {
+      throw new Error("Events not found!");
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+};

@@ -1,6 +1,6 @@
 import "./ContentPublic.css";
 import { assets } from "../../assets/assets";
-import { getAllEvents } from "../../service/database-service";
+import { getPublicEvents } from "../../service/database-service";
 import { useState, useEffect } from "react";
 import dayjs from "dayjs";
 
@@ -17,7 +17,8 @@ const ContentPublic = () => {
 
   useEffect(() => {
     const fetchAndSetEvents = async () => {
-      const events = await getAllEvents();
+      const events = await getPublicEvents();
+      console.log(events);
       if (events) {
         const publicEvents = events.filter(event => event[1].visibility === "public" && (event[1].repeat === "single" || event[1].seriesId));
         const uniqueSeriesEvents = publicEvents.reduce((acc, current) => {
