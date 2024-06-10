@@ -47,7 +47,7 @@ For a more direct line of communication, we have a feedback section in the websi
 
 Petko Petkov - petkozlatilov1234@gmail.com
 
-Todor Savov - 
+Todor Savov - todor.savov.a58@learn.telerikacademy.com
 
 Project Link: [https://github.com/React-Duo/Event-Calendar](https://github.com/React-Duo/Event-Calendar)
 
