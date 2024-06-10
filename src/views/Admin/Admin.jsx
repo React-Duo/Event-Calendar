@@ -1,23 +1,25 @@
 import { useEffect, useState } from 'react';
-import { editCredential, searchUser } from '../../service/database-service';
+import { editCredential, getAllEvents, getEventById, searchUser } from '../../service/database-service';
+import { useNavigate } from 'react-router-dom';
 import './Admin.css';
 
 const Admin = () => {
-    const [searchParams, setSearchParams] = useState(null);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
+    const [userSearchParams, setUserSearchParams] = useState(null);
+    const [eventSearchParams, setEventSearchParams] = useState(null);
+    const [selectedTab, setSelectedTab] = useState('users');
     const [users, setUsers] = useState(null);
     const [userBlock, setUserBlock] = useState(null);
+    const [foundEvents, setFoundEvents] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const handleUserSearch = async () => {
             try {
                 setLoading(true);
-                const data = await searchUser(searchParams.searchString, searchParams.searchTerm);
+                const data = await searchUser(userSearchParams.searchString, userSearchParams.searchTerm);
                 if (!data) throw new Error("No users matched the search criteria.");
-                
-                console.log(data);
-
                 const filteredUsers = Object.entries(data).map(([key, user]) => user = {id: key, ...user});
                 setUsers(filteredUsers);
                 setError(null);
@@ -28,8 +30,8 @@ const Admin = () => {
                 setLoading(false);
             }
         };
-        if (searchParams) handleUserSearch();
-    }, [searchParams, userBlock]);
+        if (userSearchParams) handleUserSearch();
+    }, [userSearchParams, userBlock]);
 
     useEffect(() => {
         const handleUserBlock = async () => {
@@ -48,11 +50,31 @@ const Admin = () => {
         if (userBlock) handleUserBlock();
     }, [userBlock]);
 
-    const handleSearchForm = (e) => {
+    useEffect(() => {
+        const handleEventSearch = async () => {
+            const allEvents = await getAllEvents();
+            const filteredEvents = allEvents.filter(event => event[1].title.includes(eventSearchParams));
+            const eventSeries = 
+            await Promise.all(filteredEvents.map(async event => {   
+                if (event[1].seriesId) return await getEventById(event[1].seriesId);
+                else return event[1];
+            }));
+            setFoundEvents(Array.from(new Map(eventSeries.map(item => [item.id, item])).values()));
+        }
+        if (eventSearchParams) handleEventSearch();
+    }, [eventSearchParams]);
+
+    const handleUserSearchForm = (e) => {
         e.preventDefault();
         const searchString = e.target.searchField.value;
         const searchTerm = e.target.searchType.value;
-        setSearchParams({ searchString, searchTerm });
+        setUserSearchParams({ searchString, searchTerm });
+    }
+
+    const handleEventSearchForm = (e) => {
+        e.preventDefault();
+        const searchString = e.target.eventTitle.value;
+        setEventSearchParams(searchString);
     }
 
     if (loading) {
@@ -60,47 +82,103 @@ const Admin = () => {
     }
 
     return (
-        <div className="usersContainer">
-            <form onSubmit={handleSearchForm} className="search-form">
-                <input type="text" id="searchField" name="searchField" placeholder="Search users..." required/>
-                <br />
-                <span>
-                    <input type="radio" value="firstName" id="firstName" name="searchType" required /> 
-                    <label className='labelText' htmlFor="firstName">First Name</label>
-                    <input type="radio" value="lastName" id="lastName" name="searchType" required /> 
-                    <label className='labelText' htmlFor="lastName">Last Name</label>
-                    <input type="radio" value="emailAddress" id="emailAddress" name="searchType" required /> 
-                    <label className='labelText' htmlFor="emailAddress">Email Address</label>
-                    <input type="radio" value="username" id="username" name="searchType" required /> 
-                    <label className='labelText' htmlFor="username">Username</label>
-                </span>
-                <br />
-                <button type="submit">Search</button>
-            </form>
-            {error && <div id="error">{error}</div>}
-            {users && 
-                <div className="users-list">
-                    {users.map(user => {
-                        return <div className="user-details" key={user.id}>
-                                    <img src={user.photo} alt="" />
-                                    <div>
-                                        <label htmlFor="">Display Name: </label> {user.firstName} {user.lastName} {user.role === "admin" && "(Admin)"} 
-                                        <br />
-                                        <label htmlFor="">Email address: </label> {user.email} <br />
-                                        <label htmlFor="">Username: </label> {user.username} <br />
-                                        {user.role !== "admin" && 
-                                            (user.isBlocked ? 
-                                                <button onClick={() => setUserBlock(user)}>Unblock user</button>
-                                                :
-                                                <button onClick={() => setUserBlock(user)}>Block user</button>
-                                            )
-                                        }
+            <div className="popup">
+                <div className="tabs">
+                    <input 
+                        type="radio" 
+                        id="tab1" 
+                        name="tab" 
+                        checked={selectedTab === 'users'} 
+                        onChange={() => setSelectedTab('users')}
+                    />        
+                    <label htmlFor="tab1" className='labelText'>Users</label>
+                    <input
+                        type="radio"
+                        id="tab2" 
+                        name="tab"
+                        checked={selectedTab === 'events'}
+                        onChange={() => setSelectedTab('events')}
+                    />
+                    <label htmlFor="tab2" className='labelText'>Events</label>
+                    <div className="marker">
+                        <div id="top"></div>
+                        <div id="bottom"></div>
+
+                        {selectedTab === 'users' && (
+                        <>
+                            <form onSubmit={handleUserSearchForm} className="search-form">
+                                <input type="text" id="searchField" name="searchField" placeholder="Search users..." required/>
+                                <br />
+                                <span className="search-terms">
+                                    <input type="radio" value="firstName" id="firstName" name="searchType" required /> 
+                                    <label className='labelText' htmlFor="firstName">First Name</label>
+                                    <input type="radio" value="lastName" id="lastName" name="searchType" required /> 
+                                    <label className='labelText' htmlFor="lastName">Last Name</label>
+                                    <input type="radio" value="emailAddress" id="emailAddress" name="searchType" required /> 
+                                    <label className='labelText' htmlFor="emailAddress">Email Address</label>
+                                    <input type="radio" value="username" id="username" name="searchType" required /> 
+                                    <label className='labelText' htmlFor="username">Username</label>
+                                </span>
+                                <br />
+                                <button type="submit">Search</button>
+                            </form>
+                            {error && <div id="error">{error}</div>}
+                            {users && 
+                                <>
+                                {users.length === 0 ? <div>No users found.</div> : `${users.length} user(s) found.`}
+                                    <div className="users-list">
+                                        {users.map(user => {
+                                            return <div className="user-details" key={user.id}>
+                                                        <img src={user.photo} alt="" />
+                                                        <div>
+                                                            <label>Display Name: </label> {user.firstName} {user.lastName} {user.role === "admin" && "(Admin)"} 
+                                                            <br />
+                                                            <label>Email address: </label> {user.email} <br />
+                                                            <label>Username: </label> {user.username} <br />
+                                                            {user.role !== "admin" && 
+                                                                (user.isBlocked ? 
+                                                                    <button onClick={() => setUserBlock(user)}>Unblock user</button>
+                                                                    :
+                                                                    <button onClick={() => setUserBlock(user)}>Block user</button>
+                                                                )
+                                                            }
+                                                        </div>
+                                                    </div> 
+                                        })}
                                     </div>
-                                </div> 
-                    })}
+                                </>
+                            }
+                        </>
+                        )}
+
+                    {selectedTab === 'events' && (
+                        <>
+                            <form onSubmit={handleEventSearchForm} className="search-form">
+                                <label htmlFor="eventTitle" className="labelText"> Event Title </label>
+                                <input type="text" id="eventTitle" name="eventTitle" placeholder='Search events...' required /> 
+                                <button type="submit">Search</button>
+                            </form>
+
+                        {foundEvents && (
+                            <>
+                            {foundEvents.length === 0 ? <div>No events found.</div> : `${foundEvents.length} event(s) found.`}
+                                <div className="events-list">
+                                    {foundEvents.map(event => {
+                                        return <div className="event-details" key={event.id} onClick={() => navigate(`/event/${event.id}`)}>
+                                                    <img src={event.photo} alt="" />
+                                                        <label>Author: </label> {event.author} 
+                                                        <br />
+                                                        <label>Title: </label> {event.title}
+                                                </div>
+                                    })}
+                                </div>
+                            </>
+                        )}
+                        </>
+                    )}
+                    </div>
                 </div>
-            }
-        </div>
+            </div>
     )
 }
 

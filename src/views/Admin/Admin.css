@@ -1,31 +1,18 @@
-.usersContainer {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-}
-
 .search-form {
   display: flex;
   flex-direction: column;
   width: 530px;
-  margin: 0 auto;
-  margin-top: 70px;
+  margin: 70px 70px 10px 70px;
+  padding: 30px;
   --input-focus: #2d8cf0;
   --font-color: #323232;
   --font-color-sub: #666;
   --bg-color: beige;
   --main-color: black;
-  padding: 40px;
   background: rgb(60, 215, 248);
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 10px;
   border-radius: 15px;
   border: 2px solid var(--main-color);
   box-shadow: 4px 4px var(--main-color);
-  margin-bottom: 15px;
 }
 
 #searchField {
@@ -45,13 +32,22 @@
 .labelText {
   font-size: 16px;
   font-weight: bold;
-  width: 120px;
-  color: black;
+  cursor: pointer; 
+  color: #525d6f; 
+  opacity: .4; 
+  transition: opacity .4s ease-in-out;
+  width: calc(100% - 48px) ;
+  text-align: center; 
+  z-index: 100; 
+  user-select: none;
 }
 
-.search-form input[type="radio"] {
-  margin-left: 5px;
-  margin-right: 5px;
+
+.search-terms {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 20px 0;
 }
 
 div #error {
@@ -71,17 +67,7 @@ div #error {
   background-color: rgb(152, 153, 153);
 }
 
-.user-details {
-  display: grid;
-  grid-template-columns: auto auto;
-  width: 100%;
-  border: solid 10px rgb(152, 153, 153);
-  background-color: rgba(255, 255, 255, 0.749);
-  padding: 20px;
-  color: black;
-  border-radius: 15px;
-  gap: 10px;
-}
+
 
 .search-form button {
   margin: 0 auto;
@@ -99,8 +85,17 @@ div #error {
   border-radius: 5px;
 }
 
-
-
+.user-details {
+  display: grid;
+  grid-template-columns: auto auto;
+  width: 100%;
+  border: solid 10px rgb(152, 153, 153);
+  background-color: rgba(255, 255, 255, 0.749);
+  padding: 20px;
+  color: black;
+  border-radius: 15px;
+  gap: 10px;
+}
 .user-details img {
   grid-column: 1 / 2;
   width: 100px;
@@ -188,3 +183,65 @@ div #error {
     gap: 10px;
   }
 }
+
+#tab1 {
+  display: none;
+  width: 0;
+}
+
+#tab2 {
+  display: none;
+  width: 0;
+}
+
+label:hover, input[type="radio"]:checked+label {
+  opacity: 1; 
+}
+.popup{
+  margin-left: 170px;
+  min-height: 480px; 
+  max-height: 480px; 
+  border-radius: 48px;
+  box-sizing: border-box; 
+  border: 16px solid #ebf0f4;
+  background-color: #dfe6ed;
+  box-shadow: 16px 16px 48px #2e364330; 
+}
+.tabs{
+  width: 100%;
+  max-width: 240px;
+  height: 100%;
+  display: flex;
+  flex-direction: column; 
+  justify-content: space-around; 
+  position: relative;
+}
+.marker{
+  position: absolute; 
+  width: 100%;
+  height: 200%;
+  display: flex; 
+  flex-direction: column;
+  top: calc(-100% );
+  left: 0;
+  transition: transform .2s ease-in-out; 
+}
+.marker #bottom, .marker #top{
+  background-color: #ebf0f4;
+  box-shadow: 32px 32px 48px #2e364315; 
+}
+.marker #top{
+  height: calc(50%);
+  margin-bottom: auto; 
+  border-radius: 0 0 32px 0; 
+}
+.marker #bottom{
+  height: calc(50% - 72px);
+  border-radius: 0 32px 0 0; 
+}
+#tab1:checked ~ .marker{transform: translateY(calc(calc(50% / 6) * 0));}
+#tab2:checked ~ .marker{transform: translateY(calc(calc(50% / 6) * 1));}
+#tab3:checked ~ .marker{transform: translateY(calc(calc(50% / 6) * 2));}
+#tab4:checked ~ .marker{transform: translateY(calc(calc(50% / 6) * 3));}
+#tab5:checked ~ .marker{transform: translateY(calc(calc(50% / 6) * 4));}
+#tab6:checked ~ .marker{transform: translateY(calc(calc(51% / 6) * 5));}
