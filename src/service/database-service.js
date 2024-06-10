@@ -210,6 +210,25 @@ export  const getUserDetails = async (email) => {
   }
 };
 
+/**
+ * Searches for a user in the database based on the provided search string and search term.
+ * @param {string} searchString - The string to search for.
+ * @param {string} searchTerm - The term to search for (e.g., "name", "email").
+ * @returns {Promise<any>} - A promise that resolves to the user data if found, or throws an error if not found.
+ */
+export const searchUser = async (searchString, searchTerm) => {
+  try {
+    const snapshot = await get(query(ref(database, "users"), orderByChild(searchTerm), equalTo(searchString)));
+    if (snapshot.exists()) {
+      return snapshot.val();
+    } else {
+      throw new Error("User not found!");
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
 export const getAllEvents = async () => {
   try {
     const snapshot = await get(ref(database, "events"));
