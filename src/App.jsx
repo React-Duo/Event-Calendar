@@ -17,6 +17,7 @@ import CalendarView from './views/CalendarView/CalendarView';
 import Footer from './components/Footer/Footer';
 import Settings from './views/Settings/Settings';
 import SingleEvent from './components/SingleEvent/SingleEvent';
+import Admin from './views/Admin/Admin';
 
 const App = () => {
 
@@ -45,6 +46,7 @@ const App = () => {
             <Route path="/calendar" element=<CalendarView /> />
             <Route path="/settings" element=<Settings /> />
             <Route path="/event/:id" element={<SingleEvent />} />
+            <Route path="/admin" element={<Admin />} />
       </Routes>
       <hr />
     <Footer />
