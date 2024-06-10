@@ -31,7 +31,8 @@
 }
 
 .message {
-    align-self: flex-start; 
+    align-self: flex-start;
+    max-width: 300px; 
 }
 
 .user-message {
