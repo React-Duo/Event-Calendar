@@ -17,7 +17,7 @@ import CalendarView from './views/CalendarView/CalendarView';
 import Footer from './components/Footer/Footer';
 import Settings from './views/Settings/Settings';
 import SingleEvent from './components/SingleEvent/SingleEvent';
-import Admin from './views/Admins/Admin';
+import Admin from './views/Admin/Admin';
 
 const App = () => {
 
