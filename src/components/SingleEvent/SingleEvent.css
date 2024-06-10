@@ -239,8 +239,9 @@
 .hours-single-event{
   display: flex;
   gap: 15px;
-  color: rgb(67,67,255);
+  color: rgba(67, 67, 255, 0.799);
   font-size: 21px;
+  font-weight: 600;
 }
 
 .single-event-header h1{

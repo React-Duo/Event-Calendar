@@ -169,7 +169,7 @@ const SingleEvent = () => {
                                 }
                             </p>
                             <p>
-                                <span>Location Type:</span>
+                                <span><i className="fa-solid fa-map-location-dot fa-lg"></i>Location Type:</span>
                                 {editStatus ?
                                     <select name="editLocationType" id="editLocationType" onChange={handleLocationTypeChange} defaultValue={event.locationType}>
                                         <option value="offline">Offline</option>
@@ -206,7 +206,6 @@ const SingleEvent = () => {
                             />
                         </div>
                     </div>
-                    <hr />
                     {isLoggedIn.user === event.author &&
                         <span className="edit-buttons">
                             {!editStatus && <button onClick={() => setEditStatus(true)} className="form-button">Edit</button>}
@@ -223,6 +222,7 @@ const SingleEvent = () => {
                             {editStatus && <button type="submit" className="form-button">Save</button>}
                         </span>
                     }
+                    <hr />
                     <div className='weather_location'>
                         <div>
                             <h3>Weather</h3>
