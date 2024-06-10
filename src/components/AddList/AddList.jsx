@@ -70,8 +70,8 @@ const AddList = ({  handleShowNewList, setTriggerRefetch }) => {
               <div className="color-picker">
                 <label className="input-list__label">Appearance</label>
                   <ul>
-                    <li onClick={()=>setListColor("#dddddd")} className={`${listColor === "#dddddd" ? "active" : ""}`}  style={{ backgroundColor: "#dddddd" }}></li>
-                    <li onClick={()=>setListColor("#00000072")} className={`${listColor === "#00000072" ? "active" : ""}`}  style={{ backgroundColor: "#00000072" }}></li>
+                    <li onClick={()=>setListColor("#747474")} className={`${listColor === "#747474" ? "active" : ""}`}  style={{ backgroundColor: "#747474" }}></li>
+                    <li onClick={()=>setListColor("#110808a3")} className={`${listColor === "#110808a3" ? "active" : ""}`}  style={{ backgroundColor: "#110808a3" }}></li>
                     <li onClick={()=>setListColor("#1359b5ab")} className={`${listColor === "#1359b5ab" ? "active" : ""}`} style={{ backgroundColor: "#1359b5ab" }}></li>
                     <li onClick={()=>setListColor("#47db36ab")} className={`${listColor === "#47db36ab" ? "active" : ""}`} style={{ backgroundColor: "#47db36ab" }}></li>
                     <li onClick={()=>setListColor("#6e327dab")} className={`${listColor === "#6e327dab" ? "active" : ""}`} style={{ backgroundColor: "#6e327dab" }}></li>

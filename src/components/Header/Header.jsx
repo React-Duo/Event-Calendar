@@ -81,7 +81,7 @@ const Header = () => {
 
   return (
     <>
-      <div className={`header ${isLoggedIn.status && theme ? "dark-theme-header" : "light-theme-header"}`}>
+      <div className={`header ${isLoggedIn.status && theme && "dark-theme-header" }`}>
 
         {!isLoggedIn.status ? (
           <>

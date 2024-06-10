@@ -7,7 +7,7 @@ const Home = () => {
   const {theme} = useContext(AuthContext);
 
   return (
-    <div className={`container-content ${theme? "dark-theme" : "light-theme"}`}> 
+    <div className={`container-content ${theme && "dark-theme" }`}> 
       <AllEvents />
     </div>
   )

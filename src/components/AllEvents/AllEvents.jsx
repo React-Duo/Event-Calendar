@@ -15,6 +15,7 @@ const AllEvents = () => {
     const [showedEvents, setShowedEvents] = useState("All events");
     const navigate = useNavigate();
     const [numToShow, setNumToShow] = useState(6);
+    const {theme} = useContext(AuthContext);
 
     const handleShowMore = () => {
         setNumToShow(numToShow + 6);
@@ -106,7 +107,7 @@ const AllEvents = () => {
             <div className="all-events">
                 {eventsToShow && eventsToShow.length !== 0 ? (
                     eventsToShow.slice(0, numToShow).map((event, index) => (
-                        <div className="single-event" key={index}>
+                        <div className={`single-event ${theme && "dark-theme-single-event"}`} key={index}>
                             <div>
                                 <img src={event[1].photo} alt="event cover photo" />
                             </div>

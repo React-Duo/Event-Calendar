@@ -1,51 +1,76 @@
 /* theme colors */
 
-.light-theme {
-    color: #000;
-    background: rgb(197, 239, 255);
-    background: radial-gradient(circle, rgba(197, 239, 255, 1) 0%, rgba(255, 255, 255, 1) 100%);
-  }
-  
-  .dark-theme {
-    color: #cac9c9;
-    background: rgb(15,13,89);
-    background: linear-gradient(270deg, rgba(15,13,89,1) 0%, rgba(39,26,64,1) 41%, rgba(15,20,32,1) 100%);
-  }
-  .dark-theme button {
-    color: #cac9c9; 
-  }
-  .dark-theme .selected{
-    color: rgb(40,90,255);
-  }
-  
-  .dark-theme-header{
-    background: rgb(15,13,89);
-  background: linear-gradient(270deg, rgba(15,13,89,1) 0%, rgba(39,26,64,1) 41%, rgba(15,20,32,1) 100%);
-    color: #fff;
-  }
-  
-  .light-theme-header{
-    background-color: #fff;
-    color: #000;
-  } 
-  
-  .dark-theme-sideBar{
-    background: rgb(22,22,41);
-    background: linear-gradient(180deg, rgba(22,22,41,1) 22%, rgba(38,26,63,1) 51%, rgba(13,13,25,1) 96%);
-    color: #fff;
-  }
-  
-  .light-theme-sideBar{
-    background-color: #fff;
-    color: #000;
-  }
-  .dark-theme-footer{
-    background: rgb(15,13,89);
-  background: linear-gradient(270deg, #0f0d59 0%, rgb(24, 16, 39) 41%, rgb(10, 13, 21) 100%);
-    color: #fff;
-  }
-  
-  .light-theme-footer{
-    background-color: #fff;
-    color: #000;
-  }
+/* container-content */
+.dark-theme {
+  color: #cac9c9;
+  background-image: linear-gradient( 109.6deg,  rgba(15,2,2,1) 11.2%, rgb(34, 90, 102) 91.1% );
+}
+
+
+.dark-theme button {
+  color: #ffffff;
+}
+
+.dark-theme .selected {
+  color: rgb(40, 90, 255);
+}
+
+/* header */
+.dark-theme-header {
+  background-color: #181616;
+  color: #fff;
+}
+
+/* side bar */
+.dark-theme-sideBar {
+  background-color: #201e1e;
+  color: #fff;
+}
+.dark-theme-sideBar li {
+  color: rgb(226, 226, 226) ;
+}
+
+
+/* footer */
+.dark-theme-footer {
+  background-image: linear-gradient( 109.6deg,  rgba(15,2,2,1) 11.2%, rgb(34, 90, 102) 91.1% );
+  color: #fff;
+}
+
+/* single event */
+.dark-theme-single-event {
+  background: linear-gradient(145deg, #42424e, #1e1c1c);
+  box-shadow: 10px 10px 21px #272121,
+    -10px -10px 21px #464242;
+  color: rgb(255, 255, 255);
+}
+.dark-theme-single-event button{
+  color: #606060;
+}
+.dark-theme-single-event .hours-event-left{
+  background-color: #464242;
+}
+
+/* contacts */
+
+.dark-theme-contacts {
+  color: #f8f7ff;
+  background-image: linear-gradient( 109.6deg,  rgba(15,2,2,1) 11.2%, rgb(34, 90, 102) 91.1% );
+}
+
+.btn-dark{
+  color: black !important;
+}
+
+/* profile edit */
+
+.dark-theme-profile{
+  background-image: linear-gradient( 109.6deg,  rgba(15,2,2,1) 11.2%, rgb(34, 90, 102) 91.1% );
+  color: #6b6767;
+}
+.dark-theme-profile .input {
+  background-color: rgba(53, 53, 60, 0.781);
+}
+.dark-theme-profile .address-change {
+  background-color: rgba(53, 53, 60, 0.781);
+}

@@ -18,7 +18,6 @@ const ContentPublic = () => {
   useEffect(() => {
     const fetchAndSetEvents = async () => {
       const events = await getPublicEvents();
-      console.log(events);
       if (events) {
         const publicEvents = events.filter(event => event[1].visibility === "public" && (event[1].repeat === "single" || event[1].seriesId));
         const uniqueSeriesEvents = publicEvents.reduce((acc, current) => {

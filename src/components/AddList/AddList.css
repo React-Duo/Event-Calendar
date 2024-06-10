@@ -9,7 +9,7 @@
   align-items: center;
   justify-content: center;
   padding: 1.5rem;
-  
+  color: black;
 }
 
 .add-list {
@@ -51,13 +51,13 @@
   cursor: pointer;
   width: 33px;
   height: 33px;
-  background-image: linear-gradient(to top, #D8D9DB 0%, #fff 80%, #FDFDFD 100%);
+  background-image: linear-gradient(to top, #6e6f70 0%, #fff 80%, #FDFDFD 100%);
   border-radius: 7px;
   border: 1px solid #8F9092;
   transition: all 0.2s ease;
   font-size: 14px;
   font-weight: 600;
-  color: #606060;
+  color: #423a3ac9 !important;
   padding: 10px;
 }
 
@@ -91,7 +91,7 @@
 
 .color-picker ul{
   display: flex;
-  gap: 11px;
+  gap: 15px;
   margin: 10px 0px;
 }
 
