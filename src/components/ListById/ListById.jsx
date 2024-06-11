@@ -97,7 +97,6 @@ const ListById = () => {
       }
     };
     fetchList();
-    console.log("Awe");
   }, [listId, isLoggedIn.user]);
 
   const handleRemoveFromList = async (user) => {
