@@ -1,7 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState,useContext  } from 'react';
 import { editCredential, getAllEvents, getEventById, searchUser } from '../../service/database-service';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
 import './Admin.css';
+import AuthContext from "../../context/AuthContext"
+
 
 const Admin = () => {
     const [userSearchParams, setUserSearchParams] = useState(null);
@@ -13,6 +15,7 @@ const Admin = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
+    const {theme} = useContext(AuthContext);
 
     useEffect(() => {
         const handleUserSearch = async () => {
@@ -82,7 +85,7 @@ const Admin = () => {
     }
 
     return (
-        <div className='container-content'>
+        <div className={`container-content ${theme && "dark-theme-admin" }`}> 
             <div className="popup">
                 <div className="tabs">
                     <div className='top-tabs'>
