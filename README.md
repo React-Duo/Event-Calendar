@@ -142,5 +142,7 @@ Todor Savov - todor.savov.a58@learn.telerikacademy.com
 <img src="./src/assets/readme.png" alt="Logo" width="800" height="400">
 <img src="./src/assets/readme2.png" alt="Logo" width="800" height="600">
 <img src="./src/assets/readme3.png" alt="Logo" width="800" height="600">
-<img src="./src/assets/readme5.png" alt="Logo" width="800" height="600">
+<img src="./src/assets/readme7.png" alt="Logo" width="800" height="600">
 <img src="./src/assets/readme4.png" alt="Logo" width="800" height="600">
+<img src="./src/assets/readme5.png" alt="Logo" width="800" height="600">
+<img src="./src/assets/readme6.png" alt="Logo" width="800" height="600">
