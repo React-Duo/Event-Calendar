@@ -15,8 +15,8 @@ const Theme = () => {
 
     return (
         <div className="theme-container">
-            <h2>Appearance</h2>
-            <h3>Theme</h3>
+            <h1>Appearance</h1>
+            <h2>Theme</h2>
             <p>Change the appearance of the site</p>
             <div className="theme-change">
                 <label id="theme-toggle-button">

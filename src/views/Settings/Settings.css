@@ -3,3 +3,7 @@
     flex-direction: column;
     gap: 25px;
 }
+
+.settings-container h2{
+    cursor: pointer;
+}

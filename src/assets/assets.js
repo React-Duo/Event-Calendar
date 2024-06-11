@@ -20,6 +20,8 @@ import company16 from "./company16.png";
 import company17 from "./company17.png";
 import calendar from "./calendar.jpg";
 import notFound from "./notFound.jpg";
+import petko from "./petko.jpg";
+import ab from "./ab.png"
 
 
 export const assets = {
@@ -44,6 +46,8 @@ export const assets = {
     company16,
     company17,
     calendar,
-    notFound
+    notFound,
+    petko, 
+    ab
 };
 
