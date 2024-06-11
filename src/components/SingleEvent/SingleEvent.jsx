@@ -181,7 +181,7 @@ const SingleEvent = () => {
                                 <span><i className="fa-solid fa-location-dot fa-lg"></i>Location:</span>
                                 {editStatus ?
                                     (event.locationType === "offline" ?
-                                        <Address />
+                                        <Address from="singleEvent" country={event.location.country} city={event.location.city} street={event.location.street} />
                                         :
                                         <input type="text" id="editLocation" name="editLocation" defaultValue={event.location} required />
                                     )
