@@ -77,20 +77,20 @@ export const addIdToEvent = async (eventIds) => {
 
 export const updateEvent = async (event) => {
   try {
-    const { title, description, invited, locationType, location, visibility, canInvite } = event;
+    const { title, description, invited, locationType, location, visibility, canInvite, photo } = event;
     if (event.repeat !== "single") {
       const snapshot = await get(query(ref(database, "events"), orderByChild("seriesId"), equalTo(event.id)));
       if (snapshot.exists()) {
         const eventsToUpdate = snapshot.val();
         eventsToUpdate[event.id] = event;
         Object.values(eventsToUpdate).map(async (eventToUpdate) => {
-          await update(ref(database, `events/${eventToUpdate.id}`), { title, description, invited, locationType, location, visibility, canInvite });
+          await update(ref(database, `events/${eventToUpdate.id}`), { title, description, invited, locationType, location, visibility, canInvite, photo });
         });
       } else {
         throw new Error("Event not found!");
       }
     } else {
-      return await update(ref(database, `events/${event.id}`), { title, description, invited, locationType, location, visibility, canInvite });
+      return await update(ref(database, `events/${event.id}`), { title, description, invited, locationType, location, visibility, canInvite, photo });
     }
   } catch (error) {
     console.log(error.message);
