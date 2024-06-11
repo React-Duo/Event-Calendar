@@ -103,9 +103,20 @@
 
 /* events */
 
+#find-events-public{
+    text-align: center;
+    font-size: 25px;
+    margin-bottom: 5px;
+}
+
 .public-events-container {
     display: flex;
     flex-direction: column;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    background: rgb(57,101,172);
+    background: linear-gradient(150deg, rgba(57,101,172,1) 11%, rgba(132,185,227,1) 39%, rgba(231,236,243,1) 80%);
+    border-radius: 15px;
+    padding: 11px;
 }
 
 .public-events {
@@ -125,7 +136,12 @@
     display: flex;
     flex-direction: column;
     gap: 7px;
-    border: 1px solid rgba(0, 0, 0, 0.338);
+    border-top: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
     padding-left: 15px;
     justify-content: center;
     width: 100%;

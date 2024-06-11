@@ -18,6 +18,7 @@ import company14 from "./company14.png";
 import company15 from "./company15.png";
 import company16 from "./company16.png";
 import company17 from "./company17.png";
+import calendar from "./calendar.jpg";
 
 export const assets = {
     logo,
@@ -39,6 +40,7 @@ export const assets = {
     company14,
     company15,
     company16,
-    company17
+    company17,
+    calendar
 };
 

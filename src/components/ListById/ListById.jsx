@@ -97,7 +97,7 @@ const ListById = () => {
       }
     };
     fetchList();
-    console.log("Awe");
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [listId, isLoggedIn.user]);
 
   const handleRemoveFromList = async (user) => {

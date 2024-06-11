@@ -36,7 +36,7 @@ const GoogleMaps = ({city, street}) => {
             .catch((e) => {
                 console.log(e); 
             });
-    }, [city, street]);
+    }, [city, mapsApiKey, street]);
 
     if (loadError) {
         return <div>Error Loading maps</div>;

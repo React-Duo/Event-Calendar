@@ -30,7 +30,7 @@ const CalendarHeader = () => {
   const handleResetWeek = () => {
     setNextWeek(0);
     setPrevWeek(0);
-    setWeekOffset(dayjs().week() - dayjs(new Date(dayjs().year(), monthIndex - 1, 1)).week() + 3) //! change 2 for the next week?
+    setWeekOffset(dayjs().week() - dayjs(new Date(dayjs().year(), monthIndex - 1, 1)).week() + 3) //! 
 
   }
   // month

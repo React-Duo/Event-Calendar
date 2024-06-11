@@ -58,7 +58,7 @@ const Day = ({ day, rowIdx }) => {
             setDayEvents(dayEvents)
         }
 
-    }, [day, events]);
+    }, [day, events, view]);
 
     function getCurrentDayClass() {
         return day.format("DD-MM-YY") === dayjs().format("DD-MM-YY") ? "currentDay" : ""

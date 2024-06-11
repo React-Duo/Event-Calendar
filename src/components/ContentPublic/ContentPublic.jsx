@@ -8,10 +8,10 @@ const ContentPublic = () => {
   const [events, setEvents] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [eventsToShow, setEventsToShow] = useState([]);
-  const [numToShow, setNumToShow] = useState(3);
+  const [numToShow, setNumToShow] = useState(1);
 
   const handleShowMore = () => {
-    setNumToShow(numToShow + 5);
+    setNumToShow(numToShow + 3);
   };
 
 
@@ -38,6 +38,7 @@ const ContentPublic = () => {
   useEffect(() => {
     const results = events.filter(event => event[1].title.toLowerCase().includes(searchTerm.toLowerCase()));
     setEventsToShow(results);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchTerm]);
 
 
@@ -54,7 +55,7 @@ const ContentPublic = () => {
       <div>
         <img
           className="content-public-img"
-          src={assets.publicHeader}
+          src={assets.calendar}
           alt="demo"
         />
       </div>
@@ -86,6 +87,7 @@ const ContentPublic = () => {
         </div>
       </div>
       <div className="public-events-container">
+      <h3 id="find-events-public">Find events</h3>
         <div className="search-events">
           <form className="search-events-form" onSubmit={(e) => e.preventDefault()}>
             <button>
