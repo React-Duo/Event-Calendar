@@ -20,7 +20,7 @@ const Admin = () => {
                 setLoading(true);
                 const data = await searchUser(userSearchParams.searchString, userSearchParams.searchTerm);
                 if (!data) throw new Error("No users matched the search criteria.");
-                const filteredUsers = Object.entries(data).map(([key, user]) => user = {id: key, ...user});
+                const filteredUsers = Object.entries(data).map(([key, user]) => user = { id: key, ...user });
                 setUsers(filteredUsers);
                 setError(null);
             } catch (error) {
@@ -54,11 +54,11 @@ const Admin = () => {
         const handleEventSearch = async () => {
             const allEvents = await getAllEvents();
             const filteredEvents = allEvents.filter(event => event[1].title.includes(eventSearchParams));
-            const eventSeries = 
-            await Promise.all(filteredEvents.map(async event => {   
-                if (event[1].seriesId) return await getEventById(event[1].seriesId);
-                else return event[1];
-            }));
+            const eventSeries =
+                await Promise.all(filteredEvents.map(async event => {
+                    if (event[1].seriesId) return await getEventById(event[1].seriesId);
+                    else return event[1];
+                }));
             setFoundEvents(Array.from(new Map(eventSeries.map(item => [item.id, item])).values()));
         }
         if (eventSearchParams) handleEventSearch();
@@ -82,103 +82,110 @@ const Admin = () => {
     }
 
     return (
+        <div className='container-content'>
             <div className="popup">
                 <div className="tabs">
-                    <input 
-                        type="radio" 
-                        id="tab1" 
-                        name="tab" 
-                        checked={selectedTab === 'users'} 
-                        onChange={() => setSelectedTab('users')}
-                    />        
-                    <label htmlFor="tab1" className='labelText'>Users</label>
-                    <input
-                        type="radio"
-                        id="tab2" 
-                        name="tab"
-                        checked={selectedTab === 'events'}
-                        onChange={() => setSelectedTab('events')}
-                    />
-                    <label htmlFor="tab2" className='labelText'>Events</label>
+                    <div className='top-tabs'>
+                        <input
+                            className='popup-input'
+                            type="radio"
+                            id="tab1"
+                            name="tab"
+                            checked={selectedTab === 'users'}
+                            onChange={() => setSelectedTab('users')}
+                        />
+                        <label htmlFor="tab1" className='labelText popup-label'>Users</label>
+                        <input
+                            className='popup-input'
+                            type="radio"
+                            id="tab2"
+                            name="tab"
+                            checked={selectedTab === 'events'}
+                            onChange={() => setSelectedTab('events')}
+                        />
+                        <label htmlFor="tab2" className='labelText popup-label'>Events</label>
+                    </div>
                     <div className="marker">
                         <div id="top"></div>
                         <div id="bottom"></div>
 
                         {selectedTab === 'users' && (
-                        <>
-                            <form onSubmit={handleUserSearchForm} className="search-form">
-                                <input type="text" id="searchField" name="searchField" placeholder="Search users..." required/>
-                                <br />
-                                <span className="search-terms">
-                                    <input type="radio" value="firstName" id="firstName" name="searchType" required /> 
-                                    <label className='labelText' htmlFor="firstName">First Name</label>
-                                    <input type="radio" value="lastName" id="lastName" name="searchType" required /> 
-                                    <label className='labelText' htmlFor="lastName">Last Name</label>
-                                    <input type="radio" value="emailAddress" id="emailAddress" name="searchType" required /> 
-                                    <label className='labelText' htmlFor="emailAddress">Email Address</label>
-                                    <input type="radio" value="username" id="username" name="searchType" required /> 
-                                    <label className='labelText' htmlFor="username">Username</label>
-                                </span>
-                                <br />
-                                <button type="submit">Search</button>
-                            </form>
-                            {error && <div id="error">{error}</div>}
-                            {users && 
-                                <>
-                                {users.length === 0 ? <div>No users found.</div> : `${users.length} user(s) found.`}
-                                    <div className="users-list">
-                                        {users.map(user => {
-                                            return <div className="user-details" key={user.id}>
-                                                        <img src={user.photo} alt="" />
-                                                        <div>
-                                                            <label>Display Name: </label> {user.firstName} {user.lastName} {user.role === "admin" && "(Admin)"} 
-                                                            <br />
-                                                            <label>Email address: </label> {user.email} <br />
-                                                            <label>Username: </label> {user.username} <br />
-                                                            {user.role !== "admin" && 
-                                                                (user.isBlocked ? 
-                                                                    <button onClick={() => setUserBlock(user)}>Unblock user</button>
-                                                                    :
-                                                                    <button onClick={() => setUserBlock(user)}>Block user</button>
-                                                                )
-                                                            }
-                                                        </div>
-                                                    </div> 
-                                        })}
-                                    </div>
-                                </>
-                            }
-                        </>
-                        )}
-
-                    {selectedTab === 'events' && (
-                        <>
-                            <form onSubmit={handleEventSearchForm} className="search-form">
-                                <label htmlFor="eventTitle" className="labelText"> Event Title </label>
-                                <input type="text" id="eventTitle" name="eventTitle" placeholder='Search events...' required /> 
-                                <button type="submit">Search</button>
-                            </form>
-
-                        {foundEvents && (
                             <>
-                            {foundEvents.length === 0 ? <div>No events found.</div> : `${foundEvents.length} event(s) found.`}
-                                <div className="events-list">
-                                    {foundEvents.map(event => {
-                                        return <div className="event-details" key={event.id} onClick={() => navigate(`/event/${event.id}`)}>
-                                                    <img src={event.photo} alt="" />
-                                                        <label>Author: </label> {event.author} 
+                                <form onSubmit={handleUserSearchForm} className="search-form">
+                                    <input className='input__field' type="text" id="searchField" name="searchField" placeholder="Search users..." required />
+                                    <br />
+                                    <span className="search-terms">
+                                        <input type="radio" value="firstName" id="firstName" name="searchType" required />
+                                        <label className='labelText' htmlFor="firstName">First Name</label>
+                                        <input type="radio" value="lastName" id="lastName" name="searchType" required />
+                                        <label className='labelText' htmlFor="lastName">Last Name</label>
+                                        <input type="radio" value="emailAddress" id="emailAddress" name="searchType" required />
+                                        <label className='labelText' htmlFor="emailAddress">Email Address</label>
+                                        <input type="radio" value="username" id="username" name="searchType" required />
+                                        <label className='labelText' htmlFor="username">Username</label>
+                                    </span>
+                                    <br />
+                                    <button className='btn' type="submit">Search</button>
+                                </form>
+                                {error && <div id="error">{error}</div>}
+                                {users &&
+                                    <>
+                                        {users.length === 0 ? <div>No users found.</div> : `${users.length} user(s) found.`}
+                                        <div className="users-list">
+                                            {users.map(user => {
+                                                return <div className="user-details" key={user.id}>
+                                                    <img src={user.photo} alt="" />
+                                                    <div>
+                                                        <label>Display Name: </label> {user.firstName} {user.lastName} {user.role === "admin" && "(Admin)"}
                                                         <br />
-                                                        <label>Title: </label> {event.title}
+                                                        <label>Email address: </label> {user.email} <br />
+                                                        <label>Username: </label> {user.username} <br />
+                                                        {user.role !== "admin" &&
+                                                            (user.isBlocked ?
+                                                                <button className='btn' onClick={() => setUserBlock(user)}>Unblock user</button>
+                                                                :
+                                                                <button className='btn' onClick={() => setUserBlock(user)}>Block user</button>
+                                                            )
+                                                        }
+                                                    </div>
                                                 </div>
-                                    })}
-                                </div>
+                                            })}
+                                        </div>
+                                    </>
+                                }
                             </>
                         )}
-                        </>
-                    )}
+
+                        {selectedTab === 'events' && (
+                            <>
+                                <form onSubmit={handleEventSearchForm} className="search-form">
+                                    <label htmlFor="eventTitle" className="labelText"> Event Title </label>
+                                    <input className='input__field' type="text" id="eventTitle" name="eventTitle" placeholder='Search events...' required />
+                                    <button className='btn' type="submit">Search</button>
+                                </form>
+
+                                {foundEvents && (
+                                    <>
+                                        {foundEvents.length === 0 ? <div>No events found.</div> : `${foundEvents.length} event(s) found.`}
+                                        <div className="events-list">
+                                            {foundEvents.map(event => {
+                                                return <div className="event-details" key={event.id} onClick={() => navigate(`/event/${event.id}`)}>
+                                                    <img src={event.photo} alt="" />
+                                                    <br />
+                                                    <label>Author: </label> {event.author}
+                                                    <br />
+                                                    <label>Title: </label> {event.title}
+                                                </div>
+                                            })}
+                                        </div>
+                                    </>
+                                )}
+                            </>
+                        )}
                     </div>
                 </div>
             </div>
+        </div>
     )
 }
 

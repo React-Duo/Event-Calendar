@@ -1,247 +1,81 @@
-.search-form {
-  display: flex;
-  flex-direction: column;
-  width: 530px;
-  margin: 70px 70px 10px 70px;
-  padding: 30px;
-  --input-focus: #2d8cf0;
-  --font-color: #323232;
-  --font-color-sub: #666;
-  --bg-color: beige;
-  --main-color: black;
-  background: rgb(60, 215, 248);
-  border-radius: 15px;
-  border: 2px solid var(--main-color);
-  box-shadow: 4px 4px var(--main-color);
-}
-
-#searchField {
-  margin: 0 auto;
-  width: 250px;
-  height: 40px;
-  border-radius: 5px;
-  border: 2px solid var(--main-color);
-  background-color: var(--bg-color);
-  box-shadow: 4px 4px var(--main-color);
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--font-color);
-  padding: 5px 10px;
-  outline: none;
-}
-.labelText {
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer; 
-  color: #525d6f; 
-  opacity: .4; 
+.popup-label {
+  font-size: 24px;
+  font-weight: 700;
+  cursor: pointer;
+  color: #525d6f;
+  opacity: .4;
   transition: opacity .4s ease-in-out;
-  width: calc(100% - 48px) ;
-  text-align: center; 
-  z-index: 100; 
+  display: block;
+  z-index: 100;
   user-select: none;
 }
 
-
-.search-terms {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin: 20px 0;
+.popup-input[type="radio"] {
+  display: none;
+  width: 0;
 }
 
-div #error {
-  color: rgb(197, 34, 34);
-  font-weight: bold;
+.top-tabs{
+  display: flex;
+  margin-bottom: 20px;
+  align-items: center;
+  gap: 30px;
+}
+
+.popup{
+  border: 1px solid rgba(18, 18, 18, 0.201);
+  padding: 30px;
+}
+
+.users-list img{
+  width: 330px;
+  height: 220px;
+  border-radius: 25px;
+  margin-right: 20px;
 }
 
 .users-list {
-  width: 530px;
-  margin: 0 auto;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  border: solid 20px rgb(152, 153, 153);
-  border-radius: 5%;
-  background-color: rgb(152, 153, 153);
-}
-
-
-
-.search-form button {
-  margin: 0 auto;
-  cursor: pointer;
-  width: 100px;
-  height: 40px;
-  border: 2px solid var(--main-color);
-  background-color: var(--bg-color);
-  box-shadow: 4px 4px var(--main-color);
-  color: var(--font-color);
-  font-size: 25px;
-  display: flex;
+  margin-bottom: 20px;
+  gap: 20px;
   justify-content: center;
-  align-items: center;
-  border-radius: 5px;
 }
 
-.user-details {
-  display: grid;
-  grid-template-columns: auto auto;
-  width: 100%;
-  border: solid 10px rgb(152, 153, 153);
-  background-color: rgba(255, 255, 255, 0.749);
-  padding: 20px;
-  color: black;
-  border-radius: 15px;
-  gap: 10px;
+.events-list img {
+  width: 330px;
+  height: 220px;
+  border-radius: 25px;
+  margin-right: 20px;
 }
-.user-details img {
-  grid-column: 1 / 2;
-  width: 100px;
-  height: 100px;
-}
-
-.user-details div {
-  grid-column: 2 / 3;
-}
-
-.user-details label {
-  font-weight: bold;
-  font-size: 20px;
-}
-
-.user-details button {
-  width: 130px;
-  height: 50px;
-  padding: 17px 40px;
-  border-radius: 10px;
-  border: 0;
-  background-color: rgb(255, 56, 86);
-  letter-spacing: 1.5px;
-  font-size: 11px;
-  transition: all 0.3s ease;
-  box-shadow: rgb(201, 46, 70) 0px 10px 0px 0px;
-  color: hsl(0, 0%, 100%);
-  cursor: pointer;
-  font-weight: bold;
-}
-
-.user-details button:hover {
-  box-shadow: rgb(201, 46, 70) 0px 7px 0px 0px;
-}
-
-.user-details button:active {
-  background-color: rgb(255, 56, 86);
-  /*50, 168, 80*/
-  box-shadow: rgb(201, 46, 70) 0px 0px 0px 0px;
-  transform: translateY(5px);
-  transition: 200ms;
-}
-
-.spinner {
-  border: 4px solid rgba(0, 0, 0, 0.1);
-  border-left-color: #aae20f;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  animation: spin 2s linear infinite;
-}
-
-#error{
-  text-align: center;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-
-@media (max-width: 580px) {
-  .search-form {
-    width: 330px;
-  }
-  
-  .users-list {
-    width: 330px;
-  }
-  .user-details label {
-    font-weight: bold;
-    font-size: 17px;
-  }
-  .user-details {
-    display: grid;
-    grid-template-columns: auto auto;
-    width: 320px;
-    border: solid 10px rgb(152, 153, 153);
-    background-color: rgba(255, 255, 255, 0.749);
-    padding: 20px;
-    color: black;
-    border-radius: 15px;
-    gap: 10px;
-  }
-}
-
-#tab1 {
-  display: none;
-  width: 0;
-}
-
-#tab2 {
-  display: none;
-  width: 0;
-}
-
-label:hover, input[type="radio"]:checked+label {
-  opacity: 1; 
-}
-.popup{
-  margin-left: 170px;
-  min-height: 480px; 
-  max-height: 480px; 
-  border-radius: 48px;
-  box-sizing: border-box; 
-  border: 16px solid #ebf0f4;
-  background-color: #dfe6ed;
-  box-shadow: 16px 16px 48px #2e364330; 
-}
-.tabs{
-  width: 100%;
-  max-width: 240px;
-  height: 100%;
+.events-list {
   display: flex;
-  flex-direction: column; 
-  justify-content: space-around; 
-  position: relative;
-}
-.marker{
-  position: absolute; 
-  width: 100%;
-  height: 200%;
-  display: flex; 
   flex-direction: column;
-  top: calc(-100% );
-  left: 0;
-  transition: transform .2s ease-in-out; 
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 20px;
+  justify-content: center;
 }
-.marker #bottom, .marker #top{
-  background-color: #ebf0f4;
-  box-shadow: 32px 32px 48px #2e364315; 
+
+.search-terms label{
+  margin-left: 5px;
+  margin-right: 11px;
 }
-.marker #top{
-  height: calc(50%);
-  margin-bottom: auto; 
-  border-radius: 0 0 32px 0; 
+
+#searchField {
+  margin-bottom: 15px;
 }
-.marker #bottom{
-  height: calc(50% - 72px);
-  border-radius: 0 32px 0 0; 
+
+#eventTitle{
+  margin-bottom: 15px;
 }
-#tab1:checked ~ .marker{transform: translateY(calc(calc(50% / 6) * 0));}
-#tab2:checked ~ .marker{transform: translateY(calc(calc(50% / 6) * 1));}
-#tab3:checked ~ .marker{transform: translateY(calc(calc(50% / 6) * 2));}
-#tab4:checked ~ .marker{transform: translateY(calc(calc(50% / 6) * 3));}
-#tab5:checked ~ .marker{transform: translateY(calc(calc(50% / 6) * 4));}
-#tab6:checked ~ .marker{transform: translateY(calc(calc(51% / 6) * 5));}
+
+.event-details label{
+  font-size: 17px;
+  font-weight: 700;
+}
+.user-details label{
+  font-size: 17px;
+  font-weight: 700;
+}
