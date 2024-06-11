@@ -1,32 +1,30 @@
 import { useContext, useEffect, useState } from 'react';
-import { useNavigate ,useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { signInUser } from '../../service/authentication-service.js';
 import AuthContext from '../../context/AuthContext.jsx';
-import { EMAIL_REGEX } from '../../common/constants.js';
-import './Login.css';
 import { getUserDetails } from '../../service/database-service.js';
+import { EMAIL_REGEX } from '../../common/constants.js';
+import { auth } from '../../config/firebase-config.js';
+import './Login.css';
 
 const Login = () => {
-    const { setLoginState } = useContext(AuthContext);
-    const { isLoggedIn } = useContext(AuthContext);
+    const { isLoggedIn, setLoginState } = useContext(AuthContext);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
     const [isLoginSuccessful, setIsLoginSuccessful] = useState(false);
     const [isFormSubmitted, setIsFormSubmitted] = useState(false);
-    const [form, setForm] = useState({
-        emailAddress: '', 
-        password: ''
-    });
+    const [form, setForm] = useState({ emailAddress: '', password: '' });
     const navigate = useNavigate();
     const location = useLocation();
-
+    
     useEffect(() => {
-        console.log(isLoggedIn.user);
-        console.log(location.state?.from.pathname);
-        if (isLoggedIn.user) {
-            navigate(location.state?.from.pathname || '/');
-        }
-    }, [isLoggedIn.user]);
+        auth.onAuthStateChanged(currentUser => {
+            if (currentUser) {
+                setLoginState({ status: true, user: currentUser.email });
+                navigate(location.state?.from.pathname || '/home');
+            }
+        });
+    }, []); 
 
     useEffect(() => {
         if (isFormSubmitted) {
@@ -51,7 +49,7 @@ const Login = () => {
     useEffect(() => {
         if (isLoginSuccessful) {
             setLoginState({status: true, user: form.emailAddress});
-            navigate('/home');
+            navigate(location.state?.from.pathname || '/home');
         }
     }, [isLoginSuccessful]);
 

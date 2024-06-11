@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { checkIfUserExists, createUser } from '../../service/database-service.js';
 import { handleUserDelete, registerUser } from '../../service/authentication-service.js';
 import AuthContext from '../../context/AuthContext.jsx';
@@ -9,6 +9,7 @@ import { NAME_MIN_CHARS, NAME_MAX_CHARS, USERNAME_MIN_LENGTH, USERNAME_MAX_LENGT
         } from '../../common/constants.js';
 import Address from '../Address/Address.jsx';
 import { isAddressValid } from '../../service/utils.js';
+import { auth } from '../../config/firebase-config.js';
 import './Register.css';
 
 const Register = () => {
@@ -29,6 +30,16 @@ const Register = () => {
     const [isFormSubmitted, setIsFormSubmitted] = useState(false);
     const navigate = useNavigate(); 
     const { setLoginState } = useContext(AuthContext);
+    const location = useLocation();
+
+    useEffect(() => {
+        auth.onAuthStateChanged(currentUser => {
+            if (currentUser) {
+                setLoginState({ status: true, user: currentUser.email });
+                navigate(location.state?.from.pathname || '/home');
+            }
+        });
+    }, []); 
 
     useEffect(() => {
         if (isFormSubmitted) {

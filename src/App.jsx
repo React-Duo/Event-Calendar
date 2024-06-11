@@ -8,7 +8,6 @@ import Login from './components/Login/Login';
 import Logout from './components/Logout/Logout';
 import Register from './components/Register/Register';
 import AuthContext from './context/AuthContext';
-import './App.css'
 import Contacts from './views/Contacts/Contacts';
 import Profile from './views/Profile/Profile';
 import SingleList from './views/SingleList/SingleList';
@@ -19,14 +18,10 @@ import Settings from './views/Settings/Settings';
 import SingleEventView from './views/SingleEventView/SingleEventView';
 import Admin from './views/Admin/Admin';
 import Authenticated from './hoc/Authenticated';
+import './App.css';
 
 const App = () => {
-
-  const [authValue, setAuthValue] = useState({
-    status: false,
-    user: ''
-  });
-
+  const [authValue, setAuthValue] = useState({status: false, user: ''});
   const [theme, setTheme] = useState(localStorage.getItem('theme') === 'dark');
 
   return (
