@@ -123,8 +123,8 @@ const SingleEvent = () => {
                     <img id='single-event-header-img' src={event.photo} alt="event photo" />
                     <div className='single-event-header'>
                         <div className='hours-single-event'>
-                            <p>From:  {dayjs(event.startDate).format("dddd, MMMM D, YYYY")} AT {event.startTime}hr</p>
-                            <p>To: {dayjs(event.endDate).format("dddd, MMMM D, YYYY")} AT {event.endTime}hr</p>
+                            <p>From:  {dayjs(event.startDate).format("MMMM D(dddd), YYYY")} AT <span className='event-hours-time'>{event.startTime}hr</span></p>
+                            <p>To: {dayjs(event.endDate).format("MMMM D(dddd), YYYY")} AT <span className='event-hours-time'>{event.endTime}hr</span></p>
                         </div>
                         <h1>{editStatus ? <input type="text" id="editTitle" name="editTitle" defaultValue={event.title} /> : event.title}</h1>
                     </div>

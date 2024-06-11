@@ -273,7 +273,10 @@
   justify-content: space-between;
   
 }
-
+.event-hours-time{
+  color: #d32828;
+  font-size: 22px;
+}
 
 @media screen and (max-width: 1165px) {
   .invited-users {
