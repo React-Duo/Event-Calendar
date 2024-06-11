@@ -10,8 +10,8 @@ import AuthContext from '../context/AuthContext';
  */
 export default function Authenticated({ children }) {
     const { isLoggedIn, setLoginState } = useContext(AuthContext);
-    const location = useLocation();
     const [loading, setLoading] = useState(true);
+    const location = useLocation();
 
     useEffect(() => {
         auth.onAuthStateChanged(currentUser => {

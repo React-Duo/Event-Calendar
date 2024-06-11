@@ -13,10 +13,12 @@ import { auth } from '../../config/firebase-config.js';
 import './Register.css';
 
 const Register = () => {
+    const { setLoginState } = useContext(AuthContext);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [isRegSuccessful, setIsRegSuccessful] = useState(false);
     const [enterWebsite, setEnterWebsite] = useState(false);
+    const [isFormSubmitted, setIsFormSubmitted] = useState(false);
     const [form, setForm] = useState({
         firstName: '',
         lastName: '',
@@ -27,9 +29,7 @@ const Register = () => {
         password: '',
         photo: '',
     });
-    const [isFormSubmitted, setIsFormSubmitted] = useState(false);
     const navigate = useNavigate(); 
-    const { setLoginState } = useContext(AuthContext);
     const location = useLocation();
 
     useEffect(() => {
