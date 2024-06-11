@@ -11,12 +11,14 @@ This project is an Event Calendar Website, designed to help you manage your even
 Some of the standout features of the website include:
 
 - **User Profiles**: Users have their own profiles and can modify their information.
-- **Event Search**: Users can search for events by location, check online events, top matches, and events happening today.
+- **Event Search**: Users can search for events by location, and check online events, top matches, and events happening today.
 - **Join Events**: Users can join other users' events.
-- **Contact Lists**: Users can create contact lists and add users from these lists to their events.
-- **Event Calendar**: Users can see all the events they have joined in the calendar, complete with day and hour details. The calendar has different views like month, day, week, and work week.
-- **Settings**: The app provides different types of settings for customization.
 - **Event Adding**: Easily add new events to your calendar with just a few clicks.
+- **Contact Lists**: Users can create contact lists and add users from these lists to their events.
+- **Chat**: Users can chat with other users in their contact lists.
+- **Event Calendar**: Users can see all the events they have joined in the calendar, complete with day and hour details. The calendar has different views like month, day, week, and work week.
+- **Settings**: The app provides different types of settings for customization, including the option to switch to a dark theme.
+
 
 Explore the website to discover more features!
 
