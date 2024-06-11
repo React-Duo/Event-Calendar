@@ -58,10 +58,10 @@ html {
 }
 
 .input__field:focus {
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.574);
   transform: scale(1.01);
-  box-shadow: 13px 13px 100px #969696,
-    -13px -13px 100px #ffffff;
+  box-shadow: 5px 5px 100px #96969684,
+    -5px -5px 100px #ffffff88;
 }
 
 
