@@ -1,7 +1,6 @@
 
 # Event Calendar Website
 
-<img src="./src/assets/readme.png" alt="Logo" width="800" height="400">
 
 ## About the Project
 
@@ -134,24 +133,14 @@ Todor Savov - todor.savov.a58@learn.telerikacademy.com
       "photo": "https://firebasestorage.googleapis.com/v0/b/event-calendar-c74a9.appspot.com/o/users%2Fpetkozlatilov1234%40gmail.com%2Fphoto?alt=media&token=f1b029d7-f692-43f2-8979-d251c0267613",
       "role": "admin",
       "username": "PetkoZlatilov1"
-    },
-    "todor123": {
-      "address": {
-        "city": "Plovdiv",
-        "country": "Bulgaria",
-        "street": "Bratia Sh"
-      },
-      "email": "todor.savov@abv.bg",
-      "firstName": "Todor",
-      "isBlocked": false,
-      "lastName": "Savov",
-      "phone": "1123112345",
-      "photo": "https://firebasestorage.googleapis.com/v0/b/event-calendar-c74a9.appspot.com/o/users%2Ftodor.savov%40abv.bg%2Fphoto?alt=media&token=963ee04f-b994-470b-a54e-50daacea609f",
-      "role": "admin",
-      "username": "todor123"
     }
   }
 }
-
-
 ```
+## Photos
+
+<img src="./src/assets/readme.png" alt="Logo" width="800" height="400">
+<img src="./src/assets/readme2.png" alt="Logo" width="800" height="600">
+<img src="./src/assets/readme3.png" alt="Logo" width="800" height="600">
+<img src="./src/assets/readme5.png" alt="Logo" width="800" height="600">
+<img src="./src/assets/readme4.png" alt="Logo" width="800" height="600">
