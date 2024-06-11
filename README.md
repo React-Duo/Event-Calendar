@@ -37,6 +37,9 @@ Explore the website to discover more features!
   - OpenWeather API
   - Google Maps API
 
+- **Additional Tools**:
+  - ESLint (for code linting)
+  - Git (for version control)
 
 ## Local Setup
 
