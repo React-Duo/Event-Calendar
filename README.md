@@ -40,7 +40,7 @@ Explore the website to discover more features!
 
 To set up the project locally, follow these steps:
 
-1. Clone the repository: [GitHub Repository](https://github.com/React-Duo/Event-Calendar)
+1. Clone the repository.
 2. Install dependencies by running the following command in the project directory:
     ```
     npm install
@@ -65,7 +65,6 @@ Petko Petkov - petkozlatilov1234@gmail.com
 
 Todor Savov - todor.savov.a58@learn.telerikacademy.com
 
-Project Link: [https://github.com/React-Duo/Event-Calendar](https://github.com/React-Duo/Event-Calendar)
 
 ## Scheme of the database
 ```
