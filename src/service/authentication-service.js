@@ -1,5 +1,5 @@
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, deleteUser, updatePassword } from 'firebase/auth';
-import { app } from '../config/firebase-config.js';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, deleteUser, updatePassword } from 'firebase/auth';
+import { auth } from '../config/firebase-config.js';
 
 /**
  * Registers a new user with the provided email address and password.
@@ -9,8 +9,7 @@ import { app } from '../config/firebase-config.js';
  */
 export const registerUser = async (emailAddress, password) => {
     try {
-        const authObject = getAuth(app);
-        const userCredentials = await createUserWithEmailAndPassword(authObject, emailAddress, password);
+        const userCredentials = await createUserWithEmailAndPassword(auth, emailAddress, password);
         return userCredentials;
     } catch (error) {
         console.log(error.message);
@@ -19,8 +18,7 @@ export const registerUser = async (emailAddress, password) => {
 
 export const handleUserDelete = async () => {
     try {
-        const authObject = getAuth(app);
-        return await deleteUser(authObject.currentUser);
+        return await deleteUser(auth.currentUser);
     } catch (error) {
         console.log(error.message);
     }
@@ -34,8 +32,7 @@ export const handleUserDelete = async () => {
  */
 export const signInUser = async (emailAddress, password) => {
     try {
-        const authObject = getAuth(app);
-        const userCredentials = await signInWithEmailAndPassword(authObject, emailAddress, password);
+        const userCredentials = await signInWithEmailAndPassword(auth, emailAddress, password);
         return userCredentials;
     } catch (error) {
         console.log(error.message);
@@ -48,8 +45,7 @@ export const signInUser = async (emailAddress, password) => {
  */
 export const signOutUser = async () => {
     try {
-        const authObject = getAuth(app);
-        await signOut(authObject);
+        await signOut(auth);
     } catch (error) {
         console.log(error.message);
     }
@@ -62,9 +58,7 @@ export const signOutUser = async () => {
  */
 export const changePassword = async (newPassword) => {
     try {
-        const auth = getAuth();
-        const user = auth.currentUser;
-        updatePassword(user, newPassword)
+        updatePassword(auth.currentUser, newPassword)
     } catch (error) {
         console.log(error.message);
     }
