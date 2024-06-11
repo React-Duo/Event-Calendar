@@ -9,6 +9,7 @@ import InviteUsers from '../InviteUsers/InviteUsers';
 import Weather from '../Weather/Weather';
 import GoogleMaps from '../GoogleMaps/GoogleMaps';
 import dayjs from 'dayjs';
+import { getImageURL, uploadEventImage } from '../../service/storage';
 
 const SingleEvent = () => {
     const { isLoggedIn } = useContext(AuthContext);
@@ -22,6 +23,7 @@ const SingleEvent = () => {
     const [updatedEvent, setUpdatedEvent] = useState(null);
     const [suggestions, setSuggestions] = useState([]);
     const [invitedUsers, setInvitedUsers] = useState([]);
+    const [photo, setPhoto] = useState(null);
     const {theme} = useContext(AuthContext);
 
     useEffect(() => {
@@ -81,13 +83,26 @@ const SingleEvent = () => {
 
         const visibility = e.target.editVisibility?.value || event.visibility;
         const canInvite = (isLoggedIn.user !== event.author) ? event.canInvite : e.target.editCanInvite?.checked;
-
+        
         setEvent({ ...event, title, description, invited, locationType, location, visibility, canInvite });
         setUpdatedEvent({ ...event, title, description, invited, locationType, location, visibility, canInvite });
         setError(null);
         setEditStatus(false);
         setInviteStatus(false);
     }
+
+    useEffect(() => {
+        const uploadPhoto = async () => {
+            try {
+                await uploadEventImage(event.id, photo);
+                const photoURL = await getImageURL(event.id);
+                setEvent({ ...event, photo: photoURL });
+            } catch (error) {
+                console.log(error.message);
+            }
+        }   
+        if (photo) uploadPhoto();
+    }, [photo]);
 
     const handleLocationTypeChange = (e) => {
         e.preventDefault();
@@ -121,6 +136,16 @@ const SingleEvent = () => {
             {event &&
                 <form onSubmit={handleEdit} onClick={() => setSuggestions([])}>
                     <img id='single-event-header-img' src={event.photo} alt="event photo" />
+                    <br />
+                    <hr />
+
+                    {editStatus && 
+                        <>
+                            <label htmlFor="uploadForm"> Upload Image </label>
+                            <input type="file" name="uploadForm" id="uploadForm" className="formbold-form-file" onChange={e => setPhoto(e.target.files[0])} />
+                        </>
+                    }
+
                     <div className='single-event-header'>
                         <div className='hours-single-event'>
                             <p>From:  {dayjs(event.startDate).format("MMMM D(dddd), YYYY")} AT <span className='event-hours-time'>{event.startTime}hr</span></p>
@@ -242,8 +267,6 @@ const SingleEvent = () => {
 
                         </div>
                     </div>
-
-                  
 
                     {error && <p className="error-message">{error}</p>}
                 </form>
