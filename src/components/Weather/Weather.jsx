@@ -14,12 +14,16 @@ const Weather = ({ city }) => {
             const response = await fetch(url);
             const data = await response.json();
             setWeatherData(data);
-            setIsLoading(false); 
+            setIsLoading(false);
         }
         getData();
     }, []);
     if (isLoading) {
-        return <div>Loading...</div>; 
+        return <div>Loading...</div>;
+    }
+
+    if (isLoading || !weatherData || !weatherData.weather || !weatherData.main) {
+        return <div>Loading...</div>;
     }
 
     return (
@@ -43,10 +47,9 @@ const Weather = ({ city }) => {
                 <div className="temp-scale">
                     <span>Celcius</span>
                 </div>
-
             </div>
         </div>
-    )
+    );
 }
 
 Weather.propTypes = {

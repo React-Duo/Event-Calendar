@@ -1,6 +1,7 @@
 
 # Event Calendar Website
 
+
 ## About the Project
 
 This project is an Event Calendar Website, designed to help you manage your events efficiently. It's built using React for the frontend and Firebase for the backend, providing a robust and scalable solution for event management. The website provides a clear and intuitive interface for tracking and organizing events, making it easy to keep track of your schedule. The app is fully responsive, ensuring a seamless user experience on all devices.
@@ -11,12 +12,14 @@ This project is an Event Calendar Website, designed to help you manage your even
 Some of the standout features of the website include:
 
 - **User Profiles**: Users have their own profiles and can modify their information.
-- **Event Search**: Users can search for events by location, check online events, top matches, and events happening today.
+- **Event Search**: Users can search for events by location, and check online events, top matches, and events happening today.
 - **Join Events**: Users can join other users' events.
-- **Contact Lists**: Users can create contact lists and add users from these lists to their events.
-- **Event Calendar**: Users can see all the events they have joined in the calendar, complete with day and hour details. The calendar has different views like month, day, week, and work week.
-- **Settings**: The app provides different types of settings for customization.
 - **Event Adding**: Easily add new events to your calendar with just a few clicks.
+- **Contact Lists**: Users can create contact lists and add users from these lists to their events.
+- **Chat**: Users can chat with other users in their contact lists.
+- **Event Calendar**: Users can see all the events they have joined in the calendar, complete with day and hour details. The calendar has different views like month, day, week, and work week.
+- **Settings**: The app provides different types of settings for customization, including the option to switch to a dark theme.
+
 
 Explore the website to discover more features!
 
@@ -35,12 +38,15 @@ Explore the website to discover more features!
   - OpenWeather API
   - Google Maps API
 
+- **Additional Tools**:
+  - ESLint (for code linting)
+  - Git (for version control)
 
 ## Local Setup
 
 To set up the project locally, follow these steps:
 
-1. Clone the repository: [GitHub Repository](https://github.com/React-Duo/Event-Calendar)
+1. Clone the repository.
 2. Install dependencies by running the following command in the project directory:
     ```
     npm install
@@ -65,7 +71,6 @@ Petko Petkov - petkozlatilov1234@gmail.com
 
 Todor Savov - todor.savov.a58@learn.telerikacademy.com
 
-Project Link: [https://github.com/React-Duo/Event-Calendar](https://github.com/React-Duo/Event-Calendar)
 
 ## Scheme of the database
 ```
@@ -128,24 +133,14 @@ Project Link: [https://github.com/React-Duo/Event-Calendar](https://github.com/R
       "photo": "https://firebasestorage.googleapis.com/v0/b/event-calendar-c74a9.appspot.com/o/users%2Fpetkozlatilov1234%40gmail.com%2Fphoto?alt=media&token=f1b029d7-f692-43f2-8979-d251c0267613",
       "role": "admin",
       "username": "PetkoZlatilov1"
-    },
-    "todor123": {
-      "address": {
-        "city": "Plovdiv",
-        "country": "Bulgaria",
-        "street": "Bratia Sh"
-      },
-      "email": "todor.savov@abv.bg",
-      "firstName": "Todor",
-      "isBlocked": false,
-      "lastName": "Savov",
-      "phone": "1123112345",
-      "photo": "https://firebasestorage.googleapis.com/v0/b/event-calendar-c74a9.appspot.com/o/users%2Ftodor.savov%40abv.bg%2Fphoto?alt=media&token=963ee04f-b994-470b-a54e-50daacea609f",
-      "role": "admin",
-      "username": "todor123"
     }
   }
 }
-
-
 ```
+## Photos
+
+<img src="./src/assets/readme.png" alt="Logo" width="800" height="400">
+<img src="./src/assets/readme2.png" alt="Logo" width="800" height="600">
+<img src="./src/assets/readme3.png" alt="Logo" width="800" height="600">
+<img src="./src/assets/readme5.png" alt="Logo" width="800" height="600">
+<img src="./src/assets/readme4.png" alt="Logo" width="800" height="600">
