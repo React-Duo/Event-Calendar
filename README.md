@@ -1,6 +1,8 @@
 
 # Event Calendar Website
 
+<img src="./src/assets/readme.png" alt="Logo" width="800" height="400">
+
 ## About the Project
 
 This project is an Event Calendar Website, designed to help you manage your events efficiently. It's built using React for the frontend and Firebase for the backend, providing a robust and scalable solution for event management. The website provides a clear and intuitive interface for tracking and organizing events, making it easy to keep track of your schedule. The app is fully responsive, ensuring a seamless user experience on all devices.
