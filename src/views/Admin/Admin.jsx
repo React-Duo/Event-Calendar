@@ -162,7 +162,6 @@ const Admin = () => {
                         {selectedTab === 'events' && (
                             <>
                                 <form onSubmit={handleEventSearchForm} className="search-form">
-                                    <label htmlFor="eventTitle" className="labelText"> Event Title </label>
                                     <input className='input__field' type="text" id="eventTitle" name="eventTitle" placeholder='Search events...' required />
                                     <button className='btn' type="submit">Search</button>
                                 </form>
