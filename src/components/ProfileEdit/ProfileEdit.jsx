@@ -40,7 +40,6 @@ const ProfileEdit = () => {
       setError("Please fill all fields");
       setSuccess(null);
     }
-
   };
 
 
@@ -56,6 +55,7 @@ const ProfileEdit = () => {
       ...prevDetails,
       photo: url,
     }));
+    window.location.reload();
   };
 
   const handleImageClick = () => {

@@ -172,9 +172,9 @@ const SingleEvent = () => {
                                 <i className="fa-solid fa-rotate-right fa-lg"></i>
                                 <span>Repeating:</span> {event.repeat === "single" ? "one-time" : event.repeat.schedule}
                                 {event.repeat.schedule === "weekly"
-                                    && <p>
-                                        <span>Every:</span> {event.repeat.weekdays.join(', ')}
-                                    </p>
+                                    && <>
+                                        <span> Every:</span> {event.repeat.weekdays.join(', ')}
+                                    </>
                                 }
                             </p>
                             <p>

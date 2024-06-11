@@ -2,8 +2,8 @@
 
 /* container-content */
 .dark-theme {
-  color: #cac9c9;
-  background-image: linear-gradient(109.6deg, rgba(15, 2, 2, 1) 11.2%, rgb(34, 90, 102) 91.1%);
+  color: #cac9c9 !important;
+  background-image: linear-gradient(109.6deg, rgba(15, 2, 2, 1) 11.2%, rgb(34, 90, 102) 91.1%) !important;
 }
 
 
@@ -58,7 +58,7 @@
 
 .dark-theme-contacts {
   color: #f8f7ff;
-  background-image: linear-gradient(109.6deg, rgba(15, 2, 2, 1) 11.2%, rgb(34, 90, 102) 91.1%);
+  background-image: linear-gradient(109.6deg, rgba(15, 2, 2, 1) 11.2%, rgb(34, 90, 102) 91.1%) !important;
 }
 
 .btn-dark {
@@ -68,12 +68,12 @@
 /* profile edit */
 
 .dark-theme-profile {
-  background-image: linear-gradient(109.6deg, rgba(15, 2, 2, 1) 11.2%, rgb(34, 90, 102) 91.1%);
+  background-image: linear-gradient(109.6deg, rgba(15, 2, 2, 1) 11.2%, rgb(34, 90, 102) 91.1%) !important;
   color: #6b6767;
 }
 
 .dark-theme-profile .input {
-  background-color: rgba(53, 53, 60, 0.781);
+  background-color: rgba(55, 55, 56, 0.781);
 }
 
 .dark-theme-profile .address-change {
@@ -91,7 +91,7 @@
 
 .dark-theme-add-event {
   color: #cac9c9;
-  background-image: linear-gradient(109.6deg, rgba(15, 2, 2, 1) 11.2%, rgb(34, 90, 102) 91.1%);
+  background-image: linear-gradient(109.6deg, rgba(15, 2, 2, 1) 11.2%, rgb(34, 90, 102) 91.1%)!important;
 }
 
 .dark-theme-add-event form{
@@ -104,7 +104,7 @@
 
 .dark-theme-admin{
   color: #cac9c9;
-  background-image: linear-gradient(109.6deg, rgba(15, 2, 2, 1) 11.2%, rgb(34, 90, 102) 91.1%);
+  background-image: linear-gradient(109.6deg, rgba(15, 2, 2, 1) 11.2%, rgb(34, 90, 102) 91.1%)!important;
 }
 
 .dark-theme-admin .top-tabs label{
