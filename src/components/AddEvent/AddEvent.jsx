@@ -324,24 +324,24 @@ const AddEvent = () => {
             <h1>Add Event</h1>
             <form onSubmit={formSubmit} onClick={() => setSuggestions([])} className="event-form">
                 <label htmlFor="title" className="required"> Title </label>
-                <input type="text" id="title" name="title" className="common" required />
-                <br />
-                <br />
+                <input type="text" id="title" name="title" className="input__field" required />
+                
+                
 
-                <textarea id="description" name="description" className="common" placeholder="Description"></textarea>
-                <br />
-                <br />
+                <textarea id="description" name="description" className="input__field" placeholder="Description"></textarea>
+                
+                
 
                 <label htmlFor="startDate" className="required"> Start Date </label>
-                <input type="date" id="startDate" name="startDate" className="common" required/>
-
+                <input type="date" id="startDate" name="startDate" className="input__field" required/>
+                
                 <label htmlFor="startTime" className="required"> Hour </label>
-                <input type="time" id="startTime" name="startTime" className="common" required/>
-                <br />
-                <br />
+                <input type="time" id="startTime" name="startTime" className="input__field" required/>
+                
+                
 
                 <label htmlFor="repeat" className="required"> Repeat </label>
-                <select name="repeat" id="repeat" onChange={handleRepeatChange} className="common" required>
+                <select name="repeat" id="repeat" onChange={handleRepeatChange} className="input__field" required>
                     <option value="single">One-time</option>
                     <option value="daily">Daily</option>
                     <option value="weekly">Weekly</option>
@@ -349,31 +349,32 @@ const AddEvent = () => {
                 </select>
                                     
                 { weeklySchedule &&  <> <Weekdays handle={handleWeekdayChange}/> </> }
-                <br />
-                <br />
+                
+                
+        
 
                 <label htmlFor="endDate" className="required"> End Date </label>
-                <input type="date" id="endDate" name="endDate" className="common" required/>
-
+                <input type="date" id="endDate" name="endDate" className="input__field" required/>
+                
                 <label htmlFor="endTime" className="required"> Hour </label>
-                <input type="time" id="endTime" name="endTime" className="common" required/>
-                <br />
-                <br />
+                <input type="time" id="endTime" name="endTime" className="input__field" required/>
+                
+                
 
                 <span>  
                     <label htmlFor="visibility" className="required"> Visibility </label>
-                    <select name="visibility" id="visibility" className="common" required>
+                    <select name="visibility" id="visibility" className="input__field" required>
                         <option value="public">Public</option>
                         <option value="private">Private</option>
                     </select>
 
                     <label htmlFor="canInvite">
                         Allow invited users to invite others 
-                    <input type="checkbox" id="canInvite" name="canInvite" className="common" />
+                    <input type="checkbox" id="canInvite" name="canInvite" className="input__field" />
                     </label>
                 </span>
-                <br />
-                <br />
+                
+                
 
                <InviteUsers suggestions={suggestions} setSuggestions={setSuggestions} 
                             invitedUsers={invitedUsers} setInvitedUsers={setInvitedUsers} 
@@ -381,25 +382,25 @@ const AddEvent = () => {
                 />
 
                 <label htmlFor="locationType" className="required"> Location Type </label>
-                <select name="locationType" id="locationType" onChange={handleLocationTypeChange} className="common" required >
+                <select name="locationType" id="locationType" onChange={handleLocationTypeChange} className="input__field" required >
                     <option value="online">Online</option>
                     <option value="offline">Offline</option>
                 </select>
 
-                {isOffline ? <><br /><Address /></> : (
+                {isOffline ? <><Address /></> : (
                     <>
                         <label htmlFor="location" className="required"> Location </label>
-                        <input type="text" name="location" id="location" className="common" required />
+                        <input type="text" name="location" id="location" className="input__field" required />
                     </>
                 )} 
-                <br />
+                
 
                 <label htmlFor="upload"> Upload Image </label>
                 <input type="file" name="upload" id="upload" className="formbold-form-file" />
-                <br />
+                
 
                 {error && <p className="error">{error}</p>}
-                <button type="submit" className="formbold-btn">Add event</button>
+                <button type="submit" className="btn">Add event</button>
             </form>
         </div>
        
