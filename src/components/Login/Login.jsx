@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate ,useLocation } from 'react-router-dom';
 import { signInUser } from '../../service/authentication-service.js';
 import AuthContext from '../../context/AuthContext.jsx';
 import { EMAIL_REGEX } from '../../common/constants.js';
@@ -8,6 +8,7 @@ import { getUserDetails } from '../../service/database-service.js';
 
 const Login = () => {
     const { setLoginState } = useContext(AuthContext);
+    const { isLoggedIn } = useContext(AuthContext);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
     const [isLoginSuccessful, setIsLoginSuccessful] = useState(false);
@@ -17,6 +18,15 @@ const Login = () => {
         password: ''
     });
     const navigate = useNavigate();
+    const location = useLocation();
+
+    useEffect(() => {
+        console.log(isLoggedIn.user);
+        console.log(location.state?.from.pathname);
+        if (isLoggedIn.user) {
+            navigate(location.state?.from.pathname || '/');
+        }
+    }, [isLoggedIn.user]);
 
     useEffect(() => {
         if (isFormSubmitted) {

@@ -18,10 +18,11 @@ import Footer from './components/Footer/Footer';
 import Settings from './views/Settings/Settings';
 import SingleEventView from './views/SingleEventView/SingleEventView';
 import Admin from './views/Admin/Admin';
+import Authenticated from './hoc/Authenticated';
 
 const App = () => {
 
-  const[authValue, setAuthValue] = useState({
+  const [authValue, setAuthValue] = useState({
     status: false,
     user: ''
   });
@@ -30,26 +31,26 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <AuthContext.Provider value={{isLoggedIn: authValue, setLoginState: setAuthValue,theme, setTheme}}>
+      <AuthContext.Provider value={{ isLoggedIn: authValue, setLoginState: setAuthValue, theme, setTheme }}>
         <Header />
         {authValue.status && <SideBar />}
         <Routes>
-            <Route path="/" element={<PublicView />} />
-            <Route path="/home" element={<Home />} />
-            <Route path="/login" element={<Login />}/>
-            <Route path="/logout" element={<Logout />}/>
-            <Route path="/register" element={<Register />}/>
-            <Route path="/add-event" element={<AddEvent />}/>
-            <Route path="/contacts" element=<Contacts /> />
-            <Route path="/profile" element=<Profile /> />
-            <Route path="/contacts/:id" element=<SingleList /> />
-            <Route path="/calendar" element=<CalendarView /> />
-            <Route path="/settings" element=<Settings /> />
-            <Route path="/event/:id" element={<SingleEventView />} />
-            <Route path="/admin" element={<Admin />} />
-      </Routes>
-      <hr />
-    <Footer />
+          <Route path="/" element={<PublicView />} />
+          <Route path="/home" element={<Authenticated><Home /></Authenticated>} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/logout" element={<Authenticated><Logout /></Authenticated>} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/add-event" element={<Authenticated><AddEvent /></Authenticated>} />
+          <Route path="/contacts" element={<Authenticated><Contacts /></Authenticated>} />
+          <Route path="/profile" element={<Authenticated><Profile /></Authenticated>} />
+          <Route path="/contacts/:id" element={<Authenticated><SingleList /></Authenticated>} />
+          <Route path="/calendar" element={<Authenticated><CalendarView /></Authenticated>} />
+          <Route path="/settings" element={<Authenticated><Settings /></Authenticated>} />
+          <Route path="/event/:id" element={<Authenticated><SingleEventView /></Authenticated>} />
+          <Route path="/admin" element={<Authenticated><Admin /></Authenticated>} />
+        </Routes>
+        <hr />
+        <Footer />
       </AuthContext.Provider>
     </BrowserRouter>
   )
