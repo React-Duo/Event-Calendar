@@ -38,6 +38,7 @@ const ContentPublic = () => {
   useEffect(() => {
     const results = events.filter(event => event[1].title.toLowerCase().includes(searchTerm.toLowerCase()));
     setEventsToShow(results);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchTerm]);
 
 

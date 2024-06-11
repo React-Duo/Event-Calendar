@@ -222,19 +222,6 @@ const SingleEvent = () => {
                             {editStatus && <button type="submit" className="form-button">Save</button>}
                         </span>
                     }
-                    <hr />
-                    <div className='weather_location'>
-                        <div>
-                            <h3>Weather</h3>
-                            {event.locationType === "offline" && <Weather city={event.location.city} />}
-                        </div>
-                        <div>
-                            <h4>Location</h4>
-                            {event.locationType === "offline" && <GoogleMaps city={event.location.city} street={event.location.street} />}
-
-                        </div>
-                    </div>
-
                     {isLoggedIn.user !== event.author &&
                         (event.canInvite &&
                             <span className="edit-buttons">
@@ -243,6 +230,20 @@ const SingleEvent = () => {
                             </span>
                         )
                     }
+                    <hr />
+                    <div className='weather_location'>
+                        <div>
+                            {event.locationType === "offline" && <h3>Weather</h3>}
+                            {event.locationType === "offline" && <Weather city={event.location.city} />}
+                        </div>
+                        <div>
+                            {event.locationType === "offline" && <h3>Location</h3>}
+                            {event.locationType === "offline" && <GoogleMaps city={event.location.city} street={event.location.street} />}
+
+                        </div>
+                    </div>
+
+                  
 
                     {error && <p className="error-message">{error}</p>}
                 </form>
