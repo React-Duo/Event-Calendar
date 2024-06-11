@@ -19,6 +19,7 @@ import SingleEventView from './views/SingleEventView/SingleEventView';
 import Admin from './views/Admin/Admin';
 import Authenticated from './hoc/Authenticated';
 import './App.css';
+import NotFound from './views/NotFound/NotFound';
 
 const App = () => {
   const [authValue, setAuthValue] = useState({status: false, user: ''});
@@ -43,6 +44,7 @@ const App = () => {
           <Route path="/settings" element={<Authenticated><Settings /></Authenticated>} />
           <Route path="/event/:id" element={<Authenticated><SingleEventView /></Authenticated>} />
           <Route path="/admin" element={<Authenticated><Admin /></Authenticated>} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
         <hr />
         <Footer />
