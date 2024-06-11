@@ -1,6 +1,7 @@
 import { database } from '../config/firebase-config.js';
 import { ref, get, set, update, query, equalTo, orderByChild, push } from "firebase/database";
 import { onValue } from "firebase/database";
+import { getImageURL, uploadEventImage } from './storage.js';
 
 /**
  * Checks if a user exists in the database.
@@ -46,29 +47,23 @@ export const getUserContactLists = async (email) => {
 }
 
 export const addEvent = async (events) => { 
-  console.log(events);
-  let seriesId = '';
   try { 
-    return await Promise.all(events.map(async (event, index) => {
+    let seriesId = '';
+    let photo = '';
+    await Promise.all(events.map(async (event, index) => {
         const response = await push(ref(database, 'events'), event);
         const eventId = response._path.pieces_[1];
         if (index === 0) seriesId = eventId;
-        if (event.repeat !== 'single') {
-          if (index !== 0) await update(ref(database, `events/${eventId}`), { id: eventId, seriesId });
-        } else {
-          await update(ref(database, `events/${eventId}`), { id: eventId });
-        }
-        return eventId;
-    }));
-  } catch (error) {
-    console.log(error.message);
-  }
-}
+        
+        await uploadEventImage(seriesId, event.photo);
+        photo = await getImageURL(seriesId);
 
-export const addIdToEvent = async (eventIds) => {
-  try {
-    return await Promise.all(eventIds.map(async (eventId) => {
-      return await update(ref(database, `events/${eventId}`), { id: eventId });
+        if (index === 0) await update(ref(database, `events/${eventId}`), { id: eventId, photo })
+
+        if (index !== 0) { 
+            if (event.repeat !== 'single') await update(ref(database, `events/${eventId}`), { id: eventId, seriesId, photo })
+            if (event.repeat === 'single') await update(ref(database, `events/${eventId}`), { id: eventId, photo });
+        }
     }));
   } catch (error) {
     console.log(error.message);
