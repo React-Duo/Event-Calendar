@@ -1,9 +1,8 @@
 import { useContext, useEffect, useState } from 'react';
 import AuthContext from '../../context/AuthContext';
-import { addEvent, addIdToEvent } from '../../service/database-service';
+import { addEvent } from '../../service/database-service';
 import { getMonthDays, getWeekDay, isAddressValid } from '../../service/utils';
 import { DEFAULT_EVENT_IMAGE, MAX_YEAR_SPAN } from '../../common/constants';
-import { getImageURL, uploadEventImage } from '../../service/storage';
 import Address from '../Address/Address';
 import Weekdays from './Weekdays';
 import './AddEvent.css';
@@ -26,15 +25,7 @@ const AddEvent = () => {
         const handleAddEvent = async () => {
             try {
                 setLoading(true);
-                const eventIds = await addEvent(events);
-                if (image) {
-                    uploadEventImage(eventIds[0], image);
-                    const imageUrl = getImageURL(eventIds[0]);
-                    console.log(imageUrl);
-                }
-              
-
-                addIdToEvent(eventIds);
+                await addEvent(events);
                 setLoading(false);
                 setError(null);
             } catch (error) {
@@ -79,8 +70,10 @@ const AddEvent = () => {
             }
         }
 
+        const photo = image ? image : DEFAULT_EVENT_IMAGE;
+
         const eventObject = { author, title, description, startDate, startTime, endDate, endTime, 
-                                visibility, canInvite, locationType, invited, repeat, photo: DEFAULT_EVENT_IMAGE };
+                                visibility, canInvite, locationType, invited, repeat, photo };
 
         if (event.target.location?.value) eventObject.location = event.target.location.value;
         else {
@@ -292,8 +285,6 @@ const AddEvent = () => {
 
         setEvents(events);
         setIsFormSubmitted(true);
-        const image = event.target.upload.files[0];
-        if (image) setImage(image);
     }
 
     const handleRepeatChange = (event) => {
@@ -302,10 +293,6 @@ const AddEvent = () => {
         } else {
             setWeeklySchedule(false);
         }
-    }
-
-    const handleWeekdayChange = (e) => {
-
     }
 
     const handleLocationTypeChange = (event) => {
@@ -326,19 +313,13 @@ const AddEvent = () => {
                 <label htmlFor="title" className="required"> Title </label>
                 <input type="text" id="title" name="title" className="input__field" required />
                 
-                
-
                 <textarea id="description" name="description" className="input__field" placeholder="Description"></textarea>
                 
-                
-
                 <label htmlFor="startDate" className="required"> Start Date </label>
                 <input type="date" id="startDate" name="startDate" className="input__field" required/>
                 
                 <label htmlFor="startTime" className="required"> Hour </label>
                 <input type="time" id="startTime" name="startTime" className="input__field" required/>
-                
-                
 
                 <label htmlFor="repeat" className="required"> Repeat </label>
                 <select name="repeat" id="repeat" onChange={handleRepeatChange} className="input__field" required>
@@ -348,19 +329,14 @@ const AddEvent = () => {
                     <option value="monthly">Monthly</option>
                 </select>
                                     
-                { weeklySchedule &&  <> <Weekdays handle={handleWeekdayChange}/> </> }
+                { weeklySchedule &&  <> <Weekdays /> </> }
                 
-                
-        
-
                 <label htmlFor="endDate" className="required"> End Date </label>
                 <input type="date" id="endDate" name="endDate" className="input__field" required/>
                 
                 <label htmlFor="endTime" className="required"> Hour </label>
                 <input type="time" id="endTime" name="endTime" className="input__field" required/>
                 
-                
-
                 <span>  
                     <label htmlFor="visibility" className="required"> Visibility </label>
                     <select name="visibility" id="visibility" className="input__field" required>
@@ -374,8 +350,6 @@ const AddEvent = () => {
                     </label>
                 </span>
                 
-                
-
                <InviteUsers suggestions={suggestions} setSuggestions={setSuggestions} 
                             invitedUsers={invitedUsers} setInvitedUsers={setInvitedUsers} 
                             error={error} setError={setError} editStatus="true"
@@ -393,12 +367,11 @@ const AddEvent = () => {
                         <input type="text" name="location" id="location" className="input__field" required />
                     </>
                 )} 
-                
-
+            
                 <label htmlFor="upload"> Upload Image </label>
-                <input type="file" name="upload" id="upload" className="formbold-form-file" />
+                <input type="file" name="upload" id="upload" className="formbold-form-file" onChange={e => setImage(e.target.files[0])} />
+                {image && <img src={URL.createObjectURL(image)} alt="event" className="event-image" />}
                 
-
                 {error && <p className="error">{error}</p>}
                 <button type="submit" className="btn">Add event</button>
             </form>
