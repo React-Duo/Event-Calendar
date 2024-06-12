@@ -16,6 +16,10 @@ export const registerUser = async (emailAddress, password) => {
     }
 }
 
+/**
+ * Handles the deletion of a user.
+ * @returns {Promise<void>} A promise that resolves when the user is deleted successfully.
+ */
 export const handleUserDelete = async () => {
     try {
         return await deleteUser(auth.currentUser);
