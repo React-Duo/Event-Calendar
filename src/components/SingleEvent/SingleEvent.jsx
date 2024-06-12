@@ -26,6 +26,7 @@ const SingleEvent = () => {
     const [suggestions, setSuggestions] = useState([]);
     const [invitedUsers, setInvitedUsers] = useState([]);
     const [photo, setPhoto] = useState(null);
+    const [currentUser, setCurrentUser] = useState(null);
 
     useEffect(() => {
         const fetchEvent = async () => {
@@ -47,6 +48,8 @@ const SingleEvent = () => {
             try {
                 const userAsArray = await getUserDetails(event.author);
                 setAuthor(`${userAsArray[0].firstName} ${userAsArray[0].lastName}`);
+                const currentUser = await getUserDetails(isLoggedIn.user);
+                setCurrentUser(currentUser[0]);
             } catch (error) {
                 console.log(error.message);
             }
@@ -249,7 +252,7 @@ const SingleEvent = () => {
                             />
                         </div>
                     </div>
-                    {isLoggedIn.user === event.author &&
+                    {(isLoggedIn.user === event.author || (currentUser && currentUser.role === "admin")) &&
                         <span className="edit-buttons">
                             {!editStatus && <button onClick={() => setEditStatus(true)} className="form-button">Edit</button>}
                             {editStatus &&
@@ -265,7 +268,7 @@ const SingleEvent = () => {
                             {editStatus && <button type="submit" className="form-button">Save</button>}
                         </span>
                     }
-                    {isLoggedIn.user !== event.author &&
+                    {(isLoggedIn.user !== event.author && (currentUser && currentUser.role !== "admin")) &&
                         (event.canInvite &&
                             <span className="edit-buttons">
                                 {inviteStatus && <button type="submit" className="form-button">Save</button>}
