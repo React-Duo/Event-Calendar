@@ -10,6 +10,7 @@ const Weather = ({ city }) => {
 
 
     useEffect(() => {
+        console.log("das");
         const getData = async () => {
             const response = await fetch(url);
             const data = await response.json();
@@ -17,11 +18,8 @@ const Weather = ({ city }) => {
             setIsLoading(false);
         }
         getData();
-    }, []);
-    if (isLoading) {
-        return <div>Loading...</div>;
-    }
-
+    }, [url]);
+ 
     if (isLoading || !weatherData || !weatherData.weather || !weatherData.main) {
         return <div>Loading...</div>;
     }
