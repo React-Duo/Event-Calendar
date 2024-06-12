@@ -2,6 +2,7 @@ import { database } from '../config/firebase-config.js';
 import { ref, get, set, update, query, equalTo, orderByChild, push } from "firebase/database";
 import { onValue } from "firebase/database";
 import { getImageURL, uploadEventImage } from './storage.js';
+import { DEFAULT_EVENT_IMAGE } from "../common/constants.js";
 
 /**
  * Checks if a user exists in the database.
@@ -54,10 +55,14 @@ export const addEvent = async (events) => {
         const response = await push(ref(database, 'events'), event);
         const eventId = response._path.pieces_[1];
         if (index === 0) seriesId = eventId;
-        
-        await uploadEventImage(seriesId, event.photo);
-        photo = await getImageURL(seriesId);
 
+        if (event.photo !== DEFAULT_EVENT_IMAGE) {
+          await uploadEventImage(seriesId, event.photo);
+          photo = await getImageURL(seriesId);
+        } else {
+          photo = event.photo;
+        }
+        
         if (index === 0) await update(ref(database, `events/${eventId}`), { id: eventId, photo })
 
         if (index !== 0) { 
