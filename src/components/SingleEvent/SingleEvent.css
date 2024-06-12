@@ -43,7 +43,6 @@
 }
 
 #editLocationType {
-  width: 15%;
   padding: 10px;
   margin-bottom: 1%;
   border: 1px solid #ccc;
@@ -52,7 +51,6 @@
 }
 
 #editVisibility {
-  width: 15%;
   padding: 10px;
   margin-bottom: 1%;
   border: 1px solid #ccc;

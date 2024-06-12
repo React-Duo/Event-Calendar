@@ -25,6 +25,11 @@ const AllLists = ({ triggerRefetch }) => {
             return list[1].owner === isLoggedIn.user;
           }
         });
+        myLists.sort((a, b) => {
+          if (a[1].owner === isLoggedIn.user) return -1;
+          if (b[1].owner === isLoggedIn.user) return 1;
+          return 0;
+        });
         setLists(myLists);
       } catch (error) {
         console.error(error);
