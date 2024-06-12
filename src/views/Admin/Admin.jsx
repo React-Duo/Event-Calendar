@@ -4,7 +4,6 @@ import { useNavigate} from 'react-router-dom';
 import './Admin.css';
 import AuthContext from "../../context/AuthContext"
 
-
 const Admin = () => {
     const [userSearchParams, setUserSearchParams] = useState(null);
     const [eventSearchParams, setEventSearchParams] = useState(null);
@@ -29,6 +28,7 @@ const Admin = () => {
             } catch (error) {
                 setUsers(null);
                 setError(error.message);
+                console.log(error);
             } finally {
                 setLoading(false);
             }
@@ -45,6 +45,7 @@ const Admin = () => {
                 setError(null);
             } catch (error) {
                 setError(error.message);
+                console.log(error);
             } finally {
                 setLoading(false);
                 setUserBlock(null);
@@ -55,14 +56,22 @@ const Admin = () => {
 
     useEffect(() => {
         const handleEventSearch = async () => {
-            const allEvents = await getAllEvents();
-            const filteredEvents = allEvents.filter(event => event[1].title.includes(eventSearchParams));
-            const eventSeries =
-                await Promise.all(filteredEvents.map(async event => {
-                    if (event[1].seriesId) return await getEventById(event[1].seriesId);
-                    else return event[1];
-                }));
-            setFoundEvents(Array.from(new Map(eventSeries.map(item => [item.id, item])).values()));
+            try {
+                setLoading(true);
+                const allEvents = await getAllEvents();
+                const filteredEvents = allEvents.filter(event => event[1].title.includes(eventSearchParams));
+                const eventSeries =
+                    await Promise.all(filteredEvents.map(async event => {
+                        if (event[1].seriesId) return await getEventById(event[1].seriesId);
+                        else return event[1];
+                    }));
+                setFoundEvents(Array.from(new Map(eventSeries.map(item => [item.id, item])).values()));
+            } catch (error) {
+                setError(error.message);
+                console.log(error);
+            } finally {
+                setLoading(false);
+            }
         }
         if (eventSearchParams) handleEventSearch();
     }, [eventSearchParams]);
