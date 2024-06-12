@@ -16,7 +16,8 @@ const SideBar = () => {
         <img onClick={() => {
           navigate("/home");
           window.scrollTo(0, 0);
-        }} src={assets.logo}></img>        <li className={currentPath === "/home" ? "activePath" : ""} onClick={() => navigate("/home")}><i className="fa-solid fa-house fa-xl"></i>Home</li>
+        }} src={assets.logo}></img>
+        <li className={currentPath === "/home" ? "activePath" : ""} onClick={() => navigate("/home")}><i className="fa-solid fa-house fa-xl"></i>Home</li>
         <li className={currentPath === "/calendar" ? "activePath" : ""} onClick={() => navigate("/calendar")}><i className="fa-solid fa-calendar-days fa-xl"></i>Calendar</li>
         <li className={currentPath === "/add-event" ? "activePath" : ""} onClick={() => navigate("/add-event")}><i className="fa-solid fa-square-check fa-xl"></i>Add Event</li>
         <li className={currentPath === "/contacts" ? "activePath" : ""} onClick={() => navigate("/contacts")}><i className="fa-solid fa-address-book fa-xl"></i>Contacts</li>
