@@ -22,16 +22,16 @@ const AddEvent = () => {
     const [weeklySchedule, setWeeklySchedule] = useState(false);
     const [image, setImage] = useState(null);
     const [isOffline, setIsOffline] = useState(false);
-    const [isEventAdded, setIsEventAdded] = useState(false);
 
     useEffect(() => {
         const handleAddEvent = async () => {
             try {
                 setLoading(true);
-                await addEvent(events);
-                setIsEventAdded(true);
+                const response = await addEvent(events);
+                if (!response) throw new Error("Failed to add event!");
                 setLoading(false);
                 setError(null);
+                navigate(`/calendar`);
             } catch (error) {
                 setLoading(false);
                 setError(error.message);
@@ -40,13 +40,6 @@ const AddEvent = () => {
         }
         if (isFormSubmitted) handleAddEvent();
     }, [events]);
-
-    useEffect(() => {
-        if (isEventAdded) {
-            setIsEventAdded(false);
-            navigate(`/calendar`);
-        }
-    }, [isEventAdded]);
 
     const formSubmit = (event) => {
         event.preventDefault();
