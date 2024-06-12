@@ -199,7 +199,7 @@ const ListById = () => {
             </table>
             {showEvents && <div className="userEvents">
               <div className="add-list__header">
-                <h3>Chose event</h3>
+                <h3>Choose event</h3>
                 <button onClick={() => {
                   handleShowEvents()
                   setUserToAdd("")
