@@ -11,20 +11,27 @@ const Login = () => {
     const { isLoggedIn, setLoginState } = useContext(AuthContext);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
-    const [isLoginSuccessful, setIsLoginSuccessful] = useState(false);
     const [isFormSubmitted, setIsFormSubmitted] = useState(false);
     const [form, setForm] = useState({ emailAddress: '', password: '' });
     const navigate = useNavigate();
     const location = useLocation();
     
     useEffect(() => {
-        auth.onAuthStateChanged(currentUser => {
-            if (currentUser) {
-                setLoginState({ status: true, user: currentUser.email });
-                navigate(location.state?.from.pathname || '/home');
-            }
-        });
-    }, []); 
+        if (!isLoggedIn.status) {
+            auth.onAuthStateChanged(async currentUser => {
+                if (currentUser) {
+                    const userDetails = await getUserDetails(currentUser.email);
+                    if (userDetails[0].isBlocked) {
+                        auth.signOut();
+                        setError('Your account has been blocked. Please contact the administrator.');
+                    } else {
+                        setLoginState({ status: true, user: currentUser.email });
+                        navigate(location.state?.from.pathname || '/home');
+                    }
+                }
+            });
+        }   
+    }, [isLoggedIn]); 
 
     useEffect(() => {
         if (isFormSubmitted) {
@@ -35,23 +42,18 @@ const Login = () => {
                     if (!userCredentials) throw new Error(`Incorrect login credentials.`);
                     const userDetails = await getUserDetails(form.emailAddress);
                     if (userDetails[0].isBlocked) throw new Error(`Your account has been blocked. Please contact the administrator.`);
-                    setIsLoginSuccessful(true);
-                } catch (error) {
-                    setError(error.message);
-                } finally {
                     setLoading(false);
-                }
+                    setLoginState({status: true, user: form.emailAddress});
+                    navigate(location.state?.from.pathname || '/home');
+                } catch (error) {
+                    setLoading(false);
+                    setError(error.message);
+                    console.log(error.message);
+                }  
             }
             loginHandler();
         }
     }, [form]);
-
-    useEffect(() => {
-        if (isLoginSuccessful) {
-            setLoginState({status: true, user: form.emailAddress});
-            navigate(location.state?.from.pathname || '/home');
-        }
-    }, [isLoginSuccessful]);
 
     const loginUser = (e) => {        
         e.preventDefault();
