@@ -145,7 +145,10 @@ const InviteUsers = (props) => {
 }
 
 InviteUsers.propTypes = {
-    editStatus: PropTypes.string,
+    editStatus: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.bool
+    ]),
     inviteStatus: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.bool
