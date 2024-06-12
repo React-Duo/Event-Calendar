@@ -10,7 +10,6 @@ const Weather = ({ city }) => {
 
 
     useEffect(() => {
-        console.log("das");
         const getData = async () => {
             const response = await fetch(url);
             const data = await response.json();
