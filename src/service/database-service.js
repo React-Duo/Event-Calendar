@@ -51,7 +51,7 @@ export const addEvent = async (events) => {
   try { 
     let seriesId = '';
     let photo = '';
-    await Promise.all(events.map(async (event, index) => {
+    return await Promise.all(events.map(async (event, index) => {
         const response = await push(ref(database, 'events'), event);
         const eventId = response._path.pieces_[1];
         if (index === 0) seriesId = eventId;
@@ -69,6 +69,7 @@ export const addEvent = async (events) => {
             if (event.repeat !== 'single') await update(ref(database, `events/${eventId}`), { id: eventId, seriesId, photo })
             if (event.repeat === 'single') await update(ref(database, `events/${eventId}`), { id: eventId, photo });
         }
+        return eventId;
     }));
   } catch (error) {
     console.log(error.message);
@@ -86,11 +87,13 @@ export const updateEvent = async (event) => {
         Object.values(eventsToUpdate).map(async (eventToUpdate) => {
           await update(ref(database, `events/${eventToUpdate.id}`), { title, description, invited, locationType, location, visibility, canInvite, photo });
         });
+        return "Operation successful!";
       } else {
         throw new Error("Event not found!");
       }
     } else {
-      return await update(ref(database, `events/${event.id}`), { title, description, invited, locationType, location, visibility, canInvite, photo });
+      await update(ref(database, `events/${event.id}`), { title, description, invited, locationType, location, visibility, canInvite, photo });
+      return "Operation successful!";
     }
   } catch (error) {
     console.log(error.message);
@@ -113,7 +116,8 @@ export const getEventById = async (eventId) => {
 export const deleteEvent = async (eventId, flag) => {
     try {
       if (flag === 'single') {
-        return await set(ref(database, `events/${eventId}`), null);
+        await set(ref(database, `events/${eventId}`), null);
+        return "Operation successful!";
       }
 
       if (flag === 'series') {
@@ -124,6 +128,7 @@ export const deleteEvent = async (eventId, flag) => {
           Object.keys(eventsToDelete).map(async (eventId) => {
             await set(ref(database, `events/${eventId}`), null);
           });
+          return "Operation successful!";
         } else {
           throw new Error("Event not found!");
         }
