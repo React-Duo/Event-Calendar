@@ -41,11 +41,11 @@
     font-size: 18px;
 }
 .calendar-header button:hover{
-    color: rgb(40,90,255);
+    color: rgb(24,150,195);
 }
 
 .selected{
-    color: rgb(40,90,255);
+    color: rgb(24,150,195);
 }
 
 /* day */
@@ -67,7 +67,7 @@
     text-align: center;
 }
 .currentDay{
-    background-color: rgba(32, 84, 180, 0.778);
+    background-color: rgb(24,150,195);
     color: white;
     border-radius: 50%;
 }
@@ -84,16 +84,17 @@
 
 
 .single-event-title{
-    background-color: rgba(69, 82, 119, 0.542);
+    background-color: rgb(24,150,195);
     margin-top: 5px;
     border-radius: 5px;
     padding: 0.25rem;
     cursor: pointer;
     width: fit-content;
+    /* font-size: 16px; */
 }
 
 .single-event-title:hover{
-    background-color: rgba(69, 82, 119, 0.818);
+    background-color: rgba(6, 80, 110, 0.792);
     transition: background-color 0.3s ease;
 }
 

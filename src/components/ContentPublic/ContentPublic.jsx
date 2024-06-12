@@ -47,7 +47,7 @@ const ContentPublic = () => {
       <div className="title-public">
         <h1>Simplified Event Scheduling</h1>
         <p>
-          Calendo offers seamless event management and an easy way to explore
+          Calendra offers seamless event management and an easy way to explore
           all the coolest events. Say goodbye to chaos and hello to organized,
           enjoyable planning.
         </p>

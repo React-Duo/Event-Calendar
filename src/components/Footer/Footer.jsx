@@ -8,7 +8,7 @@ const { isLoggedIn } = useContext(AuthContext);
 
   return (
     <footer className={`container-footer ${theme && isLoggedIn.status && "dark-theme-footer"}`}>
-      <div> <p>Copyright Calendo 2024</p></div>
+      <div> <p>Copyright Calendra 2024</p></div>
       <div>
         <ul className="wrapper">
           <a href="https://www.facebook.com/" target="_blank" className="icon facebook">

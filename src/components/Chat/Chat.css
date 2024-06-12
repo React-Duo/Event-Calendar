@@ -5,6 +5,7 @@
     border: 1px solid rgba(0, 0, 0, 0.468);
     border-radius: 15px;
     padding: 20px;
+    max-height: 700px;
 }
 
 .message-header {

@@ -5,7 +5,7 @@
 }
 
 .header-logo img {
-  width: 230px;
+  width: 200px;
   height: 50px;
 }
 
@@ -26,7 +26,7 @@
 #registerBtn {
   text-decoration: none;
   color: rgb(254, 252, 252);
-  background-color: rgba(0, 0, 255, 0.736);
+  background-color: rgb(24,150,195);
   padding: 10px;
   border-radius: 11px;
   transition: 0.5s;

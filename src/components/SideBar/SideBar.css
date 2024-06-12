@@ -37,13 +37,14 @@
 }
 
 .side-bar-tags li:hover {
-  color: rgba(40,90,255);
+  color: rgb(24,150,195);
   transition: color 0.3s ease;
 }
 
 .activePath{
-  color: rgba(40,90,255) !important;
+  color: rgb(24,150,195) !important;
 }
+
 
 @media screen and (max-width: 800px){
   .side-bar-container {

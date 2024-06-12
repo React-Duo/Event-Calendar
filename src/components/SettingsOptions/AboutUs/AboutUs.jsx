@@ -17,7 +17,7 @@ const AboutUs = () => {
                     <img src={assets.ab}></img>
                 </div>
                 <div className="about-us-middle">
-                    <p>Our mission at <span>Calendo</span> is to provide an easy-to-use, reliable event scheduling solution.</p>
+                    <p>Our mission at <span>Calendra</span> is to provide an easy-to-use, reliable event scheduling solution.</p>
                 </div>
                 <div className="about-us-end">
                     <h1>Our Team</h1>

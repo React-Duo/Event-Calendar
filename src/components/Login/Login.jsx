@@ -75,7 +75,7 @@ const Login = () => {
     return (
         <div className='loginContainer'>
         <form onSubmit={loginUser} className="login-form">
-        <p>Welcome back <br/> to <span id='span-name'>Calendo</span></p>
+        <p>Welcome back <br/> to <span id='span-name'>Calendra</span></p>
 
             {error && <div>{error}</div>}<br />
             <span className='login-span'><label htmlFor="email">Email address </label>
