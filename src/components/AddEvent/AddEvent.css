@@ -200,6 +200,11 @@ input[type="checkbox"] {
   margin-top: 25px;
 }
 
+.date-row{
+  display: flex;
+ 
+}
+
 @media screen and (max-width: 840px) {
   .event-form {
     width: 500px;
