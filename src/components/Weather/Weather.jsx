@@ -17,11 +17,8 @@ const Weather = ({ city }) => {
             setIsLoading(false);
         }
         getData();
-    }, []);
-    if (isLoading) {
-        return <div>Loading...</div>;
-    }
-
+    }, [url]);
+ 
     if (isLoading || !weatherData || !weatherData.weather || !weatherData.main) {
         return <div>Loading...</div>;
     }

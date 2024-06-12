@@ -1,6 +1,8 @@
 import { useContext, useEffect, useState } from "react";
 import { getUserContactLists, getUserDetails } from "../../service/database-service";
 import AuthContext from "../../context/AuthContext";
+import PropTypes from 'prop-types';
+
 
 const InviteUsers = (props) => {
     const { isLoggedIn } = useContext(AuthContext);
@@ -141,5 +143,20 @@ const InviteUsers = (props) => {
         )
     );
 }
+
+InviteUsers.propTypes = {
+    editStatus: PropTypes.bool,
+    inviteStatus: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.bool
+    ]),
+    invitedUsers: PropTypes.array,
+    setInvitedUsers: PropTypes.func,
+    suggestions: PropTypes.array,
+    setSuggestions: PropTypes.func,
+    event: PropTypes.object,
+    invited: PropTypes.array,
+    setError: PropTypes.func,
+};
 
 export default InviteUsers;

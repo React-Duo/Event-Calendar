@@ -28,6 +28,12 @@ export const getFile = async (username) => {
   }
 }
 
+/**
+ * Uploads an event image to the specified path in the storage.
+ * @param {string} path - The path where the image will be uploaded.
+ * @param {Blob} image - The image file to be uploaded.
+ * @returns {Promise<void>} - A promise that resolves when the image is successfully uploaded.
+ */
 export const uploadEventImage = async (path, image) => {
   try {
     await uploadBytes(ref(storage, `events/${path}/photo`), image);
@@ -36,6 +42,11 @@ export const uploadEventImage = async (path, image) => {
   }
 };
 
+/**
+ * Retrieves the download URL of an image from the specified path.
+ * @param {string} path - The path of the image.
+ * @returns {Promise<string>} - A promise that resolves to the download URL of the image.
+ */
 export const getImageURL = async (path) => {
   try {
     return await getDownloadURL(ref(storage, `events/${path}/photo`))
