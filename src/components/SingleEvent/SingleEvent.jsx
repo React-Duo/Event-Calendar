@@ -26,7 +26,6 @@ const SingleEvent = () => {
     const [suggestions, setSuggestions] = useState([]);
     const [invitedUsers, setInvitedUsers] = useState([]);
     const [photo, setPhoto] = useState(null);
-    const [deleteFlag, setDeleteFlag] = useState(null);
 
     useEffect(() => {
         const fetchEvent = async () => {
@@ -71,30 +70,6 @@ const SingleEvent = () => {
         }
         if (updatedEvent) updateEventInDB();
     }, [updatedEvent]);
-
-    useEffect(() => {
-        const handleDelete = async () => {
-            try {
-                setLoading(true);
-                if (deleteFlag === "single") {
-                    const response = await deleteEvent(id, deleteFlag);
-                    if (response !== "Operation successful!") throw new Error("Failed to delete event");
-                    setLoading(false);
-                    navigate('/calendar');
-                }   
-                if (deleteFlag === "series") {
-                    const response = await deleteEvent(event.id, deleteFlag);
-                    if (response !== "Operation successful!") throw new Error("Failed to delete event");
-                    setLoading(false);
-                    navigate('/calendar');
-                }
-            } catch (error) {
-                setError(error.message);
-                console.log(error.message);
-            }
-        }
-        if (deleteFlag) handleDelete();
-    }, [deleteFlag]);
 
     useEffect(() => {
         const uploadPhoto = async () => {
@@ -146,6 +121,27 @@ const SingleEvent = () => {
         }
     }
 
+    const handleDelete = async (flag) => {
+        try {
+            setLoading(true);
+            if (flag === "single") {
+                const response = await deleteEvent(id, flag);
+                if (response !== "Operation successful!") throw new Error("Failed to delete event");
+                setLoading(false);
+                navigate('/calendar');
+            }   
+            if (flag === "series") {
+                const response = await deleteEvent(event.id, flag);
+                if (response !== "Operation successful!") throw new Error("Failed to delete event");
+                setLoading(false);
+                navigate('/calendar');
+            }
+        } catch (error) {
+            setError(error.message);
+            console.log(error.message);
+        } 
+    }
+    
     if (loading) {
         return (
             <div className='spinner'></div>
@@ -259,11 +255,11 @@ const SingleEvent = () => {
                             {editStatus &&
                                 (event.repeat !== "single" ?
                                     <span>
-                                        <button onClick={() => setDeleteFlag("series")} className="form-button delete-button">Delete series</button>
-                                        <button onClick={() => setDeleteFlag("single")} className="form-button delete-button">Delete event</button>
+                                        <button onClick={() => handleDelete("series")} className="form-button delete-button">Delete series</button>
+                                        <button onClick={() => handleDelete("single")} className="form-button delete-button">Delete event</button>
                                     </span>
                                     :
-                                    <button onClick={() => setDeleteFlag("single")} className="form-button delete-button">Delete event</button>
+                                    <button onClick={() => handleDelete("single")} className="form-button delete-button">Delete event</button>
                                 )
                             }
                             {editStatus && <button type="submit" className="form-button">Save</button>}
@@ -278,17 +274,19 @@ const SingleEvent = () => {
                         )
                     }
                     <hr />
-                    <div className='weather_location'>
-                        <div>
-                            {event.locationType === "offline" && <h3>Weather</h3>}
-                            {event.locationType === "offline" && <Weather city={event.location.city} />}
-                        </div>
-                        <div>
-                            {event.locationType === "offline" && <h3>Location</h3>}
-                            {event.locationType === "offline" && <GoogleMaps city={event.location.city} street={event.location.street} />}
+                    {!editStatus && 
+                        <div className='weather_location'>
+                            <div>
+                                {event.locationType === "offline" && <h3>Weather</h3>}
+                                {event.locationType === "offline" && <Weather city={event.location.city} />} 
+                            </div>
+                            <div>
+                                {event.locationType === "offline" && <h3>Location</h3>}
+                                {event.locationType === "offline" && <GoogleMaps city={event.location.city} street={event.location.street} />}
 
+                            </div>
                         </div>
-                    </div>
+                    }
 
                     {error && <p className="error-message">{error}</p>}
                 </form>
