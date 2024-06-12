@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { deleteEvent, getEventById, getUserDetails, updateEvent } from '../../service/database-service';
 import AuthContext from '../../context/AuthContext';
 import Address from '../Address/Address';
@@ -13,7 +13,9 @@ import { getImageURL, uploadEventImage } from '../../service/storage';
 
 const SingleEvent = () => {
     const { isLoggedIn } = useContext(AuthContext);
+    const {theme} = useContext(AuthContext);
     const { id } = useParams();
+    const navigate = useNavigate();
     const [event, setEvent] = useState(null);
     const [author, setAuthor] = useState(null);
     const [editStatus, setEditStatus] = useState(false);
@@ -24,7 +26,7 @@ const SingleEvent = () => {
     const [suggestions, setSuggestions] = useState([]);
     const [invitedUsers, setInvitedUsers] = useState([]);
     const [photo, setPhoto] = useState(null);
-    const {theme} = useContext(AuthContext);
+    const [deleteFlag, setDeleteFlag] = useState(null);
 
     useEffect(() => {
         const fetchEvent = async () => {
@@ -54,14 +56,58 @@ const SingleEvent = () => {
     }, [event]);
 
     useEffect(() => {
-        if (updatedEvent) {
+        const updateEventInDB = async () => {
             try {
-                updateEvent(updatedEvent);
+                setLoading(true);
+                const status = await updateEvent(updatedEvent);
+                if (status !== "Operation successful!") throw new Error("Failed to update event");
+                setLoading(false);
+                setError(null);
             } catch (error) {
+                setLoading(false);
+                setError(error.message);
                 console.log(error.message);
             }
         }
+        if (updatedEvent) updateEventInDB();
     }, [updatedEvent]);
+
+    useEffect(() => {
+        const handleDelete = async () => {
+            try {
+                setLoading(true);
+                if (deleteFlag === "single") {
+                    const response = await deleteEvent(id, deleteFlag);
+                    if (response !== "Operation successful!") throw new Error("Failed to delete event");
+                    setLoading(false);
+                    navigate('/calendar');
+                }   
+                if (deleteFlag === "series") {
+                    const response = await deleteEvent(event.id, deleteFlag);
+                    if (response !== "Operation successful!") throw new Error("Failed to delete event");
+                    setLoading(false);
+                    navigate('/calendar');
+                }
+            } catch (error) {
+                setError(error.message);
+                console.log(error.message);
+            }
+        }
+        if (deleteFlag) handleDelete();
+    }, [deleteFlag]);
+
+    useEffect(() => {
+        const uploadPhoto = async () => {
+            try {
+                await uploadEventImage(event.id, photo);
+                const photoURL = await getImageURL(event.id);
+                setEvent({ ...event, photo: photoURL });
+            } catch (error) {
+                console.log(error.message);
+            }
+        }   
+        if (photo) uploadPhoto();
+    }, [photo]);
 
     const handleEdit = (e) => {
         e.preventDefault();
@@ -91,36 +137,12 @@ const SingleEvent = () => {
         setInviteStatus(false);
     }
 
-    useEffect(() => {
-        const uploadPhoto = async () => {
-            try {
-                await uploadEventImage(event.id, photo);
-                const photoURL = await getImageURL(event.id);
-                setEvent({ ...event, photo: photoURL });
-            } catch (error) {
-                console.log(error.message);
-            }
-        }   
-        if (photo) uploadPhoto();
-    }, [photo]);
-
     const handleLocationTypeChange = (e) => {
         e.preventDefault();
         if (e.target.value === "offline") {
             setEvent({ ...event, locationType: e.target.value });
         } else {
             setEvent({ ...event, locationType: e.target.value, location: "" });
-        }
-    }
-
-    const handleDelete = async (flag) => {
-        setEditStatus(false);
-        if (flag === "single") {
-            await deleteEvent(id, flag);
-        }
-
-        if (flag === "series") {
-            await deleteEvent(event.id, flag);
         }
     }
 
@@ -237,11 +259,11 @@ const SingleEvent = () => {
                             {editStatus &&
                                 (event.repeat !== "single" ?
                                     <span>
-                                        <button onClick={() => handleDelete("series")} className="form-button delete-button">Delete series</button>
-                                        <button onClick={() => handleDelete("single")} className="form-button delete-button">Delete event</button>
+                                        <button onClick={() => setDeleteFlag("series")} className="form-button delete-button">Delete series</button>
+                                        <button onClick={() => setDeleteFlag("single")} className="form-button delete-button">Delete event</button>
                                     </span>
                                     :
-                                    <button onClick={() => handleDelete("single")} className="form-button delete-button">Delete event</button>
+                                    <button onClick={() => setDeleteFlag("single")} className="form-button delete-button">Delete event</button>
                                 )
                             }
                             {editStatus && <button type="submit" className="form-button">Save</button>}
