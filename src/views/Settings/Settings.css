@@ -4,6 +4,7 @@
     gap: 25px;
 }
 
-.settings-container h2{
+#about-us-h2-el{
     cursor: pointer;
+    font-size: 28px;
 }
