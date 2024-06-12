@@ -1,4 +1,5 @@
 import './Weekdays.css';
+import PropTypes from 'prop-types';
 
 const Weekdays = (props) => {
 
@@ -24,5 +25,9 @@ const Weekdays = (props) => {
         </>
     )
 }
+
+Weekdays.propTypes = {
+    handle: PropTypes.func.isRequired,
+};
 
 export default Weekdays;

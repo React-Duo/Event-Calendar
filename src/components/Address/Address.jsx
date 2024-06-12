@@ -1,5 +1,6 @@
 import { STREET_MIN_CHARS, STREET_MAX_CHARS, COUNTRY_MIN_CHARS, COUNTRY_MAX_CHARS, CITY_MIN_CHARS, CITY_MAX_CHARS} from '../../common/constants';
 import './Address.css';
+import PropTypes from 'prop-types';
 
 const Address = (props) => {
 
@@ -21,5 +22,12 @@ const Address = (props) => {
         </>
     )
 }
+
+Address.propTypes = {
+    from: PropTypes.string,
+    country: PropTypes.string,
+    city: PropTypes.string,
+    street: PropTypes.string,
+};
 
 export default Address;
