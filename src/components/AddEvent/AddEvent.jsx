@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import AuthContext from '../../context/AuthContext';
 import { addEvent } from '../../service/database-service';
 import { getMonthDays, getWeekDay, isAddressValid } from '../../service/utils';
@@ -10,6 +11,8 @@ import InviteUsers from '../InviteUsers/InviteUsers';
 
 const AddEvent = () => {
     const { isLoggedIn } = useContext(AuthContext);
+    const { theme } = useContext(AuthContext);
+    const navigate = useNavigate();
     const [suggestions, setSuggestions] = useState([]);
     const [invitedUsers, setInvitedUsers] = useState([]);
     const [events, setEvents] = useState([]);
@@ -19,18 +22,20 @@ const AddEvent = () => {
     const [weeklySchedule, setWeeklySchedule] = useState(false);
     const [image, setImage] = useState(null);
     const [isOffline, setIsOffline] = useState(false);
-    const { theme } = useContext(AuthContext);
 
     useEffect(() => {
         const handleAddEvent = async () => {
             try {
                 setLoading(true);
-                await addEvent(events);
+                const response = await addEvent(events);
+                if (!response) throw new Error("Failed to add event!");
                 setLoading(false);
                 setError(null);
+                navigate(`/calendar`);
             } catch (error) {
                 setLoading(false);
                 setError(error.message);
+                console.log(error.message);
             }
         }
         if (isFormSubmitted) handleAddEvent();

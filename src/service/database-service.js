@@ -62,17 +62,17 @@ export const addEvent = async (events) => {
   try {
     let seriesId = '';
     let photo = '';
-    await Promise.all(events.map(async (event, index) => {
-      const response = await push(ref(database, 'events'), event);
-      const eventId = response._path.pieces_[1];
-      if (index === 0) seriesId = eventId;
+    return await Promise.all(events.map(async (event, index) => {
+        const response = await push(ref(database, 'events'), event);
+        const eventId = response._path.pieces_[1];
+        if (index === 0) seriesId = eventId;
 
-      if (event.photo !== DEFAULT_EVENT_IMAGE) {
-        await uploadEventImage(seriesId, event.photo);
-        photo = await getImageURL(seriesId);
-      } else {
-        photo = event.photo;
-      }
+        if (event.photo !== DEFAULT_EVENT_IMAGE) {
+          await uploadEventImage(seriesId, event.photo);
+          photo = await getImageURL(seriesId);
+        } else {
+          photo = event.photo;
+        }
 
       if (index === 0) await update(ref(database, `events/${eventId}`), { id: eventId, photo })
 
@@ -80,6 +80,7 @@ export const addEvent = async (events) => {
         if (event.repeat !== 'single') await update(ref(database, `events/${eventId}`), { id: eventId, seriesId, photo })
         if (event.repeat === 'single') await update(ref(database, `events/${eventId}`), { id: eventId, photo });
       }
+      return eventId;
     }));
   } catch (error) {
     console.log(error.message);
@@ -111,11 +112,13 @@ export const updateEvent = async (event) => {
         Object.values(eventsToUpdate).map(async (eventToUpdate) => {
           await update(ref(database, `events/${eventToUpdate.id}`), { title, description, invited, locationType, location, visibility, canInvite, photo });
         });
+        return "Operation successful!";
       } else {
         throw new Error("Event not found!");
       }
     } else {
-      return await update(ref(database, `events/${event.id}`), { title, description, invited, locationType, location, visibility, canInvite, photo });
+      await update(ref(database, `events/${event.id}`), { title, description, invited, locationType, location, visibility, canInvite, photo });
+      return "Operation successful!";
     }
   } catch (error) {
     console.log(error.message);
@@ -147,26 +150,28 @@ export const getEventById = async (eventId) => {
  * @returns {Promise<void>} - A promise that resolves when the event(s) is deleted.
  */
 export const deleteEvent = async (eventId, flag) => {
-  try {
-    if (flag === 'single') {
-      return await set(ref(database, `events/${eventId}`), null);
-    }
-
-    if (flag === 'series') {
-      const snapshot = await get(query(ref(database, "events"), orderByChild("seriesId"), equalTo(eventId)));
-      if (snapshot.exists()) {
-        const eventsToDelete = snapshot.val();
-        eventsToDelete[eventId] = null;
-        Object.keys(eventsToDelete).map(async (eventId) => {
-          await set(ref(database, `events/${eventId}`), null);
-        });
-      } else {
-        throw new Error("Event not found!");
+    try {
+      if (flag === 'single') {
+        await set(ref(database, `events/${eventId}`), null);
+        return "Operation successful!";
       }
+
+      if (flag === 'series') {
+        const snapshot = await get(query(ref(database, "events"), orderByChild("seriesId"), equalTo(eventId)));
+        if (snapshot.exists()) {
+          const eventsToDelete = snapshot.val();
+          eventsToDelete[eventId] = null;
+          Object.keys(eventsToDelete).map(async (eventId) => {
+            await set(ref(database, `events/${eventId}`), null);
+          });
+          return "Operation successful!";
+        } else {
+          throw new Error("Event not found!");
+        }
+      }
+    } catch (error) {
+      console.log(error.message);
     }
-  } catch (error) {
-    console.log(error.message);
-  }
 }
 
 /**
