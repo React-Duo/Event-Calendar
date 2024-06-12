@@ -2,9 +2,7 @@
   margin-left: 170px;
   padding: 10px 16px;
   min-height: 100vh;
-
   background: rgb(255, 255, 255);
-  /* background: radial-gradient(circle, rgba(197, 239, 255, 1) 0%, rgba(255, 255, 255, 1) 100%); */
 }
 
 body,

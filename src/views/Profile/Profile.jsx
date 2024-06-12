@@ -9,7 +9,6 @@ const Profile = () => {
 
   return (
     <div className={`container-content ${theme && "dark-theme-profile" }`}>
-
       <ProfileEdit />
     </div>
   )
