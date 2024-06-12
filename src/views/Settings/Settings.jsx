@@ -15,7 +15,7 @@ const Settings = () => {
             <div className="settings-container">
                 <Theme />
                 <Preferences />
-                <h2 onClick={()=> navigate("/about-us")}>About us</h2>
+                <h2 id="about-us-h2-el" onClick={()=> navigate("/about-us")}>About us</h2>
                 <MoreOptions />
             </div>
         </div>
