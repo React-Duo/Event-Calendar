@@ -22,6 +22,7 @@ import calendar from "./calendar.jpg";
 import notFound from "./notFound.jpg";
 import petko from "./petko.jpg";
 import ab from "./ab.png"
+import todor from "./todor.jpg"
 
 
 export const assets = {
@@ -48,6 +49,7 @@ export const assets = {
     calendar,
     notFound,
     petko, 
-    ab
+    ab,
+    todor
 };
 

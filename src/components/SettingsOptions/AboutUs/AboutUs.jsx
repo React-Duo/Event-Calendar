@@ -28,7 +28,7 @@ const AboutUs = () => {
                             <p>Front-End Developer</p>
                         </div>
                         <div className="our-team-person">
-                            <img src={assets.petko} />
+                            <img src={assets.todor} />
                             <h3>Todor Savov</h3>
                             <p>Front-End Developer</p>
                         </div>
