@@ -3,7 +3,7 @@ import "./Weather.css"
 import PropTypes from "prop-types";
 
 const Weather = ({ city }) => {
-    const APIKEY = import.meta.env.VITE_WEATHER_KEY;
+    const APIKEY = import.meta.env.VITE_WEATHER_KEY; // Your API Key
     let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${APIKEY}&units=metric`;
     const [weatherData, setWeatherData] = useState({});
     const [isLoading, setIsLoading] = useState(true);

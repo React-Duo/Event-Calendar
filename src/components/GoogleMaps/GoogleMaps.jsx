@@ -9,7 +9,7 @@ const mapContainerStyle = {
 };
 
 const GoogleMaps = ({city, street}) => {
-    const mapsApiKey = import.meta.env.VITE_GOOGLE_KEY;
+    const mapsApiKey = import.meta.env.VITE_GOOGLE_KEY; // Your API Key
 
     const [coords, setCoords] = useState(null);
 
